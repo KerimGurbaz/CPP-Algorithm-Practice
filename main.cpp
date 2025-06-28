@@ -7,7 +7,8 @@
 using namespace std;
 
 
-template<typename T>
+/*
+* template<typename T>
 void print_container(const T& container) {
     cout<<"[";
     for(auto it = begin(container); it != end(container); ++it) {
@@ -21,21 +22,16 @@ void print_container(const T& container) {
 
 template<typename T>
 void selection_sort(T begin, T end) {
-    for(T it = begin; it != end; ++it) {
+    for(T it = begin; it!= end; ++it) {
         T min_it = it;
-        for(T j = next(it); j!= end ; ++j) {
-            if(*j < *min_it) {
+        for(T j = next(it); j != end; ++j) {
+            if(*j <*min_it) {
                 min_it = j;
             }
         }
-
         iter_swap(it, min_it);
     }
-
-
 }
-
-
 
 
 
@@ -69,6 +65,54 @@ int main() {
     selection_sort(begin(t), end(t));
     cout << "C-style Array (après tri) : ";
     print_container(t);
+
+    return 0;
+}
+ */
+template<typename T>
+void selection_sort(T begin, T end) {
+    for(T it = begin; it != end; ++it) {
+        T min_it = it;
+        for(T j = next(it); j != end; ++j) {
+            if(*j < *min_it) {
+                min_it = j;
+            }
+        }
+        iter_swap(it, min_it);
+    }
+}
+
+
+struct Employe {
+    string nom;
+    int salaire;
+};
+
+bool operator<(const Employe& a, const Employe& b) {
+    return a.salaire < b.salaire;
+}
+
+ostream& operator<<(ostream & os, const Employe&  e) {
+    os<<"{"<<e.nom<<", "<< e.salaire<<"}"<<endl;
+    return os;
+}
+int main() {
+    vector<Employe> equipe = {
+        {"Alice", 80000},
+        {"Bob", 65000},
+        {"Charlie", 95000},
+        {"David", 60000}
+    };
+
+    cout << "Équipe avant tri : ";
+    for(const auto& e : equipe) cout << e << " ";
+    cout << endl;
+
+    selection_sort(begin(equipe), end(equipe));
+
+    cout << "Équipe après tri (par salaire) : ";
+    for(const auto& e : equipe) cout << e << " ";
+    cout << endl;
 
     return 0;
 }
