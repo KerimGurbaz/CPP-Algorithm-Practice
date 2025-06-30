@@ -68,7 +68,7 @@ int main() {
 
     return 0;
 }
- */
+
 template<typename T>
 void selection_sort(T begin, T end) {
     for(T it = begin; it != end; ++it) {
@@ -113,6 +113,59 @@ int main() {
     cout << "Équipe après tri (par salaire) : ";
     for(const auto& e : equipe) cout << e << " ";
     cout << endl;
+
+    return 0;
+}
+ */
+#include<iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+struct Produit {
+    string nom;
+    double prix;
+    int stock;
+};
+
+vector<const Produit*> make_pointers(const vector<Produit>& v) {
+    vector<const Produit*> ptr_vec;
+    ptr_vec.reserve(v.size());
+    for(const auto& p : v) {
+        ptr_vec.push_back(&p);
+
+    }
+    return ptr_vec;
+}
+
+bool compareProduits(const Produit* a, const Produit* b) {
+    if(a->prix < b->prix) {
+        return  true;
+    }
+    if(a-> prix > b-> prix) {
+        return false;
+    }
+    //les prix sont egaux , on compare par nom
+    return a->nom < b->nom;
+}
+
+int main() {
+    const vector<Produit> inventaire = {
+        {"Stylo", 1.50, 150},
+        {"Cahier", 3.00, 80},
+        {"Gomme", 1.00, 200},
+        {"Crayon", 1.50, 120}
+    };
+    vector<const Produit*> ptr_inventaire = make_pointers(inventaire);
+
+    // On utilise l'algorithme std::sort et on lui passe notre fonction de comparaison
+    sort(ptr_inventaire.begin(), ptr_inventaire.end(), compareProduits);
+
+    cout << "Inventaire trié par prix, puis par nom :" << endl;
+    for (const Produit* p : ptr_inventaire) {
+        cout << "- " << p->nom << " (" << p->prix << " CHF, " << p->stock << " en stock)" << endl;
+    }
 
     return 0;
 }
