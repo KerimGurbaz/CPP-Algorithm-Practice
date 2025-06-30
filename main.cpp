@@ -116,13 +116,14 @@ int main() {
 
     return 0;
 }
- */
+
 #include<iostream>
 #include <vector>
 #include <string>
 #include <algorithm>
 
 using namespace std;
+
 struct Produit {
     string nom;
     double prix;
@@ -134,20 +135,18 @@ vector<const Produit*> make_pointers(const vector<Produit>& v) {
     ptr_vec.reserve(v.size());
     for(const auto& p : v) {
         ptr_vec.push_back(&p);
-
     }
     return ptr_vec;
 }
 
 bool compareProduits(const Produit* a, const Produit* b) {
-    if(a->prix < b->prix) {
-        return  true;
+    if(a->prix < b-> prix) {
+        return true;
     }
-    if(a-> prix > b-> prix) {
+    if(a->prix > b->prix) {
         return false;
     }
-    //les prix sont egaux , on compare par nom
-    return a->nom < b->nom;
+    return a->nom < b-> nom;
 }
 
 int main() {
@@ -169,3 +168,63 @@ int main() {
 
     return 0;
 }
+#include <iostream>
+#include <vector>
+#include <string>
+
+using Data = double;
+using Ligne = vector<Data>;
+using Matrice = vector<Ligne>;
+
+Data calculer_somme(const Ligne& ligne) {
+    Data total = 0.0;
+    for(Data valeur : ligne) {
+        total += valeur;
+    }
+    return total;
+}
+
+Data calculer_moyenne(const Ligne& ligne) {
+    if(ligne.empty()) {
+        return 0.0;
+    }
+    return calculer_somme(ligne) / ligne.size();
+}
+
+template <typename Operation>
+vector<Data> statistique_par_ligne(const Matrice& matrice, Operation op) {
+    vector<Data> resultats;
+    resultats.reserve(matrice.size());
+
+    for(const Ligne& ligne :matrice) {
+        resultats.push_back(op(ligne));
+    }
+    return resultats;
+}
+
+void afficher_resultat(const string& titre, const vector<Data>& vecteur) {
+    cout<<titre<<": [";
+    for(size_t i = 0; i < vecteur.size(); ++i) {
+        cout<<vecteur[i];
+        if(i < vecteur.size() - 1) {
+            cout<<", ";
+        }
+    }
+    cout<<"]"<<endl;
+}
+
+int main() {
+    const Matrice notes {{4.0, 5.0, 6.0},
+                         {4.1, 5.1, 4.8},
+                         {3.5, 4.1     },
+                         {4.5, 4.5, 4.6}};
+
+    vector<Data> sommes =   statistique_par_ligne(notes, calculer_somme);
+    afficher_resultat("somme  ", sommes);
+
+    vector<Data> moyennes = statistique_par_ligne(notes, calculer_moyenne);
+    afficher_resultat("moyenne", moyennes);
+    return 0;
+}
+
+ */
