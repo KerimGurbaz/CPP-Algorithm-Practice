@@ -401,15 +401,6 @@ int main() {
     cout<<en_buyuk_eleman<int>(sayilar)<<endl;
     return 0;
 }
- */
-
-#include <iostream>
-#include <array>
-#include <string>
-#include <vector>
-#include <span>
-#include <stdexcept>
-using namespace std;
 
 template<typename T>
 T max_value(span<const T> container) {
@@ -439,6 +430,53 @@ int main() {
     }catch(const runtime_error& e) {
         cout<<e.what()<<endl;
     }
+
+    return 0;
+}
+ */
+#include <iostream>
+#include <vector>
+#include <span>
+#include <string>
+using namespace std;
+
+template<typename T, typename Predicat>
+vector<T> filtrer(span<const T> s, Predicat pred) {
+    vector<T> resultats;
+    for(const auto& element : s) {
+        if(pred(element)) {
+            resultats.push_back(element);
+        }
+    }
+    return resultats;
+}
+
+template<typename Container>
+void afficher_collection(const string& etiquette, const Container& collection) {
+    cout<<etiquette<<": [";
+    bool premier = true;
+    for(const auto& element :collection) {
+        if(!premier) {
+            cout<<", ";
+        }
+        cout<<element;
+        premier = false;
+    }
+    cout<<"]"<<endl;
+}
+
+bool est_pair(int nombre) {
+    return nombre % 2 == 0;
+}
+
+int main() {
+    vector<int> nombres ={1,2,3,4,5,6,7,8,9,10};
+    afficher_collection("Collection Originale", nombres);
+    vector<int> nombres_pairs = filtrer<int>(nombres, &est_pair);
+    afficher_collection("Nombres Pairs (avec fonction)", nombres_pairs);
+
+
+
 
     return 0;
 }
