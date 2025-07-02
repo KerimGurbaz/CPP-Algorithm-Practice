@@ -433,12 +433,6 @@ int main() {
 
     return 0;
 }
- */
-#include <iostream>
-#include <vector>
-#include <span>
-#include <string>
-using namespace std;
 
 template<typename T, typename Predicat>
 vector<T> filtrer(span<const T> s, Predicat pred) {
@@ -475,8 +469,83 @@ int main() {
     vector<int> nombres_pairs = filtrer<int>(nombres, &est_pair);
     afficher_collection("Nombres Pairs (avec fonction)", nombres_pairs);
 
+    return 0;
+}
+// 'transformer' fonksiyonun MÜKEMMEL, HİÇBİR DEĞİŞİKLİK GEREKMİYOR.
+template<typename T_out, typename T_in, typename Operation>
+vector<size_t> transformer(span<const T_in> sequence, Operation op) {
+    vector<T_out> resultats;
+    for (const auto& element : sequence) {
+        resultats.push_back(op(element));
+    }
+    return resultats;
+}
 
+// Yardımcı yazdırma fonksiyonun da harika.
+template<typename Container>
+void afficher_collection(const string& etiquette, const Container& collection) {
+    cout << etiquette << ": [";
+    bool premier = true;
+    for (const auto& element : collection) {
+        if (!premier) {
+            cout << ", ";
+        }
+        cout << element;
+        premier = false;
+    }
+    cout << "]" << endl;
+}
 
+int main() {
+    // Girdi verimiz
+    vector<string> chaines = {"merci", "pour", "cette", "lecon"};
+    afficher_collection("Collection Originale", chaines);
+
+    // ÇAĞRIDAKİ DÜZELTME BURADA:
+    // T_out = size_t, T_in = string olarak açıkça belirtiyoruz.
+    vector<size_t> longueurs = transformer<size_t, string>(chaines, [](const string& s) {
+        return s.size();
+    });
+
+    // Sonucu da yazdıralım ki çalıştığını görelim.
+    afficher_collection("Longueurs des chaines", longueurs);
 
     return 0;
 }
+template<typename T1, typename T2>
+bool au_moins_un(span<const T1> sequence, T2 pred) {
+    for(const auto & element :  sequence) {
+        if(pred(element)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+
+int main() {
+cout<<boolalpha;
+    vector<int> nombres = {1, 3, 5, 8, 9, 10};
+    cout << "Collection: [1, 3, 5, 8, 9, 10]" << endl;
+
+    bool un_pair_existe = au_moins_un<int>(nombres, [](int n){ return n % 2 == 0; });
+    cout << "Au moins un nombre pair? -> " << un_pair_existe << endl;
+
+    bool plus_grand_que_20_existe = au_moins_un<int>(nombres, [](int n){ return n > 20; });
+    cout << "Au moins un nombre > 20? -> " << plus_grand_que_20_existe << endl;
+    return 0;
+
+    vector<int> collection_vide;
+    cout << "\nCollection: []" << endl;
+    bool dans_collection_vide = au_moins_un<int>(collection_vide, [](int n){ return n == 5; });
+    cout << "Au moins un 5 dans la collection vide? -> " << dans_collection_vide << endl;
+}
+*/
+#include <iostream>
+#include <vector>
+#include <string>
+#include <span>
+
+using namespace std;
+
