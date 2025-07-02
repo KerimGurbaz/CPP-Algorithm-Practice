@@ -4,6 +4,7 @@
 #include <string>
 #include <iterator>
 #include <algorithm>
+#include <bits/allocated_ptr.h>
 using namespace std;
 
 
@@ -541,11 +542,162 @@ cout<<boolalpha;
     bool dans_collection_vide = au_moins_un<int>(collection_vide, [](int n){ return n == 5; });
     cout << "Au moins un 5 dans la collection vide? -> " << dans_collection_vide << endl;
 }
+
+template<typename T1 , typename T2>
+bool tous_correspondent(span<const T1> sequence, T2 pred) {
+    for(const auto& element : sequence) {
+        if(!(pred(element))) {
+            return false;
+        }
+    }
+    return true;
+}
+
+int main() {
+    cout << boolalpha;
+
+    vector<int> nombres_positifs = {10, 20, 35, 8, 92};
+    cout << "Collection 1: [10, 20, 35, 8, 92]" << endl;
+
+    // Test 1: Koleksiyondaki tüm sayılar pozitif mi? (true bekliyoruz)
+    bool tous_positifs = tous_correspondent<int>(nombres_positifs, [](int n){ return n > 0; });
+    cout << "Tous les nombres sont positifs? -> " << tous_positifs << endl;
+
+    // Test 2: Koleksiyondaki tüm sayılar 10'dan büyük veya eşit mi? (false bekliyoruz, çünkü 8 var)
+    bool tous_plus_grand_que_10 = tous_correspondent<int>(nombres_positifs, [](int n){ return n >= 10; });
+    cout << "Tous les nombres sont >= 10? -> " << tous_plus_grand_que_10 << endl;
+
+    vector<int> nombres_melanges = {10, 20, -5, 15};
+    cout << "\nCollection 2: [10, 20, -5, 15]" << endl;
+
+    // Test 3: Karışık koleksiyondaki tüm sayılar pozitif mi? (false bekliyoruz, çünkü -5 var)
+    tous_positifs = tous_correspondent<int>(nombres_melanges, [](int n){ return n > 0; });
+    cout << "Tous les nombres sont positifs? -> " << tous_positifs << endl;
+
+    return 0;
+}
+
+template<typename T, typename T2>
+string joindre(span< T> sequence, T2 seperateur ) {
+    if(sequence.empty()) {
+        return "";
+    }
+    stringstream ss;
+    ss<<sequence.front();
+
+    for(const auto& element : sequence.subspan(1)) {
+        ss<<seperateur<<element;
+    }
+
+    return ss.str();
+
+
+}
+
+int main() {
+    // Test 1: int vektörünü birleştirmek
+    vector<int> nombres = {10, 20, 30, 40};
+    string resultat1 = joindre<int>(nombres, ", ");
+    cout << "Test 1: " << resultat1 << endl;
+
+    // Test 2: string vektörünü birleştirmek
+    vector<string> mots = {"un", "deux", "trois"};
+    string resultat2 = joindre<string>(mots, " -> ");
+    cout << "Test 2: " << resultat2 << endl;
+
+    // Test 3: Boş koleksiyon (edge case)
+    vector<double> collection_vide;
+    string resultat3 = joindre<double>(collection_vide, ",");
+    cout << "Test 3 (vide): '" << resultat3 << "'" << endl;
+
+    // Test 4: Tek elemanlı koleksiyon (edge case)
+    array<int, 1> un_seul_element = {100};
+    string resultat4 = joindre<int>(un_seul_element, ", ");
+    cout << "Test 4 (un seul): " << resultat4 << endl;
+
+    return 0;
+}
 */
 #include <iostream>
 #include <vector>
 #include <string>
 #include <span>
+#include <sstream>
+#include <iomanip>
 
 using namespace std;
+using Data = double;
+using Ligne = vector<Data>;
+using Matrice = vector<Ligne>;
 
+template<typename T>
+T calculer_somme (span<const T> sequence) {
+T somme {};
+    for(const T & element : sequence) {
+        somme +=element;
+    }
+    return somme;
+}
+
+
+template<typename T>
+T calculer_moyenne(span<const T> sequence) {
+    if(sequence.empty()) {
+        return T{};
+    }
+    T somme_des_elements = calculer_somme(sequence);
+    size_t taille = sequence.size();
+
+    return somme_des_elements/ taille;
+
+}
+
+template<typename T_out, typename T_in, typename Operation>
+vector<T_out> transformer(const vector<T_in>& matrice, Operation op) {
+    vector<T_out> resultats;
+
+    resultats.reserve(matrice.size());
+
+    for(const T_in& ligne: matrice) {
+        resultats.push_back(op(ligne));
+    }
+
+    return resultats;
+}
+
+
+
+
+
+template<typename Container>
+void afficher_collection(const string& etiquette, const Container& collection) {
+    cout<<etiquette <<": [";
+    bool premier = true;
+    for(const auto& element : collection) {
+        if(!premier) {
+            cout<<",";
+        }
+        cout<<element;
+        premier = false;
+    }
+    cout<<"]"<<endl;
+}
+
+int main() {
+    const Matrice notes {{4.0, 5.0, 6.0},
+                         {4.1, 5.1, 4.8},
+                         {3.5, 4.1     },
+                         {4.5, 4.5, 4.6}};
+
+    cout << fixed << setprecision(1);
+
+    // transformer'ı `calculer_somme` operasyonu ile çağırma
+    auto sommes = transformer<Data, Ligne>(notes, &calculer_somme<Data>);
+    afficher_collection("Sommes  ", sommes);
+
+    // transformer'ı `calculer_moyenne` operasyonu ile çağırma
+    auto moyennes = transformer<Data, Ligne>(notes, &calculer_moyenne<Data>);
+    afficher_collection("Moyennes", moyennes);
+
+    return 0;
+}
