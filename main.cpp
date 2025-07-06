@@ -693,14 +693,6 @@ int main() {
 
     return 0;
 }
-*/
-#include <iostream>
-#include <vector>
-#include <string>
-#include <span>
-#include <sstream>
-#include <iomanip>
-#include <utility>
 
 template<typename T>
 void afficher(span<const T>sequence) {
@@ -730,6 +722,60 @@ void tri_selection(span< T > sequence) {
         }
         if(i != min_index) {
             swap(sequence[min_index], sequence[i]);
+        }
+    }
+}
+
+int main() {
+    vector<int> v{6, 2, 8, 7, 1, 3};
+
+    cout << "Avant le tri : ";
+    afficher<int>(v);
+
+    tri_selection<int>(v);
+
+    cout << "Apres le tri : ";
+    afficher<int>(v);
+
+    return 0;
+}
+*/
+#include <iostream>
+#include <vector>
+#include <string>
+#include <span>
+#include <sstream>
+#include <iomanip>
+#include <utility>
+
+template<typename T>
+void afficher(span<const T>sequence) {
+    cout<<"[";
+    bool premier = true;
+    for(auto const& element : sequence) {
+        if(!premier) {
+            cout<<", ";
+        }
+        cout<<element;
+        premier = false;
+    }
+    cout<<"]"<<endl;
+}
+template <typename T>
+void tri_selection(span< T > sequence) {
+    if(sequence.size() < 2) {
+        return ;
+    }
+
+    for(size_t i = 0; i < sequence.size() ; ++i) {
+        size_t max_index = i;
+        for(size_t j = i+1; j< sequence.size(); ++j) {
+            if(sequence[j] > sequence[max_index]){
+                max_index = j;
+            }
+        }
+        if(i != max_index) {
+            swap(sequence[max_index], sequence[i]);
         }
     }
 }
