@@ -4,6 +4,7 @@
 #include <string>
 #include <iterator>
 #include <algorithm>
+#include <set>
 #include <bits/allocated_ptr.h>
 using namespace std;
 
@@ -871,17 +872,7 @@ using Data = double;
     auto total1 = somme_boucle_range(matrice_test);
     cout << "Yontem 1 (range-based for): " << total1 << endl;
     return 0;
-}
-*/
-#include <iostream>
-#include <vector>
-#include <string>
-#include <span>
-#include <sstream>
-#include <iomanip>
-#include <utility>
-
-using Data    = double;
+}using Data    = double;
 using Ligne   = vector<Data>;
 using Matrice = vector<Ligne>;
 template<typename T>
@@ -942,3 +933,5 @@ int main() {
 
     return 0;
 }
+*
+*/
