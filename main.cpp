@@ -935,3 +935,54 @@ int main() {
 }
 *
 */
+#include <iostream>
+#include <vector>
+#include <ostream>
+using namespace std;
+
+
+
+template<typename T>
+using Ligne = vector<T>;
+
+template<typename T>
+using Matrice = vector<Ligne<T>>;
+
+template<typename T>
+ostream& operator<<(ostream& os, const Ligne<T>& ligne) {
+    os<<"[";
+    for(size_t i =0;i <ligne.size(); ++i) {
+        os<<ligne[i];
+        if(i<ligne.size() - 1) {
+            os<<", ";
+        }
+    }
+    os<<"]";
+    return os;
+}
+
+template<typename T>
+ostream& operator<<(ostream& os, const Matrice<T>& matrice) {
+    os<<"[";
+    for(size_t i = 0; i<matrice.size(); ++i) {
+        os<<matrice[i];
+       if(i < matrice.size() - 1) {
+           os<<endl;
+       }
+
+    }
+    os<<"]"<<endl;
+    return os;
+}
+int main() {
+    // La matrice de l'énoncé
+    Matrice<int> m {{0},
+                    {1, 2},
+                    {3, 4, 5},
+                    {6, 7, 8, 9}};
+
+    // Le code d'affichage qui doit maintenant fonctionner
+    cout << m << endl;
+
+    return 0;
+}
