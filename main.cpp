@@ -933,13 +933,6 @@ int main() {
 
     return 0;
 }
-*
-*/
-#include <iostream>
-#include <vector>
-#include <ostream>
-using namespace std;
-
 
 
 template<typename T>
@@ -983,6 +976,144 @@ int main() {
 
     // Le code d'affichage qui doit maintenant fonctionner
     cout << m << endl;
+
+    return 0;
+}
+
+ostream& operator<<(ostream & os, const pair<string, int>& data) {
+    os<<data.first<<" => "<<data.second;
+    return os;
+}
+
+int main() {
+    pair<string, int> score = {"Alice", 100};
+    cout << "Resultat du joueur : " << score << endl;
+
+    pair<string, int> score_bob = {"Bob", 95};
+    cout << score << " | " << score_bob << endl;
+
+    return 0;
+}
+*
+*template<typename T1, typename T2>
+ostream& operator<<(ostream& os, const pair<T1, T2>& p) {
+    os<<p.first<<" => "<< p.second;
+    return os;
+}
+
+int main() {
+    map<string, int> high_scores = {
+        {"Alice", 100},
+        {"Bob", 95},
+        {"Charlie", 105}
+    };
+
+    cout << "Tableau des scores :" << endl;
+    for (const auto& entry : high_scores) {
+        // Notre surcharge pour pair est appelée automatiquement ici !
+        cout << "- " << entry << endl;
+    }
+    return 0;
+
+}
+using Itineraire = vector<string>;
+
+ostream& operator<<(ostream& os, const Itineraire& itineraire) {
+
+    if(itineraire.empty()) {
+        os<<"Itineraire vide";
+        return os;
+    }
+    for(size_t i = 0; i<itineraire.size(); ++i) {
+        os<<itineraire[i];
+        if(i<itineraire.size()-1) {
+            os<<" -> ";
+        }
+    }
+    return os;
+}
+
+
+
+
+int main() {
+    Itineraire road_trip = {"Genève", "Lausanne", "Berne", "Zurich"};
+    cout << "Mon voyage : " << road_trip << endl;
+
+    Itineraire vide = {};
+    cout << "Un autre voyage : " << vide << endl;
+
+    return 0;
+}
+
+*/
+#include <iostream>
+#include <vector>
+#include <ostream>
+#include <utility>
+#include <string>
+#include <map>
+#include <algorithm>
+using namespace std;
+
+
+enum class Chiffre :int{ ZERO=0, UN, DEUX, TROIS, QUATRE, CINQ, SIX, SEPT, HUIT, NEUF};
+ostream& operator<<(ostream& os, const Chiffre& c) {
+    switch(c) {
+        case Chiffre::ZERO : os<<"ZERO"; break;
+        case Chiffre::UN : os<<"UN"; break;
+        case Chiffre::DEUX : os<<"DEUX"; break;
+        case Chiffre::TROIS : os<<"TROIS"; break;
+        case Chiffre::QUATRE : os<<"QUATRE"; break;
+        case Chiffre::CINQ : os<<"CINQ"; break;
+        case Chiffre::SIX : os<<"SIX"; break;
+        case Chiffre::SEPT : os<<"SEPT"; break;
+        case Chiffre::HUIT : os<<"HUIT"; break;
+        case Chiffre::NEUF : os<<"NEUF"; break;
+        default: os<<"?" ; break;
+    }
+    return os;
+}
+
+ostream & operator<<(ostream& os, const vector<Chiffre>& vc) {
+    for(size_t i = 0; i<vc.size(); ++i) {
+        os<<vc[i];
+        if(i<vc.size()-1) {
+            os<<" ";
+        }
+    }
+    return os;
+}
+
+vector<Chiffre>nbreToEnums(int n) {
+    if(n == 0) {
+        return {Chiffre::ZERO};
+    }
+
+    vector<Chiffre>result;
+    long long num =abs(static_cast<long long>(n));
+
+    while(num > 0) {
+        int digit = num % 10;
+        result.push_back(static_cast<Chiffre>(digit));
+        num /= 10;
+    }
+    reverse(result.begin(), result.end());
+    return result;
+}
+
+int main() {
+    cout << "Test avec 123: ";
+    cout << nbreToEnums(123) << endl; // Attendu: UN DEUX TROIS
+
+    cout << "Test avec 9870: ";
+    cout << nbreToEnums(9870) << endl; // Attendu: NEUF HUIT SEPT ZERO
+
+    cout << "Test avec 0: ";
+    cout << nbreToEnums(0) << endl; // Attendu: ZERO
+
+    cout << "Test avec -5: ";
+    cout << nbreToEnums(-5) << endl; // Attendu: CINQ
 
     return 0;
 }
