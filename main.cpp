@@ -1119,41 +1119,40 @@ int main() {
 #include <algorithm>
 using namespace std;
 
-
 struct Date {
-    int jour, mois, annee;
+  int jour,mois, annee;
 };
 
 struct Personne {
     string prenom, nom;
-    Date date_naissance;
+    Date date;
 };
 
-ostream& operator<<(ostream& os, const Date& d) {
-    os<<d.jour<<"."<<d.mois<<"."<<d.annee;
+ostream & operator<<(ostream& os,const Date& d) {
+    os<<d.jour<<"."<<d.mois<<"."<<d.annee<<endl;
     return os;
 }
 
-ostream& operator<<(ostream&os, const Personne& p) {
-    os<<"prenom : "<<p.prenom<<"\n";
-    os<<"nom    : "<<p.nom<<"\n";
-    os<<"date   : "<<p.date_naissance;
+ostream & operator<<(ostream& os,const Personne& p){
+    os<<"prenom : "<<p.prenom<<endl;
+    os<<"nom    : "<<p.nom<<endl;
+    os<<"date   : "<<p.date<<endl;
     return os;
 }
 
 template<size_t N>
-ostream& operator<<(ostream& os,const array<Personne, N>& carnet ) {
-    for(size_t i = 0; i<carnet.size(); ++i) {
+ostream& operator<<(ostream& os, const array<Personne, N>& carnet ) {
+    for(size_t i = 0; i< carnet.size(); ++i) {
         os<<carnet[i];
-        if(i < carnet.size()-1) {
-            os<<"\n\n";
+        if(i<carnet.size()-1) {
+            os<<endl;
         }
     }
     return os;
 }
 
 int main() {
-    // La déclaration et l'initialisation fournies
+
     array<Personne, 4> carnet {Personne{"Jean"s,   "Veuxplus"s, Date{ 7,  4, 1975}},
                                Personne{"Alain"s,  "Verse"s,    Date{21, 12, 2018}},
                                Personne{"Justin"s, "Ptipeu"s,   Date{ 1,  8, 2023}},
