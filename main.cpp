@@ -1109,15 +1109,6 @@ int main() {
 
     return 0;
 }
-*/
-#include <iostream>
-#include <vector>
-#include <ostream>
-#include <utility>
-#include <string>
-#include <map>
-#include <algorithm>
-using namespace std;
 
 struct Date {
   int jour,mois, annee;
@@ -1161,5 +1152,43 @@ int main() {
     // L'instruction d'affichage qui doit maintenant fonctionner
     cout << carnet << endl;
 
+    return 0;
+}
+*/
+#include <iostream>
+#include <vector>
+#include <ostream>
+#include <utility>
+#include <string>
+#include <map>
+#include <algorithm>
+using namespace std;
+
+struct LigneCommande {
+    string nom_produit;
+    int quantite;
+};
+
+struct Commande {
+    int id;
+    vector<LigneCommande> lignes;
+};
+
+ostream& operator<<(ostream& os, const LigneCommande& ligne) {
+    os<<ligne.nom_produit<<", "<<ligne.quantite;
+    return os;
+}
+
+ostream & operator<<(ostream& os, const Commande& c) {
+    os<<c.id<<" => ";
+    for(const auto & ligne : c.lignes) {
+        os<<"\t"<<ligne<<"\n";
+    }
+    return os;
+}
+
+int main() {
+    Commande cmd = {101, {{"Stylo", 4}, {"Cahier", 2}, {"Gomme", 1}}};
+    cout << cmd;
     return 0;
 }
