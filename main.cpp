@@ -1045,18 +1045,6 @@ int main() {
 
     return 0;
 }
-
-*/
-#include <iostream>
-#include <vector>
-#include <ostream>
-#include <utility>
-#include <string>
-#include <map>
-#include <algorithm>
-using namespace std;
-
-
 enum class Chiffre :int{ ZERO=0, UN, DEUX, TROIS, QUATRE, CINQ, SIX, SEPT, HUIT, NEUF};
 ostream& operator<<(ostream& os, const Chiffre& c) {
     switch(c) {
@@ -1075,32 +1063,36 @@ ostream& operator<<(ostream& os, const Chiffre& c) {
     return os;
 }
 
-ostream & operator<<(ostream& os, const vector<Chiffre>& vc) {
-    for(size_t i = 0; i<vc.size(); ++i) {
+ostream& operator<<(ostream& os, const vector<Chiffre>& vc){
+    for(size_t i =0; i<vc.size(); ++i) {
         os<<vc[i];
         if(i<vc.size()-1) {
             os<<" ";
         }
     }
-    return os;
+return os;
 }
 
-vector<Chiffre>nbreToEnums(int n) {
+vector<Chiffre> nbreToEnums(int n) {
     if(n == 0) {
         return {Chiffre::ZERO};
     }
 
-    vector<Chiffre>result;
-    long long num =abs(static_cast<long long>(n));
+    vector<Chiffre> resultat;
+    long long num = abs(static_cast<long long>(n));
 
     while(num > 0) {
         int digit = num % 10;
-        result.push_back(static_cast<Chiffre>(digit));
+        resultat.push_back(static_cast<Chiffre>(digit));
         num /= 10;
     }
-    reverse(result.begin(), result.end());
-    return result;
+
+    reverse(resultat.begin(), resultat.end());
+    return resultat;
+
+
 }
+
 
 int main() {
     cout << "Test avec 123: ";
@@ -1114,6 +1106,61 @@ int main() {
 
     cout << "Test avec -5: ";
     cout << nbreToEnums(-5) << endl; // Attendu: CINQ
+
+    return 0;
+}
+*/
+#include <iostream>
+#include <vector>
+#include <ostream>
+#include <utility>
+#include <string>
+#include <map>
+#include <algorithm>
+using namespace std;
+
+
+struct Date {
+    int jour, mois, annee;
+};
+
+struct Personne {
+    string prenom, nom;
+    Date date_naissance;
+};
+
+ostream& operator<<(ostream& os, const Date& d) {
+    os<<d.jour<<"."<<d.mois<<"."<<d.annee;
+    return os;
+}
+
+ostream& operator<<(ostream&os, const Personne& p) {
+    os<<"prenom : "<<p.prenom<<"\n";
+    os<<"nom    : "<<p.nom<<"\n";
+    os<<"date   : "<<p.date_naissance;
+    return os;
+}
+
+template<size_t N>
+ostream& operator<<(ostream& os,const array<Personne, N>& carnet ) {
+    for(size_t i = 0; i<carnet.size(); ++i) {
+        os<<carnet[i];
+        if(i < carnet.size()-1) {
+            os<<"\n\n";
+        }
+    }
+    return os;
+}
+
+int main() {
+    // La déclaration et l'initialisation fournies
+    array<Personne, 4> carnet {Personne{"Jean"s,   "Veuxplus"s, Date{ 7,  4, 1975}},
+                               Personne{"Alain"s,  "Verse"s,    Date{21, 12, 2018}},
+                               Personne{"Justin"s, "Ptipeu"s,   Date{ 1,  8, 2023}},
+                               Personne{"Rémi"s,   "Fasol"s,    Date{17,  5, 1957}}};
+
+    // L'instruction d'affichage qui doit maintenant fonctionner
+    cout << carnet << endl;
 
     return 0;
 }
