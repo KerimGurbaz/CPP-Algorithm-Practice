@@ -1154,16 +1154,6 @@ int main() {
 
     return 0;
 }
-*/
-#include <iostream>
-#include <vector>
-#include <ostream>
-#include <utility>
-#include <string>
-#include <map>
-#include <algorithm>
-using namespace std;
-
 struct LigneCommande {
     string nom_produit;
     int quantite;
@@ -1191,4 +1181,86 @@ int main() {
     Commande cmd = {101, {{"Stylo", 4}, {"Cahier", 2}, {"Gomme", 1}}};
     cout << cmd;
     return 0;
+}
+
+struct CPU {
+    string modele;
+    double vitesse_ghz;
+};
+
+struct RAM {
+    int capacite_go;
+    string type;
+};
+
+struct Ordinateur {
+    CPU cpu;
+    RAM ram;
+};
+
+ostream& operator<<(ostream& os, const CPU& c) {
+    os<<c.modele<<" @ " << c.vitesse_ghz<<"GHz";
+    return os;
+}
+
+ostream& operator<<(ostream& os, const RAM& r) {
+    os<<r.capacite_go<<"GB "<< r.type<<endl;
+    return os;
+}
+
+ostream& operator<<(ostream& os,const Ordinateur& o) {
+    os<<"Configuration PC: \n";
+    os<<"Processeur : "<< o.cpu<<"\n";
+    os<<"Memoire : "<<o.ram;
+
+    return os;
+}
+
+int main() {
+    Ordinateur pc = {{"Intel i7", 3.4}, {16, "DDR4"}};
+    cout << pc << endl;
+    return 0;
+}
+*/
+#include <iostream>
+#include <vector>
+#include <ostream>
+#include <utility>
+#include <string>
+#include <map>
+#include <algorithm>
+using namespace std;
+
+struct Point {
+    double x;
+    double y;
+
+
+    void afficher() const {
+    cout<<"("<<x<<", "<<y<<")"<<endl;
+}
+
+    void deplacer(double dx, double dy) {
+        x += dx;
+        y += dy;
+    }
+};
+
+int main() {
+
+    Point centre{};
+    centre.afficher();
+    centre.deplacer(122,333);
+    centre.afficher();
+
+    Point p{1.2, 2.4};
+    p.afficher();
+
+    p.deplacer(0.8, 0.6);
+    p.afficher();
+
+    p.x = 5.5;
+    p.y = 29.5;
+    cout<<p.x<<" -> "<<p.y<<endl;
+
 }
