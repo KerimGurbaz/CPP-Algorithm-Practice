@@ -1221,15 +1221,6 @@ int main() {
     cout << pc << endl;
     return 0;
 }
-*/
-#include <iostream>
-#include <vector>
-#include <ostream>
-#include <utility>
-#include <string>
-#include <map>
-#include <algorithm>
-using namespace std;
 
 struct Point {
     double x;
@@ -1246,7 +1237,14 @@ struct Point {
     }
 };
 
+ostream& operator<<(ostream& os, const Point& p) {
+    os<<p.x<< p.y<<endl;
+    return os;
+}
+
 int main() {
+    Point k{24,35};
+    cout<<k<<endl;
 
     Point centre{};
     centre.afficher();
@@ -1263,4 +1261,144 @@ int main() {
     p.y = 29.5;
     cout<<p.x<<" -> "<<p.y<<endl;
 
+}
+
+
+class Point {
+private:
+    double x, y ;
+
+public:
+    Point(double val_x = 0, double val_y = 0): x(val_x), y(val_y){};
+
+    double getX() const {
+    return x;
+    }
+
+    double getY() const {
+        return y;
+    }
+void afficher() const{
+        cout<<"("<< x<< ", "<<y<<")"<<endl;
+}
+    void deplacer(double dx, double dy) {
+        x += dx;
+
+        y += dy;
+
+    }
+};
+
+class Point {
+private:
+    double x, y;
+
+public:
+
+    Point(double x_val = 0.0, double y_val=0.0):x(x_val),y(y_val){}
+
+    double getX() const {
+        cout<<x<<endl;
+    }
+    double getY() const {
+        cout<<y<<endl;
+    }
+
+    void setX(double sx) {
+       x =sx;
+    }
+    void setY(double sy) {
+         y =sy;
+    }
+
+    void deplacer(double dx, double dy) {
+        x+= dx;
+        y+= dy;
+    }
+
+  void  afficher ()const {
+        cout<<"("<<x<<", "<<y<<")"<<endl;
+    }
+
+friend ostream& operator<<(ostream& os, const Point& p);
+};
+ostream & operator<<(ostream& os, const Point& p) {
+    os<<"("<<p.x<<", "<<p.y<<")";
+    return os;
+}
+
+int main() {
+    Point centre;      // Appelle le constructeur par défaut Point()
+    centre.setX(0);
+    centre.setY(0);
+    centre.afficher();
+
+    Point p;
+    p.afficher();// Appelle le constructeur par défaut Point()
+    p.setX(1.2);
+    p.setY(2.4);
+    p.afficher();
+
+    p.deplacer(0.8, 0.6);
+    p.afficher();
+
+    p.setX(5.5);
+    p.setY(10.3);
+    // On utilise les getters pour accéder aux valeurs pour l'affichage.
+    cout << p.getX() << " -- " << p.getY() << endl;
+
+    return 0;
+}
+*/
+#include <iostream>
+#include <vector>
+#include <ostream>
+#include <utility>
+#include <string>
+#include <map>
+#include <algorithm>
+using namespace std;
+
+class Point {
+private:
+    double x, y;
+
+public:
+    Point(double x_val=(0), double y_val=(0.0)): x(x_val), y(y_val){}
+
+    double getX()const {
+        return x;
+    }
+    double getY()const {
+        return y;
+    }
+
+    void afficher() {
+        cout<<"("<<x<<","<<y<<")"<<endl;
+    }
+    void setX(double x_val) {
+        x= x_val;
+    }
+    void setY(double y_val) {
+        y= y_val;
+    }
+
+    void deplacer(double dx, double dy) {
+        x +=dx;
+        y+= dy;
+    }
+};
+int main() {
+    Point centre;
+    centre.afficher();
+
+    Point p(1.2,2.4);
+    p.afficher();
+
+    p.deplacer(0.8, 0.6);
+    p.afficher();
+
+    p.setX(5.5);
+    p.setY(10.3);
+    cout << p.getX() << " -- " << p.getY() << endl;
 }
