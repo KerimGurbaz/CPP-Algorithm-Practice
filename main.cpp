@@ -1349,15 +1349,6 @@ int main() {
 
     return 0;
 }
-*/
-#include <iostream>
-#include <vector>
-#include <ostream>
-#include <utility>
-#include <string>
-#include <map>
-#include <algorithm>
-using namespace std;
 
 class Point {
 private:
@@ -1401,4 +1392,91 @@ int main() {
     p.setX(5.5);
     p.setY(10.3);
     cout << p.getX() << " -- " << p.getY() << endl;
+}
+*/
+#include <iostream>
+#include <vector>
+#include <ostream>
+#include <utility>
+#include <string>
+#include <map>
+#include <algorithm>
+using namespace std;
+
+class Point {
+private:
+    double x;
+    double y;
+    const double xMax;
+    const double yMax;
+
+public:
+
+    Point(double x_val =0.0, double y_val = 0.0):
+    Point(x_val, y_val, 100.0, 100.0){}
+
+    Point (double x_val, double y_val, double xMax_val, double yMax_val):x(0.0), y(0.0),xMax(xMax_val), yMax(yMax_val) {
+        setX(x_val);
+        setY(y_val);
+    }
+
+    double getX()const {
+        return x;
+    }
+    double getY()const {
+        return y;
+    }
+
+    void setX(double newX) {
+        if(newX >= 0 && newX <=xMax) {
+            x = newX;
+        }
+    }
+    void setY(double newY) {
+        if(newY >= 0 && newY <=100) {
+            y = newY;
+        }
+    }
+
+    void deplacer(double dx, double dy) {
+        double newX = x + dx;
+        double newY = y + dy;
+
+        if(newX >=0 && newX <=xMax && newY >= 0 && newY <=yMax) {
+            x = newX;
+            y= newY;
+        }
+    }
+
+    void afficher()const {
+        cout<<"("<<x<<","<<y<<"), contraintes: [0,"
+        <<xMax<<"]x[0,"<<yMax<<"]"<<endl;
+    }
+};
+
+
+int main() {
+    Point p1(1.2, 2.4);
+    cout << "p1"; p1.afficher();
+    p1.deplacer(1., 3.);
+    cout << "p1"; p1.afficher();
+    p1.setX(4.);
+    cout << "p1"; p1.afficher();
+    p1.setY(7.);
+    cout << "p1"; p1.afficher();
+
+    cout << endl; // Séparation pour la lisibilité
+
+    Point p2(3., 4.2, 10., 10.);
+    cout << "p2"; p2.afficher();
+    p2.deplacer(15, 2); // Doit être rejeté (18 > 10)
+    cout << "p2"; p2.afficher();
+    p2.deplacer(3, 2);  // Valide
+    cout << "p2"; p2.afficher();
+    p2.setX(-3);      // Doit être rejeté (-3 < 0)
+    cout << "p2"; p2.afficher();
+    p2.setY(12);      // Doit être rejeté (12 > 10)
+    cout << "p2"; p2.afficher();
+
+    return 0;
 }
