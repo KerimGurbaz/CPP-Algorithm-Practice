@@ -1540,16 +1540,6 @@ int main() {
 
     return 0;
 }
-*/
-#include <iostream>
-#include <vector>
-#include <ostream>
-#include <utility>
-#include <string>
-#include <map>
-#include <algorithm>
-using namespace std;
-
 class Robot {
 private:
     int position;
@@ -1593,6 +1583,70 @@ int main() {
     r1.faireDemiTour(); // direction devient -1
     r1.deplacer(4); // pos: 3 + 4*(-1) = -1
     cout << "position courante de r1: " << r1.getPosition() << endl;
+
+    return EXIT_SUCCESS;
+}
+*/
+#include <iostream>
+#include <vector>
+#include <ostream>
+#include <utility>
+#include <string>
+#include <map>
+#include <algorithm>
+using namespace std;
+
+class Robot {
+private:
+    int position;
+    int direction;
+    int energie;
+
+public:
+    Robot(int pos_initial =0, int dir =1, int enrg=100)
+        :position(pos_initial), direction(dir), energie(enrg){}
+void deplacer(int n =1) {
+        if(n <= 1) {
+            return;
+        }
+        position += n* direction;
+        energie -=n;
+    }
+
+    void faireDemiTour() {
+        direction *= -1;
+    }
+
+    int getPosition()const {
+        return position;
+    }
+
+    int getEnergie()const {
+        return energie;
+    }
+
+};
+
+int main() {
+    // Robot avec 20 points d'énergie.
+    Robot r1(0, 20);
+    cout << "Etat initial r1: pos=" << r1.getPosition() << ", energie=" << r1.getEnergie() << endl;
+
+    // Déplacement valide
+    r1.deplacer(15);
+    cout << "Apres deplacer(15): pos=" << r1.getPosition() << ", energie=" << r1.getEnergie() << endl;
+
+    // Tentative de déplacement invalide (coût 10 > énergie restante 5)
+    r1.deplacer(10);
+    cout << "Apres tentative deplacer(10): pos=" << r1.getPosition() << ", energie=" << r1.getEnergie() << endl;
+
+    // Déplacement valide qui épuise l'énergie
+    r1.deplacer(5);
+    cout << "Apres deplacer(5): pos=" << r1.getPosition() << ", energie=" << r1.getEnergie() << endl;
+
+    // Tentative de déplacement avec 0 énergie
+    r1.deplacer();
+    cout << "Apres tentative deplacer(): pos=" << r1.getPosition() << ", energie=" << r1.getEnergie() << endl;
 
     return EXIT_SUCCESS;
 }
