@@ -1411,14 +1411,14 @@ private:
     const double yMax;
 
 public:
+    Point(double x_val=0.0, double y_val = 0.0):
+    Point(x_val, y_val,100.0,100.0 ){}
 
-    Point(double x_val =0.0, double y_val = 0.0):
-    Point(x_val, y_val, 100.0, 100.0){}
-
-    Point (double x_val, double y_val, double xMax_val, double yMax_val):x(0.0), y(0.0),xMax(xMax_val), yMax(yMax_val) {
-        setX(x_val);
-        setY(y_val);
-    }
+    Point(double x_val, double y_val, double xMax_val, double yMax_val):
+x(clamp(x_val, 0.0, xMax_val)),
+    y(clamp(y_val, 0.0, yMax_val)),
+    xMax(xMax_val),
+    yMax(yMax_val){}
 
     double getX()const {
         return x;
@@ -1428,30 +1428,31 @@ public:
     }
 
     void setX(double newX) {
-        if(newX >= 0 && newX <=xMax) {
-            x = newX;
-        }
+      if(newX >= 0.0 && newX<=xMax) {
+          x = newX;
+      }
     }
     void setY(double newY) {
-        if(newY >= 0 && newY <=100) {
+        if(newY >=0.0 && newY <= yMax) {
             y = newY;
         }
     }
 
-    void deplacer(double dx, double dy) {
-        double newX = x + dx;
-        double newY = y + dy;
-
-        if(newX >=0 && newX <=xMax && newY >= 0 && newY <=yMax) {
+    void deplacer( double dx, double dy) {
+        double newX = x+dx;
+        double newY = y+dy;
+        if(newX >=0.0 && newX <= xMax && newY>=0.0 && newY <= yMax) {
             x = newX;
-            y= newY;
+            y=newY;
         }
     }
 
     void afficher()const {
-        cout<<"("<<x<<","<<y<<"), contraintes: [0,"
-        <<xMax<<"]x[0,"<<yMax<<"]"<<endl;
+        cout<<"("<<x<<","<<y<<"), contraintes: [0,"<<xMax<<"]x[0,"<<yMax<<"]"<<endl;
     }
+
+
+
 };
 
 
