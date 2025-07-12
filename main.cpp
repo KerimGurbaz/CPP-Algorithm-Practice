@@ -1393,16 +1393,6 @@ int main() {
     p.setY(10.3);
     cout << p.getX() << " -- " << p.getY() << endl;
 }
-*/
-#include <iostream>
-#include <vector>
-#include <ostream>
-#include <utility>
-#include <string>
-#include <map>
-#include <algorithm>
-using namespace std;
-
 class Point {
 private:
     double x;
@@ -1478,6 +1468,85 @@ int main() {
     cout << "p2"; p2.afficher();
     p2.setY(12);      // Doit être rejeté (12 > 10)
     cout << "p2"; p2.afficher();
+
+    return 0;
+}
+*/
+#include <iostream>
+#include <vector>
+#include <ostream>
+#include <utility>
+#include <string>
+#include <map>
+#include <algorithm>
+using namespace std;
+
+class Pays {
+private:
+    string nom;
+    double population;
+    double superficie;
+
+public:
+    Pays(string pays_nom, double pays_pop, double pays_superficie):
+    nom(pays_nom), population(pays_pop), superficie(pays_superficie){}
+
+    string get_nom() const {
+        return nom;
+    }
+    double get_population()const {
+        return population;
+    }
+    double get_superficie()const {
+        return superficie;
+    }
+
+   void set_population(double new_population) {
+        population = new_population;
+    }
+    double getDensite()const {
+        if(superficie == 0) {
+            return 0;
+        }
+        return (population * 1000000) / superficie ;
+    }
+};
+
+int main() {
+
+    vector<Pays> liste_pays = {
+        {"Suisse", 8.12, 41290},
+        {"France", 66.66, 547030},
+        {"Italie", 61.85, 301230},
+        {"Allemagne", 80.85, 357021},
+        {"Turquie", 80.85, 783562}
+    };
+
+    if(liste_pays.empty()) {
+        cout<<"La liste des pays est vide."<<endl;
+        return 1;
+    }
+
+    vector<const Pays*>pays_plus_peuples;
+    pays_plus_peuples.push_back(&liste_pays[0]);
+
+    for(size_t i =1; i<liste_pays.size(); ++i) {
+        const Pays& pays_actuel = liste_pays[i];
+
+        double pop_gagnant_actuel = pays_plus_peuples[0] -> get_population();
+        if(pays_actuel.get_population() > pop_gagnant_actuel) {
+            pays_plus_peuples.clear();
+            pays_plus_peuples.push_back(&pays_actuel);
+        }else if(pays_actuel.get_population() == pop_gagnant_actuel) {
+            pays_plus_peuples.push_back(&pays_actuel);
+        }
+
+        cout<<"Pays ayant le plus d'habitants ("<< pays_plus_peuples[0] -> get_population() <<"millions) : "<<endl;
+        for(const Pays* pays :pays_plus_peuples) {
+            cout<<"- "<<pays -> get_nom()<<endl;
+        }
+    }
+
 
     return 0;
 }
