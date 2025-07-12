@@ -1471,16 +1471,6 @@ int main() {
 
     return 0;
 }
-*/
-#include <iostream>
-#include <vector>
-#include <ostream>
-#include <utility>
-#include <string>
-#include <map>
-#include <algorithm>
-using namespace std;
-
 class Pays {
 private:
     string nom;
@@ -1549,4 +1539,60 @@ int main() {
 
 
     return 0;
+}
+*/
+#include <iostream>
+#include <vector>
+#include <ostream>
+#include <utility>
+#include <string>
+#include <map>
+#include <algorithm>
+using namespace std;
+
+class Robot {
+private:
+    int position;
+    int direction;
+
+public:
+    Robot(int pos_initial = 0, int dir = 1)
+    : position(pos_initial), direction(dir){}
+
+    void deplacer(int n = 1) {
+        if(n<=0) {
+            return;
+        }
+        position += n*direction;
+    }
+
+    void faireDemiTour() {
+        direction *= -1;
+    }
+
+    int getPosition()const {
+        return position;
+    }
+
+
+};
+int main() {
+
+    Robot r1, r2(10); // r1 appelle Robot(0), r2 appelle Robot(10)
+    cout << "position courante de r2: " << r2.getPosition() << endl;
+
+    r1.deplacer(); // n=1 par défaut. pos: 0 + 1*1 = 1
+    cout << "position courante de r1: " << r1.getPosition() << endl;
+
+    r1.deplacer(-1); // n <= 0, pas de mouvement. pos: 1
+    cout << "position courante de r1: " << r1.getPosition() << endl;
+
+    r1.deplacer(2); // pos: 1 + 2*1 = 3
+    cout << "position courante de r1: " << r1.getPosition() << endl;
+
+    r1.faireDemiTour(); // direction devient -1
+    r1.deplacer(4); // pos: 3 + 4*(-1) = -1
+    cout << "position courante de r1: " << r1.getPosition() << endl;
+
+    return EXIT_SUCCESS;
 }
