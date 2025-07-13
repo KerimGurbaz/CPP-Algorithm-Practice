@@ -1586,6 +1586,8 @@ int main() {
 
     return EXIT_SUCCESS;
 }
+
+
 */
 #include <iostream>
 #include <vector>
@@ -1594,59 +1596,55 @@ int main() {
 #include <string>
 #include <map>
 #include <algorithm>
+#include <cmath>
 using namespace std;
 
-class Robot {
+class Point {
 private:
-    int position;
-    int direction;
-    int energie;
+    double x;
+    double y;
 
 public:
-    Robot(int pos_initial =0, int dir =1, int enrg=100)
-        :position(pos_initial), direction(dir), energie(enrg){}
-void deplacer(int n =1) {
-        if(n <= 1) {
-            return;
-        }
-        position += n* direction;
-        energie -=n;
+    Point(double x_val, double y_val):x(x_val), y(y_val){}
+    double getX() const {
+        return x;
+    }
+    double getY() const {
+        return y;
     }
 
-    void faireDemiTour() {
-        direction *= -1;
-    }
-
-    int getPosition()const {
-        return position;
-    }
-
-    int getEnergie()const {
-        return energie;
-    }
-
+    bool operator==(const Point& other) const = default;
 };
+ostream& operator<<(ostream& os,const Point& p) {
+    os<<p.getX()<<","<<p.getY();
+    return os;
+}
+Point operator+(const Point& p1, const Point&p2) {
+    return Point(p1.getX() + p2.getX(), p1.getY() + p2.getY());
+}
 
+Point operator*(const Point& p, double scalaire) {
+    return Point(p.getX()* scalaire, p.getY()* scalaire);
+}
+
+Point operator *(double scalaire, const Point& p) {
+    return p * scalaire;
+}
 int main() {
-    // Robot avec 20 points d'énergie.
-    Robot r1(0, 20);
-    cout << "Etat initial r1: pos=" << r1.getPosition() << ", energie=" << r1.getEnergie() << endl;
+    Point p1(1.2, 2.4);
+    Point p2(3., 4.2);
 
-    // Déplacement valide
-    r1.deplacer(15);
-    cout << "Apres deplacer(15): pos=" << r1.getPosition() << ", energie=" << r1.getEnergie() << endl;
+    cout << "p1" << p1 << ", p2" << p2 << endl;
 
-    // Tentative de déplacement invalide (coût 10 > énergie restante 5)
-    r1.deplacer(10);
-    cout << "Apres tentative deplacer(10): pos=" << r1.getPosition() << ", energie=" << r1.getEnergie() << endl;
+    cout << "p1 + p2 = " << p1 + p2 << endl;
+    cout << "p2 + p1 = " << p2 + p1 << endl;
 
-    // Déplacement valide qui épuise l'énergie
-    r1.deplacer(5);
-    cout << "Apres deplacer(5): pos=" << r1.getPosition() << ", energie=" << r1.getEnergie() << endl;
+    cout << "p1 * 2. = " << p1 * 2. << endl;
+    cout << "3. * p1 = " << 3. * p1 << endl;
 
-    // Tentative de déplacement avec 0 énergie
-    r1.deplacer();
-    cout << "Apres tentative deplacer(): pos=" << r1.getPosition() << ", energie=" << r1.getEnergie() << endl;
+    cout << (p1 == p2 ? "p1 == p2" : "p1 != p2") << endl;
+    Point p3(p1); // Utilise le constructeur de copie par défaut
+    cout << (p1 == p3 ? "p1 == p3" : "p1 != p3") << endl;
 
-    return EXIT_SUCCESS;
+    return 0;
 }
