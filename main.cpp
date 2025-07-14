@@ -1768,34 +1768,34 @@ int main() {
 #include <cmath>
 using namespace std;
 #include <iomanip>
+
 class MonEntier {
 private:
     int valeur;
 
-    public:
-    MonEntier() : valeur(0){}
-    MonEntier(int val) : valeur(val){}
+public:
+    MonEntier(int val = 0): valeur(val){}
 
-
-    friend ostream& operator<<(ostream& os, const MonEntier& m);
+    friend ostream& operator<<(ostream & os,const MonEntier & m);
     friend MonEntier operator+(const MonEntier& a, const MonEntier& b);
 
-    MonEntier & operator +=(const MonEntier& other) {
-        this -> valeur += other.valeur;
+    MonEntier& operator +=(const MonEntier& other) {
+        this-> valeur += other.valeur;
         return *this;
     }
 
     MonEntier& operator++() {
-        ++this-> valeur;
+        ++this -> valeur;
         return *this;
     }
 
     MonEntier operator++(int) {
-        MonEntier temp = *this;
+        MonEntier temps = *this;
         ++this -> valeur;
-        return temp;
+        return temps;
     }
-bool operator==(const MonEntier &other) const = default;
+
+    bool operator ==(const MonEntier& other) const = default;
 };
 
 ostream& operator<<(ostream& os, const MonEntier& m) {
@@ -1803,10 +1803,12 @@ ostream& operator<<(ostream& os, const MonEntier& m) {
     return os;
 }
 
-
 MonEntier operator+(const MonEntier& a, const MonEntier& b) {
     return MonEntier(a.valeur + b.valeur);
 }
+
+
+
 
 int main() {
     MonEntier m0, m1(1), m2 = 5;
