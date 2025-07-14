@@ -1586,19 +1586,6 @@ int main() {
 
     return EXIT_SUCCESS;
 }
-
-
-*/
-#include <iostream>
-#include <vector>
-#include <ostream>
-#include <utility>
-#include <string>
-#include <map>
-#include <algorithm>
-#include <cmath>
-using namespace std;
-
 class Point {
 private:
     double x;
@@ -1645,6 +1632,202 @@ int main() {
     cout << (p1 == p2 ? "p1 == p2" : "p1 != p2") << endl;
     Point p3(p1); // Utilise le constructeur de copie par défaut
     cout << (p1 == p3 ? "p1 == p3" : "p1 != p3") << endl;
+
+    return 0;
+}
+
+class Point {
+private:
+    double x;
+    double y;
+
+public:
+    Point(double x_val=0.0, double y_val=0.0): x(x_val), y(y_val){}
+    bool operator==(const Point &) const = default;
+
+    double getX()const {
+        return x;
+    }
+
+    double getY() const {
+        return y;
+    }
+
+};
+
+ostream& operator<<(ostream& os, const Point&p) {
+    os<<p.getX()<<", "<<p.getY();
+    return os;
+}
+
+Point operator+(const Point& p1, const Point& p2) {
+    return Point(p1.getX() + p2.getX(), p2.getX() + p2.getY());
+}
+
+Point operator*(const Point&p, double scalaiere) {
+    return Point(p.getX()* scalaiere, p.getY()* scalaiere);
+}
+
+Point operator*(double scalaiere, const Point& p) {
+    return p* scalaiere;
+}
+
+int main() {
+    Point p1(1.2, 2.4);
+    Point p2(3., 4.2);
+
+    cout << "p1" << p1 << ", p2" << p2 << endl;
+
+    cout << "p1 + p2 = " << p1 + p2 << endl;
+    cout << "p2 + p1 = " << p2 + p1 << endl;
+
+    cout << "p1 * 2. = " << p1 * 2. << endl;
+    cout << "3. * p1 = " << 3. * p1 << endl;
+
+    cout << (p1 == p2 ? "p1 == p2" : "p1 != p2") << endl;
+    Point p3(p1); // Utilise le constructeur de copie par défaut
+    cout << (p1 == p3 ? "p1 == p3" : "p1 != p3") << endl;
+
+    return 0;
+}
+class Point {
+
+private:
+    double x;
+    double y;
+public:
+    Point(double x_val =0.0, double y_val=0.0):
+    x(x_val), y(y_val){}
+
+    double getX()const {
+        return x;
+    }
+    double getY() const {
+        return y;
+    }
+
+    Point& operator+=(const Point& rhs) {
+        this -> x += rhs.x;
+        this -> y += rhs.y;
+        return *this;
+    }
+
+    Point& operator *=(double scalaiere) {
+        this -> x *= scalaiere;
+        this -> y *= scalaiere;
+        return *this;
+    }
+
+};
+ostream& operator<<(ostream & os, const Point& p) {
+    os<<p.getX()<<","<< p.getY();
+    return os;
+}
+
+Point operator +(Point lhs, const Point& rhs ) {
+    return lhs+= rhs;
+}
+
+Point operator*( Point p, double scalaire) {
+    return p *=scalaire;
+}
+
+Point operator*(double scalaiere, const Point& p) {
+    return p * scalaiere;
+}
+
+bool operator ==(const Point& lhs, const Point& rhs) {
+    return lhs.getX() == rhs.getX() && lhs.getY() == rhs.getY();
+}
+
+int main() {
+    Point p1(1.2, 2.4);
+    Point p2(3., 4.2);
+
+    cout << "p1" << p1 << ", p2" << p2 << endl;
+
+    cout << "p1 + p2 = " << p1 + p2 << endl;
+    cout << "p2 + p1 = " << p2 + p1 << endl;
+
+    cout << "p1 * 2. = " << p1 * 2. << endl;
+    cout << "3. * p1 = " << 3. * p1 << endl;
+
+    cout << (p1 == p2 ? "p1 == p2" : "p1 != p2") << endl;
+    Point p3(p1);
+    cout << (p1 == p3 ? "p1 == p3" : "p1 != p3") << endl;
+}
+
+*/
+#include <iostream>
+#include <vector>
+#include <ostream>
+#include <utility>
+#include <string>
+#include <map>
+#include <algorithm>
+#include <cmath>
+using namespace std;
+#include <iomanip>
+class MonEntier {
+private:
+    int valeur;
+
+    public:
+    MonEntier() : valeur(0){}
+    MonEntier(int val) : valeur(val){}
+
+
+    friend ostream& operator<<(ostream& os, const MonEntier& m);
+    friend MonEntier operator+(const MonEntier& a, const MonEntier& b);
+
+    MonEntier & operator +=(const MonEntier& other) {
+        this -> valeur += other.valeur;
+        return *this;
+    }
+
+    MonEntier& operator++() {
+        ++this-> valeur;
+        return *this;
+    }
+
+    MonEntier operator++(int) {
+        MonEntier temp = *this;
+        ++this -> valeur;
+        return temp;
+    }
+bool operator==(const MonEntier &other) const = default;
+};
+
+ostream& operator<<(ostream& os, const MonEntier& m) {
+    os<<"n = "<<m.valeur;
+    return os;
+}
+
+
+MonEntier operator+(const MonEntier& a, const MonEntier& b) {
+    return MonEntier(a.valeur + b.valeur);
+}
+
+int main() {
+    MonEntier m0, m1(1), m2 = 5;
+    const MonEntier m3{7};
+
+    cout << m0 << endl
+         << m1 << endl;
+
+    cout << boolalpha;
+    cout << (m0 == m1) << endl;
+    cout << (m0 != m1) << endl;
+    cout << noboolalpha;
+
+    cout << m1++ << endl;
+    cout << m1 << endl;
+    cout << ++m1 << endl;
+
+    cout << m1 + m2 << endl;
+    m1 += m2;
+    cout << m1 << endl;
+    cout << m3 + m2 << endl;
 
     return 0;
 }
