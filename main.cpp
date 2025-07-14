@@ -1756,19 +1756,6 @@ int main() {
     Point p3(p1);
     cout << (p1 == p3 ? "p1 == p3" : "p1 != p3") << endl;
 }
-
-*/
-#include <iostream>
-#include <vector>
-#include <ostream>
-#include <utility>
-#include <string>
-#include <map>
-#include <algorithm>
-#include <cmath>
-using namespace std;
-#include <iomanip>
-
 class MonEntier {
 private:
     int valeur;
@@ -1830,6 +1817,99 @@ int main() {
     m1 += m2;
     cout << m1 << endl;
     cout << m3 + m2 << endl;
+
+    return 0;
+}
+*/
+#include <iostream>
+#include <vector>
+#include <ostream>
+#include <utility>
+#include <string>
+#include <map>
+#include <algorithm>
+#include <cmath>
+using namespace std;
+#include <iomanip>
+
+class Point {
+private:
+    static int nextId;
+    static int nbPoints;
+
+    const int id;
+    double x, y;
+    double xMax, yMax;
+
+public:
+    Point(double x_val =0.0 , double y_val =0.0, double xMax_val=100.0, double yMax_val=100.0): id(nextId), x(x_val), y(y_val),
+    xMax(xMax_val), yMax(yMax_val){  nbPoints++;}
+
+    ~Point() {
+        nbPoints --;
+    }
+
+Point (const Point& other):
+    id(nextId),
+    x(other.x), y(other.y),
+    xMax(other.xMax),yMax(other.yMax) {
+        nbPoints++;
+    }
+
+    Point& operator =(const Point& other) {
+        if(this != &other) {
+            this -> x = other.x;
+            this -> y = other.y;
+            this -> xMax = other.xMax;
+            this -> yMax = other.yMax;
+        }
+        return *this;
+    }
+
+    static int getNbPoints() {
+        return nbPoints;
+    }
+
+    void afficher()const {
+        cout << "Point ID = " << id << ", (" << x << "," << y
+             << "), contraintes: [0," << xMax << "]x[0," << yMax << "]" << endl;
+    }
+
+};
+int Point::nextId = 1;
+int Point::nbPoints = 0;
+int main() {
+    Point p1(1.2, 2.4);
+    p1.afficher();
+
+    cout << "Nombre de points : " << Point::getNbPoints() << endl;
+    cout << "-------------------------------------------" << endl;
+
+    {
+        Point p2(3., 4.2, 10., 10.);
+        p2.afficher();
+
+        cout << "Nombre de points : " << Point::getNbPoints() << endl;
+        cout << "-------------------------------------------" << endl;
+
+        p2 = p1; // Assignation, pas de création.
+        p2.afficher();
+
+        cout << "Nombre de points : " << Point::getNbPoints() << endl;
+        cout << "-------------------------------------------" << endl;
+
+        Point p3 = p2; // Initialisation par copie, création de p3.
+        p3.afficher();
+
+        cout << "Nombre de points : " << Point::getNbPoints() << endl;
+        cout << "-------------------------------------------" << endl;
+    } // p2 et p3 sont détruits ici, le compteur va diminuer de 2.
+
+    Point p4(5, 10);
+    p4.afficher();
+
+    cout << "Nombre de points : " << Point::getNbPoints() << endl;
+    cout << "-------------------------------------------" << endl;
 
     return 0;
 }
