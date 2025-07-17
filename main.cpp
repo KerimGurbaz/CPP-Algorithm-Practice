@@ -1925,31 +1925,37 @@ public:
     ~Message() {
         cout << "   [-] Destruction du Message (\"" << texte << "\")" << endl;
     }
+
+  Message(const Message& autre):texte(autre.texte) {
+        cout << "   [=>] COPIE du Message (\"" << texte << "\"). Un nouvel objet est ne." << endl;
+    }
+
+    Message& operator=(const Message& autre) {
+        cout << "   [=] ASSIGNATION au Message (\"" << this->texte
+            << "\") de la valeur (\"" << autre.texte << "\"). Pas de nouvel objet." << endl;
+
+        if(this != &autre) {
+            this -> texte = autre.texte;
+        }
+        return *this;
+    }
 };
 
 int main() {
-    cout << "\n1. Création d'un objet simple (m1)..." << endl;
-    Message m1("m1: Objet sur la pile");
+    cout << "--- Début ---" << endl;
 
+    // 1. Création simple
+    Message m1("Original");
 
-    cout << "\n2. Entrée dans une portée locale..." << endl;
-    { // Début de la portée
-        Message m2("m2: Objet local");
-        cout << "   -> Fin de la portée locale." << endl;
-    } // La portée se termine ici, m2 va être détruit.
-    cout << "   -> Portée locale terminée." << endl;
+    // 2. Initialisation par copie -> appelle le CONSTRUCTEUR DE COPIE
+    cout << "\n--- Initialisation de m2 a partir de m1 ---" << endl;
+    Message m2 = m1; // ou Message m2(m1); même chose
 
-    // Exemple 3: Un objet dynamique sur le tas (heap)
-    cout << "\n3. Création d'un objet dynamique (m3)..." << endl;
-    Message* ptr_m3 = new Message("m3: Objet sur le tas");
-    cout << "   -> Objet dynamique créé. Il ne sera pas détruit automatiquement." << endl;
-    cout << "   -> Appel manuel de delete..." << endl;
-    delete ptr_m3; // Nous devons le détruire manuellement !
-    cout << "   -> Objet dynamique détruit." << endl;
+    // 3. Assignation -> appelle l'OPERATEUR D'ASSIGNATION
+    cout << "\n--- Assignation de m1 a m3 ---" << endl;
+    Message m3("Autre");
+    m3 = m1; // m3 existe déjà, on ne fait que le modifier
 
-    cout << "\n--- Fin de main ---" << endl;
-
-
-
+    cout << "\n--- Fin ---" << endl;
     return 0;
 }
