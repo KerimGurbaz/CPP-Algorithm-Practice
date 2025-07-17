@@ -1820,18 +1820,6 @@ int main() {
 
     return 0;
 }
-*/
-#include <iostream>
-#include <vector>
-#include <ostream>
-#include <utility>
-#include <string>
-#include <map>
-#include <algorithm>
-#include <cmath>
-using namespace std;
-#include <iomanip>
-
 class Point {
 private:
     static int nextId;
@@ -1910,6 +1898,58 @@ int main() {
 
     cout << "Nombre de points : " << Point::getNbPoints() << endl;
     cout << "-------------------------------------------" << endl;
+
+    return 0;
+}
+*/
+#include <iostream>
+#include <vector>
+#include <ostream>
+#include <utility>
+#include <string>
+#include <map>
+#include <algorithm>
+#include <cmath>
+using namespace std;
+#include <iomanip>
+
+
+class Message {
+private:
+    string texte;
+
+public:
+    Message(const string &s) : texte(s) {
+        cout << "   [+] Création du Message (\"" << texte << "\")" << endl;
+    }
+    ~Message() {
+        cout << "   [-] Destruction du Message (\"" << texte << "\")" << endl;
+    }
+};
+
+int main() {
+    cout << "\n1. Création d'un objet simple (m1)..." << endl;
+    Message m1("m1: Objet sur la pile");
+
+
+    cout << "\n2. Entrée dans une portée locale..." << endl;
+    { // Début de la portée
+        Message m2("m2: Objet local");
+        cout << "   -> Fin de la portée locale." << endl;
+    } // La portée se termine ici, m2 va être détruit.
+    cout << "   -> Portée locale terminée." << endl;
+
+    // Exemple 3: Un objet dynamique sur le tas (heap)
+    cout << "\n3. Création d'un objet dynamique (m3)..." << endl;
+    Message* ptr_m3 = new Message("m3: Objet sur le tas");
+    cout << "   -> Objet dynamique créé. Il ne sera pas détruit automatiquement." << endl;
+    cout << "   -> Appel manuel de delete..." << endl;
+    delete ptr_m3; // Nous devons le détruire manuellement !
+    cout << "   -> Objet dynamique détruit." << endl;
+
+    cout << "\n--- Fin de main ---" << endl;
+
+
 
     return 0;
 }
