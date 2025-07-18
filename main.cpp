@@ -1901,33 +1901,26 @@ int main() {
 
     return 0;
 }
-*/
-#include <iostream>
-#include <vector>
-#include <ostream>
-#include <utility>
-#include <string>
-#include <map>
-#include <algorithm>
-#include <cmath>
-using namespace std;
-#include <iomanip>
 
 
 class Message {
 private:
     string texte;
+    static int compteur_instances;
 
 public:
     Message(const string &s) : texte(s) {
         cout << "   [+] Création du Message (\"" << texte << "\")" << endl;
+        compteur_instances++;
     }
     ~Message() {
         cout << "   [-] Destruction du Message (\"" << texte << "\")" << endl;
+        compteur_instances--;
     }
 
   Message(const Message& autre):texte(autre.texte) {
         cout << "   [=>] COPIE du Message (\"" << texte << "\"). Un nouvel objet est ne." << endl;
+        compteur_instances++;
     }
 
     Message& operator=(const Message& autre) {
@@ -1939,7 +1932,12 @@ public:
         }
         return *this;
     }
+    static int getNbMessages() {
+        return compteur_instances;
+    }
 };
+
+int Message::compteur_instances = 0;
 
 int main() {
     cout << "--- Début ---" << endl;
@@ -1958,4 +1956,97 @@ int main() {
 
     cout << "\n--- Fin ---" << endl;
     return 0;
+}
+*/
+#include <iostream>
+#include <vector>
+#include <ostream>
+#include <utility>
+#include <string>
+#include <map>
+#include <algorithm>
+#include <cmath>
+using namespace std;
+#include <iomanip>
+
+class Voiture {
+private:
+    double capacite_reservoir;
+    double consommation_moyenne;
+    double nb_litres_restants;
+
+    static double prix_essence;
+
+public:
+    Voiture(double capacite, double consommation):
+    capacite_reservoir(capacite),
+    consommation_moyenne(consommation),
+    nb_litres_restants(capacite){}
+
+    double effectuerTrajet(double distance) {
+        double litres_necessaires= distance * consommation_moyenne/100.0;
+
+        if(litres_necessaires > nb_litres_restants) {
+            double litre_manquants = litres_necessaires - nb_litres_restants;
+            int nb_pleints = ceil(litre_manquants / capacite_reservoir);
+
+            nb_litres_restants += nb_pleints * capacite_reservoir;
+        }
+
+        nb_litres_restants -= litres_necessaires;
+
+        return litres_necessaires * prix_essence;
+    }
+
+    double getCapacite()const{
+            return capacite_reservoir;
+        }
+double getConsommation()const {
+        return consommation_moyenne;
+    }
+
+    double getNbLitresRestant()const {
+        return nb_litres_restants;
+    }
+
+    static double getPrixEssence() {
+        return prix_essence;
+    }
+
+    static void setPrixEssence(double nouveau_prix) {
+        prix_essence = nouveau_prix;
+    }
+};
+
+double Voiture::prix_essence = 1.70;
+
+void afficherPrixEssence(double prix) {
+    cout<<"Prix de l'essence : "<<fixed<<setprecision(2)<<prix<<"Frs"<<endl<<endl;
+}
+
+void afficherVoiture(const Voiture& v) {
+    cout<<"Capacite du reservoir [l]    :"<<v.getCapacite()<<endl;
+    cout<<"Consommation moyenne [l/100km] : "<<v.getConsommation()<<endl;
+    cout<<"Nb litres restants   :"<<fixed<<setprecision(1)<<v.getNbLitresRestant()<<endl;
+}
+
+void afficherCoutTrajet(double cout_trajet) {
+    cout<<"Cout du trajet : "<<fixed<<setprecision(2)<<cout_trajet<<"Frs"<<endl<<endl;
+}
+
+int main() {
+    afficherPrixEssence(Voiture::getPrixEssence());
+
+    Voiture::setPrixEssence(1.95);
+    afficherPrixEssence(Voiture::getPrixEssence());
+
+    Voiture v(52, 6.7);
+
+    afficherVoiture(v);
+    afficherCoutTrajet(v.effectuerTrajet(1000));
+    afficherVoiture(v);
+    afficherCoutTrajet(v.effectuerTrajet(200));
+    afficherVoiture(v);
+
+    return EXIT_SUCCESS;
 }
