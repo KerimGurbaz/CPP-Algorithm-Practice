@@ -2118,18 +2118,6 @@ int main() {
 
     return EXIT_SUCCESS;
 }
-*/
-#include <iostream>
-#include <vector>
-#include <ostream>
-#include <utility>
-#include <string>
-#include <map>
-#include <algorithm>
-#include <cmath>
-using namespace std;
-#include <iomanip>
-
 
 #ifndef POINT_H
 #define POINT_H
@@ -2229,3 +2217,105 @@ int main() {
     cout << "-------------------------------------------" << endl;
 
     return 0;
+
+*/
+#include <iostream>
+#include <vector>
+#include <ostream>
+#include <utility>
+#include <string>
+#include <map>
+#include <algorithm>
+#include <cmath>
+using namespace std;
+#include <iomanip>
+
+
+#ifndef VOITURE_H
+#define VOITURE_H
+class Voiture {
+private:
+    double capacite_reservoir;
+    double consommation_moyenne;
+    double nb_litres_restants;
+
+    static double prix_essence;
+
+public:
+    Voiture(double capacite, double consommation);
+
+    double effectuerTrajet(double distance);
+    double getCapacite() const;
+    double getConsommation()const;
+    double getNbLitresRestants()const;
+
+    static double getPrixEssence();
+    static void setPrixEssence(double nouveau_prix);
+};
+
+void afficherPrixEssence(double prix);
+void afficherVoiture(const Voiture& v);
+void afficherCoutTrajet(double cout_trajet);
+
+
+
+#endif
+
+//voiture.__cpp
+
+#include <Voiture.h>
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+using namespace std;
+
+double Voiture::prix_essence = 1.70;
+
+Voiture::Voiture(double capacite, double consommation)
+    :capacite_reservoir(capacite),
+consommation_moyenne(consommation),
+nb_litres_restants(capacite){}
+
+double Voiture::effectuerTrajet(double distance) {
+    double litres_necessaires = distance * consommation_moyenne/100.0;
+    if(litres_necessaires > nb_litres_restants) {
+        double litres_manquants = litres_necessaires -nb_litres_restants;
+        int nb_pleins = ceil(litres_manquants / capacite_reservoir);
+        nb_litres_restants += nb_pleins * capacite_reservoir;
+    }
+    nb_litres_restants -= litres_necessaires;
+    return litres_necessaires * prix_essence;
+}
+
+double Voiture::getCapacite()const {
+    return capacite_reservoir;
+}
+
+double Voiture::getConsommation()const {
+    return consommation_moyenne;
+}
+double Voiture::getNbLitresRestants() const {
+    return nb_litres_restants;
+}
+
+double Voiture::getPrixEssence() {
+    return prix_essence;
+}
+
+void Voiture::setPrixEssence(double nouveau_prix) {
+    prix_essence = nouveau_prix;
+}
+
+void afficherPrixEssence(double prix) {
+    cout << "Prix de l'essence : " << fixed << setprecision(2) << prix << " Frs" << endl << endl;
+}
+void afficherVoiture(const Voiture& v) {
+    cout << "Capacite du reservoir [l]      : " << v.getCapacite() << endl;
+    cout << "Consommation moyenne [l/100km] : " << v.getConsommation() << endl;
+    cout << "Nb litres restants             : " << fixed << setprecision(1) << v.getNbLitresRestants() << endl << endl;
+}
+
+
+void afficherCoutTrajet(double cout_trajet) {
+    cout << "Cout du trajet : " << fixed << setprecision(2) << cout_trajet << " Frs" << endl << endl;
+}
