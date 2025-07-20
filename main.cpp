@@ -2036,19 +2036,7 @@ int main() {
 
         return EXIT_SUCCESS;
     }
-*/
-#include <iostream>
-#include <vector>
-#include <ostream>
-#include <utility>
-#include <string>
-#include <map>
-#include <algorithm>
-#include <cmath>
-using namespace std;
-#include <iomanip>
-
-class Voiture {
+    class Voiture {
 private:
     double capacite_reservoir;
     double consommation_moyenne;
@@ -2130,3 +2118,114 @@ int main() {
 
     return EXIT_SUCCESS;
 }
+*/
+#include <iostream>
+#include <vector>
+#include <ostream>
+#include <utility>
+#include <string>
+#include <map>
+#include <algorithm>
+#include <cmath>
+using namespace std;
+#include <iomanip>
+
+
+#ifndef POINT_H
+#define POINT_H
+
+class Point {
+private:
+    double x;
+    double y;
+    double xMax;
+    double yMax;
+    const int id;
+
+    static int nextId;
+    static int nbPoints;
+
+    public:
+    Point(double x_val=0.0, double y_val =0.0, double xMax_val=100.0, double yMax_val=100.0);
+    Point(const Point& other);
+
+    //Declaration du destructeur
+    ~Point();
+
+    Point& operator=(const Point& other);
+
+    void afficher() const;
+
+    static int getNbPoints();
+
+};
+
+#endif
+
+
+
+#include "Point.h"
+#include <iostream>
+using namespace std;
+
+int Point::nextId =1;
+int Point::nbPoints = 0;
+
+Point::Point(double x_val, double y_val, double xMax_val, double yMax_val):
+x(x_val), y(y_val), xMax(xMax_val), yMax(yMax_val), id(nextId++) {
+    nbPoints++;
+}
+
+Point::Point(const Point& other)
+    : x(other.x), y(other.y), xMax(other.xMax), yMax(other.yMax), id(nextId++) {
+    nbPoints++;
+}
+
+Point::~Point() {
+    nbPoints --;
+}
+
+Point& Point::operator=(const Point& other) {
+    if(this != &other) {
+        this ->x =  other.x;
+        this-> y = other.y;
+        this -> xMax = other.xMax;
+        this -> yMax = other.yMax;
+    }
+    return *this;
+}
+
+
+void Point::afficher()const {
+    cout<<"Point ID = "<<id<<", ("<<x<<","<<y<<"), MaxX = "<<xMax<<", MaxY = "<<yMax<<endl;
+}
+
+int Point::getNbPoints() {
+    return nbPoints;
+}
+
+//main.cpp
+#include <iostream>
+#include "Point.h"
+int main() {
+    Point p1(1.2, 2.4);
+    p1.afficher();
+
+    cout << "Nombre de points : " << Point::getNbPoints() << endl;
+    cout << "-------------------------------------------" << endl;
+
+    {
+        Point p2(3., 4.2, 10., 10.);
+        p2.afficher();
+
+        cout << "Nombre de points : " << Point::getNbPoints() << endl;
+        cout << "-------------------------------------------" << endl;
+    } // Le destructeur de p2 est appelé ici
+
+    Point p3(5, 10);
+    p3.afficher();
+
+    cout << "Nombre de points : " << Point::getNbPoints() << endl;
+    cout << "-------------------------------------------" << endl;
+
+    return 0;
