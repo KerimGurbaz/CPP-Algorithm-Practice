@@ -2217,20 +2217,6 @@ int main() {
     cout << "-------------------------------------------" << endl;
 
     return 0;
-
-*/
-#include <iostream>
-#include <vector>
-#include <ostream>
-#include <utility>
-#include <string>
-#include <map>
-#include <algorithm>
-#include <cmath>
-using namespace std;
-#include <iomanip>
-
-
 #ifndef VOITURE_H
 #define VOITURE_H
 class Voiture {
@@ -2319,3 +2305,138 @@ void afficherVoiture(const Voiture& v) {
 void afficherCoutTrajet(double cout_trajet) {
     cout << "Cout du trajet : " << fixed << setprecision(2) << cout_trajet << " Frs" << endl << endl;
 }
+#ifndef MESSAGE_H
+#define MESSAGE_H
+
+#include <string>
+#include <vector>
+#include <ctime> // time et date
+
+class Message {
+private:
+    string expediteur;
+    string destinateur;
+    vector<string> contenu;
+
+    const time_t dateCreation;
+
+public:
+    Message(string& sender, string& recipient);
+
+    void ajouter(const string& ligne);
+
+    string toString()const;
+
+    void afficcher()const;
+};
+
+
+#endif
+
+#include "message.h"
+#include <iostream>
+#include <sstream>
+
+Message::Message(const string& sender, const string& recipient)
+    :expediteur(sender),
+destinateur(recipient),
+dateCreation(time(nullptr)) {}
+
+void Message::ajouter (const string& ligne) {
+    contenu.push_back(ligne);
+}
+
+string Message::toString()const {
+    char buffer[100];
+    strftime(buffer, sizeof(buffer),"%d.%m.%Y %X", localtime(&dateCreation));
+
+    stringstream ss;
+
+    ss<< "From: "<<expediteur<<"\n"
+    <<"To   : "<< destinateur<<"\n"
+    <<"Date : "<<buffer<<"\n\n";
+
+    for(const auto & ligne : contenu) {
+        ss<<ligne<<"\n";
+    }
+
+    return ss.str();
+}
+
+void Message::afficher()const {
+    cout<<this->toString();
+}
+*/
+#include <iostream>
+#include <vector>
+#include <ostream>
+#include <utility>
+#include <string>
+#include <map>
+#include <algorithm>
+#include <cmath>
+using namespace std;
+#include <iomanip>
+
+#ifndef
+#define
+#include <ctime>
+
+class Message {
+private:
+    string expediteur;
+    string destinataire;
+    vector<string> contenu;
+    const time_t date_creation;
+
+public:
+    Message(const string& exp, const string& dest);
+    void ajouter(const string& ligne);
+    string toString()const;
+    void afficher()const;
+};
+#endif
+
+#include "message.h"
+#include <iostream>
+#include <sstream>
+#include <iomanip>
+using namespace std;
+
+Message::Message(const string& exp, const string& dest)
+    :expediteur(exp),
+destinataire(dest),
+date_creation(time(nullptr)){}
+
+void Message::ajouter(const string &ligne) {
+    contenu.push_back(ligne);
+}
+
+string Message::toString() const {
+    stringstream ss;
+    const string FORMAT = "%d.%m.%Y %X";
+
+    char buffer[256];
+
+    strftime(buffer, sizeof(buffer), FORMAT.c_str(), localtime(&date_creation));
+
+    ss<<"From   : "<<expediteur<<"\n"
+    <<"To   : "<<destinataire<<"\n"
+    <<"Date     : "<<buffer<<"\n\n";
+
+    for(const auto& ligne : contenu) {
+        ss<<ligne<<"\n";
+    }
+
+    return ss.str();
+}
+
+void Message::afficher() const {
+    cout<<this -> toString();
+}
+
+
+
+
+
+
