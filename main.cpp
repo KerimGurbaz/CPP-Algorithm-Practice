@@ -2435,16 +2435,16 @@ void Message::afficher() const {
 
 using namespace std;
 
-template <typename T1, typename T2>
+template<typename T1, typename T2>
 ostream& operator<<(ostream& os, const pair<T1, T2>& p) {
     os<<p.first<<" => "<<p.second;
     return os;
 }
 
-template <typename T>
+template<typename T>
 void display(T first, T last) {
-    for(auto it = first; it != last ; ++it) {
-        cout<<*it << "\t"<<static_cast<const void*>(&(*it))<<endl;
+    for(T it = first; it != last; ++it) {
+        cout<<*it<<"\t"<<static_cast<const void*>(&(*it))<<endl;
     }
     cout<<endl;
 }
