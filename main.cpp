@@ -2423,18 +2423,6 @@ string Message::toString() const {
 void Message::afficher() const {
     cout<<this -> toString();
 }
-
-*/
-#include <iostream>
-#include <string>
-#include <vector>
-#include <array>
-#include <list>
-#include <utility>
-#include <map>
-
-using namespace std;
-
 template<typename T1, typename T2>
 ostream& operator<<(ostream& os, const pair<T1, T2>& p) {
     os<<p.first<<" => "<<p.second;
@@ -2473,8 +2461,40 @@ int main() {
     return 0;
 }
 
+*/
+#include <iostream>
+#include <string>
+#include <vector>
+#include <array>
+#include <list>
+#include <utility>
+#include <map>
+
+using namespace std;
 
 
+template<typename Iterator>
+void display(Iterator first, Iterator last) {
+    cout<<"[";
+    for(Iterator it = first; it != last; ++it){
+        if(it != first) cout<<", ";
+        cout<<*it;
+    }
+    cout<<"]\n";
+}
+
+int main() {
+    vector v  {1, 2, 3, 4};
+    display(v.cbegin(), v.cend());
+
+    vector<int>::const_iterator begin = v.cbegin();
+    vector<int>::const_iterator end   = v.cend();
+
+    v.push_back(5);
+
+    display(v.cbegin(), v.cend());
+    display(begin, end);
+}
 
 
 
