@@ -2366,17 +2366,6 @@ string Message::toString()const {
 void Message::afficher()const {
     cout<<this->toString();
 }
-*/
-#include <iostream>
-#include <vector>
-#include <ostream>
-#include <utility>
-#include <string>
-#include <map>
-#include <algorithm>
-#include <cmath>
-using namespace std;
-#include <iomanip>
 
 #ifndef
 #define
@@ -2433,6 +2422,55 @@ string Message::toString() const {
 
 void Message::afficher() const {
     cout<<this -> toString();
+}
+
+*/
+#include <iostream>
+#include <string>
+#include <vector>
+#include <array>
+#include <list>
+#include <utility>
+#include <map>
+
+using namespace std;
+
+template <typename T1, typename T2>
+ostream& operator<<(ostream& os, const pair<T1, T2>& p) {
+    os<<p.first<<" => "<<p.second;
+    return os;
+}
+
+template <typename T>
+void display(T first, T last) {
+    for(auto it = first; it != last ; ++it) {
+        cout<<*it << "\t"<<static_cast<const void*>(&(*it))<<endl;
+    }
+    cout<<endl;
+}
+
+
+int main() {
+    array  a  {1, 2, 3};
+    vector v  {1.1, 2.2, 3.3};
+    string s  ("HEIG-VD"s);
+    list   l  {"chien"s, "chat"s, "souris"s};
+
+    cout << "array"   << endl;    display(a.cbegin(), a.cend());
+    cout << "vector"  << endl;    display(v.cbegin(), v.cend());
+    cout << "string"  << endl;    display(s.cbegin(), s.cend());
+    cout << "list"    << endl;    display(l.cbegin(), l.cend());
+
+    map<string, int> scores = {
+        {"Alice", 100},
+        {"Bob", 95},
+        {"Charlie", 105}
+    };
+
+    cout << "map" << endl;
+    display(scores.cbegin(), scores.cend());
+
+    return 0;
 }
 
 
