@@ -2461,18 +2461,6 @@ int main() {
     return 0;
 }
 
-*/
-#include <iostream>
-#include <string>
-#include <vector>
-#include <array>
-#include <list>
-#include <utility>
-#include <map>
-
-using namespace std;
-
-
 template<typename Iterator>
 void display(Iterator first, Iterator last) {
     cout<<"[";
@@ -2494,6 +2482,68 @@ int main() {
 
     display(v.cbegin(), v.cend());
     display(begin, end);
+}
+
+
+*/
+#include <iostream>
+#include <string>
+#include <vector>
+#include <array>
+#include <iterator>
+
+using namespace std;
+
+template<typename Iterator>
+vector<typename iterator_traits<Iterator>::value_type>
+concat_tab_boucle(Iterator first1, Iterator last1, Iterator first2, Iterator last2) {
+    using T = typename iterator_traits<Iterator>::value_type;
+    vector<T> resultat;
+    for(Iterator it = first1; it != last1; ++it) {
+        resultat.push_back(*it);
+    }
+
+    for(Iterator it = first2 ; it != last2 ; ++it) {
+        resultat.push_back(*it);
+    }
+    return resultat;
+}
+
+
+template<typename Iterator>
+vector<typename iterator_traits<Iterator>::value_type>
+concat_tab_sans_boucle(Iterator first1, Iterator last1, Iterator first2, Iterator last2) {
+    using T = typename iterator_traits<Iterator>::value_type;
+    vector<T> resultat(first1, last1);
+
+    resultat.insert(resultat.end(), first2, last2);
+    return resultat;
+}
+
+template<typename T>
+void display(const vector<T>& v) {
+    cout<<"[";
+    for(size_t i =0; i<v.size(); ++i) {
+        cout<<v[i]<<(i == v.size()-1 ? "" : ", ");
+    }
+    cout<<"]"<<endl;
+}
+int main() {
+    vector<int> v = {11, 12, 13};
+    array<int, 5> a = {21, 22, 23, 24, 25};
+
+    cout << "vector   : "; display({v.begin(), v.end()});
+    cout << "array    : "; display({a.begin(), a.end()});
+
+    // Test de la solution 1
+    auto resultat1 = concat_tab_boucle(v.begin(), v.end(), a.begin(), a.end());
+    cout << "resultat (avec boucle) : "; display(resultat1);
+
+    // Test de la solution 2
+    auto resultat2 = concat_tab_sans_boucle(v.begin(), v.end(), a.begin(), a.end());
+    cout << "resultat (sans boucle) : "; display(resultat2);
+
+    return 0;
 }
 
 
