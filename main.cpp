@@ -2543,16 +2543,31 @@ int main() {
 #include <array>
 #include <iterator>
 #include <span>
-
 using namespace std;
-template<typename T>
-ostream& operator<<(ostream& os, span<T> s) {
-    os<<"[";
-    for(size_t i =0 ; i<s.size(); ++i) {
-        if(i) {
-            os<<",";
-            os<<s[i];
-        }
-        return os<<"]";
+
+template<typename Iterator1, typename Iterator2>
+auto merge(Iterator1 first1, Iterator1 last1,
+            Iterator2 first2, Iterator2 last2) {
+    using T = typename iterator_traits<Iterator1>::value_type;
+    vector<T> resultat;
+
+    resultat.reverse(distance(first1, last1) + distance(first2, last2));
+
+    while(first1 != last1 && first2 != last2) {
+        resultat.push_back(*first1++);
+        resultat.push_back(*first2++);
     }
+
+    while(first1 != last1) {
+        resultat.push_back(*first1++);
+    }
+    while(first2 != last2) {
+        resultat.push_back(*first2++);
+    }
+    return resultat;
+}
+
+template<typename T>
+void display(const T& conatiner) {
+    cout<<"[";
 }
