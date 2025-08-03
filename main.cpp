@@ -2484,16 +2484,6 @@ int main() {
     display(begin, end);
 }
 
-
-*/
-#include <iostream>
-#include <string>
-#include <vector>
-#include <array>
-#include <iterator>
-
-using namespace std;
-
 template<typename Iterator>
 vector<typename iterator_traits<Iterator>::value_type>
 concat_tab_boucle(Iterator first1, Iterator last1, Iterator first2, Iterator last2) {
@@ -2546,5 +2536,23 @@ int main() {
     return 0;
 }
 
+*/
+#include <iostream>
+#include <string>
+#include <vector>
+#include <array>
+#include <iterator>
+#include <span>
 
-
+using namespace std;
+template<typename T>
+ostream& operator<<(ostream& os, span<T> s) {
+    os<<"[";
+    for(size_t i =0 ; i<s.size(); ++i) {
+        if(i) {
+            os<<",";
+            os<<s[i];
+        }
+        return os<<"]";
+    }
+}
