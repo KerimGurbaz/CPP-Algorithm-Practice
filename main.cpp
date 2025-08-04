@@ -2536,15 +2536,6 @@ int main() {
     return 0;
 }
 
-*/
-#include <iostream>
-#include <string>
-#include <vector>
-#include <array>
-#include <iterator>
-#include <span>
-using namespace std;
-
 template<typename Iterator1, typename Iterator2>
 auto merge(Iterator1 first1, Iterator1 last1,
             Iterator2 first2, Iterator2 last2) {
@@ -2588,6 +2579,41 @@ int main() {
 
     auto resultat = merge(v.begin(), v.end(), a.begin(), a.end());
     cout << "resultat : "; display(resultat);
+
+    return 0;
+}
+
+*/
+#include <iostream>
+#include <string>
+#include <vector>
+#include <array>
+#include <iterator>
+#include <span>
+using namespace std;
+
+template<typename T>
+auto count_in_range_loop(const vector<T>& vec, T min_el, T max_el) {
+    int count = 0;
+    for(const T& el : vec) {
+        if(el >= min_el && el <= max_el) {
+            count++;
+        }
+    }
+    return count;
+}
+
+int main() {
+    std::vector<int> vecteur = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    int min_intervalle = 3;
+    int max_intervalle = 6;
+
+    int resultat = count_in_range_loop(vecteur, min_intervalle, max_intervalle);
+
+    std::cout << "Approche 1 (Boucle Manuelle)" << std::endl;
+    std::cout << "Vecteur    : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" << std::endl;
+    std::cout << "Intervalle : [" << min_intervalle << ", " << max_intervalle << "]" << std::endl;
+    std::cout << "Résultat   : " << resultat << std::endl; // Doit afficher 4
 
     return 0;
 }
