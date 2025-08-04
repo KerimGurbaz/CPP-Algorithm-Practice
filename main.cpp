@@ -4,6 +4,7 @@
 #include <string>
 #include <iterator>
 #include <algorithm>
+#include <emmintrin.h>
 #include <set>
 #include <bits/allocated_ptr.h>
 using namespace std;
@@ -2583,15 +2584,6 @@ int main() {
     return 0;
 }
 
-*/
-#include <iostream>
-#include <string>
-#include <vector>
-#include <array>
-#include <iterator>
-#include <span>
-using namespace std;
-
 template<typename T>
 auto count_in_range_loop(const vector<T>& vec, T min_el, T max_el) {
     int count = 0;
@@ -2613,6 +2605,40 @@ int main() {
     std::cout << "Approche 1 (Boucle Manuelle)" << std::endl;
     std::cout << "Vecteur    : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" << std::endl;
     std::cout << "Intervalle : [" << min_intervalle << ", " << max_intervalle << "]" << std::endl;
+    std::cout << "Résultat   : " << resultat << std::endl; // Doit afficher 4
+
+    return 0;
+}
+
+
+*/
+#include <iostream>
+#include <string>
+#include <vector>
+#include <array>
+#include <iterator>
+#include <span>
+#include <algorithm>
+using namespace std;
+
+template<typename T>
+int count_in_range_stl(const vector<T>& vec, T min_el, T max_el) {
+    return count_if(vec.begin(), vec.end(),
+        [min_el, max_el](const T& el) {
+            return el >= min_el && el <= max_el;
+        });
+}
+
+
+
+int main() {
+    std::vector<int> vecteur = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    int min_intervalle = 3;
+    int max_intervalle = 6;
+
+    int resultat = count_in_range_stl(vecteur, min_intervalle, max_intervalle);
+
+    std::cout << "\nApproche 2 (STL avec count_if et lambda)" << std::endl;
     std::cout << "Résultat   : " << resultat << std::endl; // Doit afficher 4
 
     return 0;
