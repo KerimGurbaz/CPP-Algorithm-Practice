@@ -2551,7 +2551,7 @@ auto merge(Iterator1 first1, Iterator1 last1,
     using T = typename iterator_traits<Iterator1>::value_type;
     vector<T> resultat;
 
-    resultat.reverse(distance(first1, last1) + distance(first2, last2));
+    resultat.reserve(distance(first1, last1) + distance(first2, last2));
 
     while(first1 != last1 && first2 != last2) {
         resultat.push_back(*first1++);
@@ -2568,6 +2568,26 @@ auto merge(Iterator1 first1, Iterator1 last1,
 }
 
 template<typename T>
-void display(const T& conatiner) {
+void display(const T& container) {
     cout<<"[";
+    for(auto it = container.begin(); it != container.end(); ++it) {
+        if(it != container.begin()) cout<<", ";
+        cout<<*it;
+    }
+    cout<<"]";
+    cout<<endl<<endl;
+}
+
+int main() {
+   // vector<string> v = {"ker", "im", "selam"};
+    vector<int> v = {11, 12, 13};
+    array<int, 5> a = {21, 22, 23, 24, 25};
+
+    cout << "vector   : "; display(v);
+    cout << "array    : "; display(a);
+
+    auto resultat = merge(v.begin(), v.end(), a.begin(), a.end());
+    cout << "resultat : "; display(resultat);
+
+    return 0;
 }
