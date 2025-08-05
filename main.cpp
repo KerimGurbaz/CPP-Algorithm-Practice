@@ -2610,17 +2610,6 @@ int main() {
     return 0;
 }
 
-
-*/
-#include <iostream>
-#include <string>
-#include <vector>
-#include <array>
-#include <iterator>
-#include <span>
-#include <algorithm>
-using namespace std;
-
 template<typename T>
 int count_in_range_stl(const vector<T>& vec, T min_el, T max_el) {
     return count_if(vec.begin(), vec.end(),
@@ -2640,6 +2629,166 @@ int main() {
 
     std::cout << "\nApproche 2 (STL avec count_if et lambda)" << std::endl;
     std::cout << "Résultat   : " << resultat << std::endl; // Doit afficher 4
+
+    return 0;
+}
+template<typename T>
+int count_in_range_sorted(const vector<T>& vec, T min_el, T max_el) {
+    auto lower = lower_bound(vec.begin(), vec.end(), min_el);
+    auto upper = upper_bound(vec.begin(), vec.end(), max_el);
+
+    return distance(lower, upper);
+}
+
+int main() {
+    // Le vecteur est déjà trié dans cet exemple.
+    std::vector<int> vecteur = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    int min_intervalle = 3;
+    int max_intervalle = 6;
+
+    // Si le vecteur n'était pas trié, il faudrait faire :
+    // std::sort(vecteur.begin(), vecteur.end());
+
+    int resultat = count_in_range_sorted(vecteur, min_intervalle, max_intervalle);
+
+    std::cout << "\nApproche 3 (Données triées)" << std::endl;
+    std::cout << "Résultat   : " << resultat << std::endl; // Doit afficher 4
+
+    return 0;
+}
+template<typename T>
+auto vect_iter_val(const vector<T>& v, const T& valeur) {
+    using const_it = typename vector<T>::const_iterator;
+
+    vector<const_it> iter_vec;
+
+    for(const_it it = v.cbegin(); it != v.cend(); ++it) {
+        if(*it == valeur) {
+            iter_vec.push_back(it);
+        }
+    }
+    return iter_vec;
+}
+
+template<typename T>
+void display(const vector<T>& v) {
+    cout<<"[";
+    for(size_t i = 0; i < v.size(); ++i) {
+        if(i) cout <<", ";
+        cout<<*v[i];
+    }
+    cout<<"]";
+}
+
+
+
+int main() {
+
+    const vector<int> v = {1, 2, 3, 2, 4, 2, 2, 6, 2};
+    int valeur_a_chercher = 2;
+
+    auto iterateurs = vect_iter_val(v, valeur_a_chercher);
+
+    display(iterateurs);
+
+    return 0;
+}
+
+template<typename T>
+vector<typename vector<T>::const_iterator>
+vect_iter_val(const vector<T>& vec, const T& val) {
+    using It_type = typename vector<T>::const_iterator;
+    vector<It_type> resultat_iters;
+
+    for(auto it = vec.cbegin(); it != vec.cend(); ++it) {
+        if(*it == val) {
+            resultat_iters.push_back(it);
+        }
+    }
+    return resultat_iters;
+}
+
+template<typename T>
+void display(const vector<T>& v) {
+    cout<<"[";
+    for(size_t i =0 ; i < v.size(); ++i) {
+        cout<<v[i]<<(i == v.size()-1 ? "" : ", ");
+    }
+    cout<<"]";
+}
+template<typename T>
+void display_iterateurs(const vector<typename vector<T>::const_iterator>& v_iters) {
+    cout<<"[";
+    for(size_t i =0; i < v_iters.size(); ++i) {
+        cout<<*v_iters[i]<<(i == v_iters.size()-1 ? "" : ", ");
+    }
+    cout<<"]";
+}
+
+int main() {
+    const vector v {1, 2, 3, 2, 4, 2, 2, 6, 2};
+    cout<<"vecteur d'entiers     : ";
+    display(v);
+
+    auto iterateurs_sur_2 = vect_iter_val(v, 2);
+}
+*/
+#include <iostream>
+#include <string>
+#include <vector>
+#include <array>
+#include <iterator>
+#include <span>
+#include <algorithm>
+#include <numeric>
+using namespace std;
+
+template<typename T>
+auto vect_iter_val_algo(const vector<T>& v, const T& valeur) {
+    using const_iterator = typename vector<T>::const_iterator;
+vector<const_iterator>iter_vec;
+
+    auto current_pos = v.cbegin();
+    while(true) {
+        auto found_it = find_if(current_pos , v.cend(),
+            [valeur](const T& element) {
+                return element == valeur;
+            }
+            );
+        if(found_it == v.cend()) {
+            break;
+        }
+        iter_vec.push_back(found_it);
+
+        current_pos = next(found_it);
+    }
+    return iter_vec;
+}
+
+template<typename T>
+
+void display_dereferenced(const vector<T>& iter_vec) {
+    cout<<"[";
+    for(auto it = iter_vec.begin(); it != iter_vec.end(); ++it) {
+        cout<<**it;
+        if(next(it) != iter_vec.end()) {
+            cout<<", ";
+        }
+    }
+    cout<<"]"<<endl;
+}
+
+int main() {
+    const std::vector<int> v = {1, 2, 3, 2, 4, 2, 2, 6, 2};
+    int valeur_a_chercher = 2;
+
+    std::cout << "--- Algorithmic Solution ---" << std::endl;
+
+    auto iterateurs = vect_iter_val_algo(v, valeur_a_chercher);
+
+    std::cout << "vecteur d'entiers     : [1, 2, 3, 2, 4, 2, 2, 6, 2]" << std::endl;
+    std::cout << "vecteur d'iterateurs  : ";
+    display_dereferenced(iterateurs);
 
     return 0;
 }
