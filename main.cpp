@@ -2732,16 +2732,6 @@ int main() {
 
     auto iterateurs_sur_2 = vect_iter_val(v, 2);
 }
-*/
-#include <iostream>
-#include <string>
-#include <vector>
-#include <array>
-#include <iterator>
-#include <span>
-#include <algorithm>
-#include <numeric>
-using namespace std;
 
 template<typename T>
 auto vect_iter_val_algo(const vector<T>& v, const T& valeur) {
@@ -2792,3 +2782,44 @@ int main() {
 
     return 0;
 }
+*/
+#include <iostream>
+#include <string>
+#include <vector>
+#include <array>
+#include <iterator>
+#include <span>
+#include <algorithm>
+#include <numeric>
+#include <unordered_set>
+using namespace std;
+
+template<typename T>
+bool meme_elements(span<const T>v1, span<const T> v2) {
+    unordered_set<T> a = {v1.begin(), v1.end()};
+    unordered_set<T> b = {v2.begin(), v2.end()};
+
+    return a == b;
+}
+int main() {
+    array<int, 10> a = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
+    vector<int>v = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2};
+
+    cout<<boolalpha;
+    cout << "Test 1 (Exemple de l'énoncé): Les conteneurs ont-ils les mêmes éléments ? "
+         << meme_elements<int>(a, v) << endl;
+
+    // Cas de test supplémentaire (doit retourner false)
+    vector<int> v_false = {1, 2, 3, 99};
+    cout << "Test 2 (Cas 'false'): Les conteneurs ont-ils les mêmes éléments ? "
+         << meme_elements<int>(a, v_false) << endl;
+
+    // Cas de test avec des conteneurs vides (doit retourner true)
+    vector<int> empty1, empty2;
+    cout << "Test 3 (Conteneurs vides): Les conteneurs ont-ils les mêmes éléments ? "
+         << meme_elements<int>(empty1, empty2) << endl;
+return 0;
+
+}
+
+
