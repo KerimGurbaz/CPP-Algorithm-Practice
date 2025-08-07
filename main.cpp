@@ -2859,30 +2859,24 @@ bool sont_anagrammes_map(const T1& c1, const T2& c2) {
 #include <unordered_set>
 #include <unordered_map>
 using namespace std;
-
-template <typename T>
+template<typename T>
 class Coord {
 private:
     T x;
     T y;
 
 public:
-    Coord():x(0), y(0){}
+    Coord():x(T{}), y(T{}){}
     Coord(T x_val, T y_val): x(x_val), y(y_val){}
 
     void setCoord(T new_x, T new_y) {
-        x = new_x;
-        y= new_y;
+        x = static_cast<T>(new_x);
+        y = static_cast<T>(new_y);
     }
 
-    void afficher() const {
-        cout<<"("<<x<<", "<<y<<")";
-    }
-
-    template <typename U>
-    void deplacer(U dx, U dy) {
-        x += static_cast<T>(dx);
-        y+= static_cast<T>(dy);
+    void deplacer(T new_x, T new_y) {
+        x += static_cast<T>(new_x);
+        y += static_cast<T>(new_y);
     }
 
     T getX()const {
@@ -2891,28 +2885,37 @@ public:
     T getY()const {
         return y;
     }
+
+    void afficher() const {
+        cout<<"("<<x<<", "<<y<<")";
+    }
+
+    Coord<T>& operator +=(const Coord<T>& other) {
+        this ->x += other.x;
+        this ->y += other.y;
+        return *this;
+    }
 };
 
-int main() {
-    cout << "origine  : ";
-    const Coord<int> origin;
-    origin.afficher();
-    cout << endl;
+template<typename T>
+Coord<T> operator+(const Coord<T>&a, const Coord<T>&b) {
+    return Coord<T>(a.getX() + b.getX(), a.getY() + b.getY());
+}
 
-    cout << "p1       : ";
-    Coord<int> p1;
-    p1.setCoord(1, 2);
+
+int main() {
+    Coord<int> p1(1, 2);
+    Coord<int> p2(3, 4);
+
+    cout << "p1 initial : ";
     p1.afficher();
     cout << endl;
 
-    cout << "p2       : ";
-    Coord<double> p2(3, 4);
-    p2.afficher();
-    cout << endl;
+    // Utilisation de l'opérateur +=
+    p1 += p2;
 
-    cout << "p2->     : ";
-    p2.deplacer(1, 1);   // Conversion implicite int => double
-    cout << "(" << p2.getX() << ", " << p2.getY() << ")";
+    cout << "p1 final   : ";
+    p1.afficher(); // Devrait afficher (4, 6)
     cout << endl;
 
     return 0;
