@@ -2890,16 +2890,19 @@ public:
         cout<<"("<<x<<", "<<y<<")";
     }
 
-    Coord<T>& operator +=(const Coord<T>& other) {
-        this ->x += other.x;
-        this ->y += other.y;
+Coord<T>& operator +=(const Coord<T>& other) {
+        this -> x += other.x;
+        this -> y += other.y;
         return *this;
     }
+
+
 };
 
 template<typename T>
-Coord<T> operator+(const Coord<T>&a, const Coord<T>&b) {
-    return Coord<T>(a.getX() + b.getX(), a.getY() + b.getY());
+Coord<T> operator +(Coord<T> lhs, const Coord<T>& rhs) {
+    lhs += rhs;
+    return lhs;
 }
 
 
