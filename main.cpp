@@ -2782,18 +2782,6 @@ int main() {
 
     return 0;
 }
-*/
-#include <iostream>
-#include <string>
-#include <vector>
-#include <array>
-#include <iterator>
-#include <span>
-#include <algorithm>
-#include <numeric>
-#include <unordered_set>
-using namespace std;
-
 template<typename T>
 bool meme_elements(span<const T>v1, span<const T> v2) {
     unordered_set<T> a = {v1.begin(), v1.end()};
@@ -2821,5 +2809,111 @@ int main() {
 return 0;
 
 }
+template<typename T>
+bool sont_anagrammes(span<const T> r1, span<const T>r2){
+    if(r1.size() != r2.size()) {
+        return false;
+    }
 
+    unordered_multiset<T> multiset1(r1.begin(), r1.end());
+    unordered_multiset<T> multiset2(r2.begin(), r2.end());
 
+    return multiset1 == multiset2;
+}
+
+int main() {
+    cout<<boolalpha;
+    vector<int> v1 = {1, 5, 2, 2};
+    array<int, 4> a1 = {2, 1, 5, 2};
+    cout << "Test 1 (Anagrammes): " << sont_anagrammes<int>(v1, a1) << endl;
+}
+template<typename T1, typename T2>
+bool sont_anagrammes_map(const T1& c1, const T2& c2) {
+    if(c1.size() != c2.size()) {
+        return false;
+    }
+
+    unordered_map<typename T1::value_type, int>frequences;
+    for(const auto& element : c1) {
+        frequences[element]++;
+    }
+
+    for(const auto& element : c2) {
+        if(frequences.find(element) == frequences.end() || frequences[element] == 0) {
+            return false;
+        }
+        frequences[element]--;
+    }
+    return true;
+}
+
+*/
+#include <iostream>
+#include <string>
+#include <vector>
+#include <array>
+#include <iterator>
+#include <span>
+#include <algorithm>
+#include <numeric>
+#include <unordered_set>
+#include <unordered_map>
+using namespace std;
+
+template <typename T>
+class Coord {
+private:
+    T x;
+    T y;
+
+public:
+    Coord():x(0), y(0){}
+    Coord(T x_val, T y_val): x(x_val), y(y_val){}
+
+    void setCoord(T new_x, T new_y) {
+        x = new_x;
+        y= new_y;
+    }
+
+    void afficher() const {
+        cout<<"("<<x<<", "<<y<<")";
+    }
+
+    template <typename U>
+    void deplacer(U dx, U dy) {
+        x += static_cast<T>(dx);
+        y+= static_cast<T>(dy);
+    }
+
+    T getX()const {
+        return x;
+    }
+    T getY()const {
+        return y;
+    }
+};
+
+int main() {
+    cout << "origine  : ";
+    const Coord<int> origin;
+    origin.afficher();
+    cout << endl;
+
+    cout << "p1       : ";
+    Coord<int> p1;
+    p1.setCoord(1, 2);
+    p1.afficher();
+    cout << endl;
+
+    cout << "p2       : ";
+    Coord<double> p2(3, 4);
+    p2.afficher();
+    cout << endl;
+
+    cout << "p2->     : ";
+    p2.deplacer(1, 1);   // Conversion implicite int => double
+    cout << "(" << p2.getX() << ", " << p2.getY() << ")";
+    cout << endl;
+
+    return 0;
+}
