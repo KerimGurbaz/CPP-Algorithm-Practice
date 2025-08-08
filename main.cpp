@@ -2910,20 +2910,6 @@ int main() {
 
     return 0;
 }
-
-*/
-#include <iostream>
-#include <string>
-#include <vector>
-#include <array>
-#include <iterator>
-#include <span>
-#include <algorithm>
-#include <numeric>
-#include <unordered_set>
-#include <unordered_map>
-using namespace std;
-
 template<typename T>
 class Coord {
 private:
@@ -3032,3 +3018,46 @@ template<typename T>
 
         return 0;
     }
+template<typename T>
+class Coord {
+private:
+    T x, y;
+public:
+    Coord(): x(T{}), y({}){}
+    Coord(T x_val, T y_Val): x (x_val), y(y_Val){}
+
+    template<typename U>
+    void deplacer()
+
+};
+
+
+
+*/
+#include <iostream>
+#include <string>
+#include <vector>
+#include <array>
+#include <iterator>
+#include <span>
+#include <algorithm>
+#include <numeric>
+#include <unordered_set>
+#include <unordered_map>
+#include <ostream>
+
+using namespace std;
+
+template<typename T>
+class Coord {
+private:
+    T x, y;
+public:
+    Coord() : x(T{}, T{}) {}
+    Coord(T x_val, T y_val): x(x_val), y(y_val){}
+
+    // getters
+
+
+};
+
