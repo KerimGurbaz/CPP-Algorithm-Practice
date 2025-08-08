@@ -2846,19 +2846,6 @@ bool sont_anagrammes_map(const T1& c1, const T2& c2) {
     }
     return true;
 }
-
-*/
-#include <iostream>
-#include <string>
-#include <vector>
-#include <array>
-#include <iterator>
-#include <span>
-#include <algorithm>
-#include <numeric>
-#include <unordered_set>
-#include <unordered_map>
-using namespace std;
 template<typename T>
 class Coord {
 private:
@@ -2923,3 +2910,125 @@ int main() {
 
     return 0;
 }
+
+*/
+#include <iostream>
+#include <string>
+#include <vector>
+#include <array>
+#include <iterator>
+#include <span>
+#include <algorithm>
+#include <numeric>
+#include <unordered_set>
+#include <unordered_map>
+using namespace std;
+
+template<typename T>
+class Coord {
+private:
+    T x;
+    T y;
+public:
+    Coord(): x(T{}), y(T{}){}
+    Coord(T x_val, T y_val):x(x_val), y(y_val){}
+
+    //Accesseurs(getters)
+    T getX()const {
+        return x;
+    }
+
+    T getY()const {
+        return y;
+    }
+
+    template<typename U>
+    void deplacer(U dx, U dy) {
+        x += static_cast<U>(dx);
+        y += static_cast<U>(dy);
+    }
+
+    void afficher()const {
+        cout<<"("<<x<<", "<<y<<")";
+    }
+};
+template<typename T>
+    class Point {
+    private:
+        string nom;
+        Coord<T> coord;
+
+    public:
+        Point():nom(""), coord(){}
+
+        explicit Point(const string& name_val) : nom(name_val), coord(){}
+        Point(const string& name_val, const Coord<T>& coord_val): nom(name_val), coord(coord_val){}
+        Point(const string & name_val, T x, T y):nom(name_val), coord(x,y){}
+
+        void setNom(const string& new_name) {
+            nom = new_name;
+        }
+
+        void setCoord(const Coord<T>& new_coord) {
+            coord = new_coord;
+        }
+
+        const string& getNom()const {
+            return nom;
+        }
+
+
+        const Coord<T>& getCoord()const {
+            return coord;
+        }
+
+        template<typename U>
+        void deplacer(U dx, U dy) {
+            coord.deplacer(dx, dy);
+        }
+        void afficher()const {
+            cout<<nom;
+            coord.afficher();
+        }
+
+};
+
+    int main() {
+        const Point<int> origin;
+
+        cout << "p1       : ";
+        Point<int> p1("p1"s);
+        p1.afficher();
+        cout << endl;
+
+        cout << "p2       : ";
+        Point<double> p2("p2"s, Coord(1.2, 3.4));
+        p2.afficher();
+        cout << endl;
+
+        cout << "p3       : ";
+        Point<double> p3("p3"s, 1.2, 3.4);
+        p3.afficher();
+        cout << endl;
+
+        cout << "p3.1     : ";
+        p3.setNom("p3.1"s);
+        p3.afficher();
+        cout << endl;
+
+        cout << "p1(-1, 1): ";
+        p1.setCoord(Coord(-1, 1));
+        p1.afficher();
+        cout << endl;
+
+        cout << "p1->     : ";
+        p1.deplacer(-1, 1);
+        p1.afficher();
+        cout << endl;
+
+        cout << "p1(x)    : ";
+        cout << p1.getNom() << " " << p1.getCoord().getX();
+        cout << endl;
+
+        return 0;
+    }
