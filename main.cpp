@@ -3030,22 +3030,6 @@ public:
     void deplacer()
 
 };
-
-
-
-*/
-#include <iostream>
-#include <string>
-#include <vector>
-#include <array>
-#include <iterator>
-#include <span>
-#include <algorithm>
-#include <numeric>
-#include <unordered_set>
-#include <unordered_map>
-#include <ostream>
-
 using namespace std;
 
 template<typename T>
@@ -3106,7 +3090,123 @@ int main() {
 
     return 0;
 }
+template <typename T>
+class Coord {
+private:
+    T x, y;
+
+public:
+    Coord():x(T{}), y(T{}){}
+    Coord(T x_val, T y_val): x (x_val), y(y_val){}
+
+    T getX() const {
+        return x;
+    }
+
+    T getY() const {
+        return y;
+    }
+
+    void afficher()const {
+        cout<<"("<<x<<", "<<y<<")";
+    }
+};
+
+template <typename T>
+class Point {
+private:
+    string nom;
+    Coord<T> coord;
+
+public:
+    Point():nom(""), coord(){}
+    explicit Point(const string& name_val) : nom(name_val), coord(){}
+    Point(const string& name_val, const Coord<T>& coord_val) : nom(name_val), coord(coord_val){}
+    Point(const string& name_val, T x, T y) : nom(name_val), coord(x, y){}
+
+    const string& getNom()const {
+        return nom;
+    }
+
+    const Coord<T>& getCoord()const {
+        return coord;
+    }
+    void afficher()const {
+        cout<<nom<<"("<<coord.getX()<<", "<<coord.getY()<<")";
+    }
+};
+
+template<typename T>
+ostream& operator<<(ostream& os, const Coord<T>& c) {
+    os<<"("<<c.getX()<<", "<<c.getY()<<")";
+    return os;
+}
+template<typename T>
+ ostream& operator<<(ostream& os, const Point<T>& p) {
+    os<<p.getNom()<<p.getCoord();
+    return os;
+
+}
+
+int main() {
+    Point<double> p3("p3"s, 1.2, 3.4);
+
+    // Ancienne méthode
+    cout << "p3 (via .afficher) : ";
+    p3.afficher();
+    cout << endl;
+
+    // Nouvelle méthode idiomatique en C++
+    cout << "p3 (via operator<<)  : " << p3 << endl;
+
+    // On peut maintenant chaîner les affichages !
+    Point<int> p1("p1"s, 10, 20);
+    cout << "Deux points sur la meme ligne : " << p1 << " et " << p3 << endl;
+
+    return 0;
+}
 
 
+*/
+#include <iostream>
+#include <string>
+#include <vector>
+#include <array>
+#include <iterator>
+#include <span>
+#include <algorithm>
+#include <numeric>
+#include <unordered_set>
+#include <unordered_map>
+#include <ostream>
 
+using namespace std;
+
+template<typename T>
+class Coord {
+private:
+    T x, y;
+
+public:
+    Coord() : x(T{}), y(T{}){}
+    T getX()const {
+        return x;
+    }
+
+    T getY()const {
+        return y;
+    }
+};
+
+template <typename T>
+class Point{
+private:
+    string nom;
+    Coord<T> coord;
+
+public:
+    Point(string n, T x, T y) : nom(n), coord(x, y){}
+    con
+
+};
 
