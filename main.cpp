@@ -3210,21 +3210,6 @@ int main() {
     }
     return 0;
 }
-
-*/
-#include <iostream>
-#include <string>
-#include <vector>
-#include <array>
-#include <iterator>
-#include <span>
-#include <algorithm>
-#include <numeric>
-#include <unordered_set>
-#include <unordered_map>
-#include <ostream>
-
-using namespace std;
 template<typename T>
 class Coord {
     T x, y;
@@ -3303,3 +3288,79 @@ int main() {
 
     return 0;
 }
+*/
+#include <iostream>
+#include <string>
+#include <vector>
+#include <array>
+#include <iterator>
+#include <span>
+#include <algorithm>
+#include <numeric>
+#include <unordered_set>
+#include <unordered_map>
+#include <ostream>
+
+using namespace std;
+template<typename T>
+class Coord {
+    T x, y;
+public:
+    Coord(T x_val =0, T y_val=0): x(x_val), y(y_val){}
+    T getX()const{return x;}
+    T getY()const {return y;}
+};
+
+template<typename T>
+class Point {
+private:
+    string nom;
+    Coord<T> coord;
+
+public:
+    Point(string n, T x,T y) : nom(n), coord(x, y){}
+    const string& getNom()const{return nom;}
+    const Coord<T>& getCoord()const{return coord;}
+};
+
+template<typename T>
+ostream& operator<<(ostream& os, const Coord<T>& c) {
+    return os<<"("<<c.getX()<<", "<<c.getY()<<")";
+}
+
+template<typename T>
+ostream& operator<<(ostream& os, const Point<T>& p) {
+    return os<<p.getNom()<<p.getCoord();
+}
+
+template<typename T>
+void listerPoints(const vector<Point<T>>& points,
+    const string& titre,
+    ostream& os = cout) {
+    os<<titre<<endl;
+    os<<string(titre.length(), '-')<<endl;
+
+    if(points.empty()) {
+        os<<"la liste est vide."<<endl;
+        return;
+    }
+
+    for(const auto& point: points) {
+        os<<" - "<<point<<endl;
+    }
+}
+
+
+int main() {
+    vector<Point<int>> dessin {
+            {"p1",  1,  2}, {"p2",  4,  2}, {"p3",  9,  8},
+            {"p4", -1,  5}, {"p5",  3, -1}, {"p6",  7,  0}
+    };
+
+    // On appelle notre nouvelle fonction pour afficher le contenu du vecteur 'dessin'.
+    listerPoints(dessin, "Liste des points du dessin");
+
+    return 0;
+}
+
+
