@@ -3288,20 +3288,6 @@ int main() {
 
     return 0;
 }
-*/
-#include <iostream>
-#include <string>
-#include <vector>
-#include <array>
-#include <iterator>
-#include <span>
-#include <algorithm>
-#include <numeric>
-#include <unordered_set>
-#include <unordered_map>
-#include <ostream>
-
-using namespace std;
 template<typename T>
 class Coord {
     T x, y;
@@ -3363,4 +3349,74 @@ int main() {
     return 0;
 }
 
+*/
+#include <iostream>
+#include <string>
+#include <vector>
+#include <array>
+#include <iterator>
+#include <span>
+#include <algorithm>
+#include <numeric>
+#include <unordered_set>
+#include <unordered_map>
+#include <ostream>
 
+using namespace std;
+template<typename T>
+class Coord {
+private:
+    T x, y;
+public:
+    Coord() : x(T{}), y(T{}){}
+    Coord(T x_val, T y_val) : x(x_val), y(y_val){}
+    T getx()const{return x;}
+    T getY()const{return y;}
+    void afficher()const {
+        cout<<"("<<x << ", "<< y<<")";
+    }
+};
+
+template<typename T>
+class Point {
+private:
+    string nom;
+    Coord<T> coord;
+
+public:
+    Point(const string& n, T x_val, T y_val) : nom(n), coord(x_val, y_val){}
+    const string& getNom()const{ return nom;}
+    const Coord<T>& getCoord()const{return coord;}
+    void afficher()const {
+        cout<<nom;
+        coord.afficher();
+    }
+};
+
+template<typename Container>
+void listerPoint(const Container& points) {
+    cout<<"--- Liste des points ---";
+
+    for(const auto& point : points) {
+        point.afficher();
+        cout<<endl;
+    }
+    cout<<"----------------"<<endl;
+}
+
+int main() {
+    using namespace std::string_literals;
+
+    // Le même vecteur que dans l'exercice précédent
+    std::vector<Point<int>> dessin {{"p1",  1,  2},
+                                    {"p2",  4,  2},
+                                    {"p3",  9,  8},
+                                    {"p4", -1,  5},
+                                    {"p5",  3, -1},
+                                    {"p6",  7,  0}};
+
+    // Appel de notre nouvelle fonction générique
+    listerPoint(dessin);
+
+    return 0;
+}
