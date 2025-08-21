@@ -3165,7 +3165,51 @@ int main() {
 
     return 0;
 }
+template<typename T>
+class Coord {
+private:
+    T x, y;
+public:
+    Coord(T x_val =0, T y_val = 0): x(x_val), y(y_val){}
+    T getX() const {return x;}
+    T getY() const {return y;}
+};
+template<typename T>
+class Point {
+    string nom;
+    Coord<T> coord;
+public:
+    Point(string n, T x, T y) : nom(n), coord(x, y){}
+    const Coord<T>& getCoord() const{ return coord;}
+    const string& getNom() const { return nom;}
+};
 
+int main() {
+    vector<Point<int>> dessin {{"p1", 1, 2}, {"p2", 4, 2}, {"p3", 9, 8},
+                              {"p4", -1, 5}, {"p5", 3, -1}, {"p6", 7, 0}};
+
+    int sayac_q1 =0;
+    cout << "Vektördeki noktalar tek tek kontrol ediliyor..." << endl;
+
+    for(const Point<int>& p : dessin) {
+        int x = p.getCoord().getX();
+        int y = p.getCoord().getY();
+
+        cout << "  -> " << p.getNom() << "(" << x << ", " << y << ") kontrol ediliyor. ";
+
+        if(x>0 && y > 0) {
+            sayac_q1++;
+            cout << "Bu nokta I. çeyrekte! Sayaç şimdi: " << sayac_q1 << endl;
+        }else {
+            cout << "Bu nokta I. çeyrekte değil." << endl;
+        }
+
+        cout << "\n----------------------------------------" << endl;
+        cout << "Toplam Sonuç: I. çeyrekte " << sayac_q1 << " adet nokta bulundu." << endl;
+        cout << "----------------------------------------" << endl;
+    }
+    return 0;
+}
 
 */
 #include <iostream>
@@ -3181,32 +3225,81 @@ int main() {
 #include <ostream>
 
 using namespace std;
-
 template<typename T>
 class Coord {
-private:
     T x, y;
-
 public:
-    Coord() : x(T{}), y(T{}){}
-    T getX()const {
+    Coord(T x_val = 0, T y_val =0) : x(x_val) , y(y_val){}
+    T getX() const {
         return x;
     }
 
-    T getY()const {
+    T getY() const {
         return y;
     }
 };
 
-template <typename T>
-class Point{
-private:
+template<typename T>
+class Point {
     string nom;
     Coord<T> coord;
-
 public:
     Point(string n, T x, T y) : nom(n), coord(x, y){}
-    con
+    const Coord<T> & getCoord() const {
+        return coord;
+    }
 
+    const string& getNom()const {
+        return nom;
+    }
 };
 
+enum class Quadrant{I, II, III, IV};
+struct DansQuadrant {
+    Quadrant quadrant_a_tester;
+
+    explicit DansQuadrant(Quadrant q) {
+        quadrant_a_tester = q;
+    }
+
+    bool operator()(const Point<int>& p) const {
+        int x = p.getCoord().getX();
+        int y = p.getCoord().getY();
+
+        if(x == 0 || y == 0) {
+            return false;
+        }
+
+        switch(quadrant_a_tester) {
+            case Quadrant ::I : return x>0 && y>0;
+            case Quadrant ::II : return x <0 && y >0;
+            case Quadrant :: III : return  x <0 && y <0;
+            case Quadrant :: IV : return x >0 && y<0;
+            default : return false;
+        }
+
+    }
+};
+
+int main() {
+    vector<Point<int>> dessin {{"p1", 1, 2}, {"p2", 4, 2}, {"p3", 9, 8},
+                               {"p4", -1, 5}, {"p5", 3, -1}, {"p6", 7, 0}};
+
+
+    cout << "Compter pour le 1er quart-temps..." << endl;
+    int sayac_q1 = count_if(dessin.begin(), dessin.end(), DansQuadrant(Quadrant::I));
+    cout << "result: " << sayac_q1 << " nombre de points trouvés." << endl;
+
+
+
+    cout << "\nCompter pour le deuxième quart-temps..." << endl;
+
+    int sayac_q2 = count_if(dessin.begin(), dessin.end(), DansQuadrant(Quadrant::II));
+    cout << "result: " << sayac_q2 << " nombre de points trouvés" << endl;
+
+    cout << "\nCompter pour le quatrième quart-temps..." << endl;
+    int sayac_q4 = count_if(dessin.begin(), dessin.end(), DansQuadrant(Quadrant::IV));
+    cout << "result: " << sayac_q4 << " nombre de points trouvés" << endl;
+
+    return 0;
+}
