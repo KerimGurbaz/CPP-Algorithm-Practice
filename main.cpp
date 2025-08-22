@@ -3348,22 +3348,6 @@ int main() {
 
     return 0;
 }
-
-*/
-#include <iostream>
-#include <string>
-#include <vector>
-#include <array>
-#include <iterator>
-#include <span>
-#include <algorithm>
-#include <numeric>
-#include <unordered_set>
-#include <unordered_map>
-#include <ostream>
-
-using namespace std;
-template<typename T>
 class Coord {
 private:
     T x, y;
@@ -3418,5 +3402,137 @@ int main() {
     // Appel de notre nouvelle fonction générique
     listerPoint(dessin);
 
+    return 0;
+}
+template<typename T>
+class Coord {
+    T x,  y;
+public:
+    Coord(T x_val =0, T y_val =0): x(x_val), y(y_val){}
+    T getX() const{return x;}
+    T getY() const{return y;}
+    void deplacer(T dx, T dy) {
+        x +=dx;
+        y += dy;
+    }
+};
+
+template<typename T>
+class Point {
+    string nom;
+    Coord<T> coord;
+public:
+    Point(string n, T x, T y): nom(n), coord(x, y){}
+    const string& getNom() const{return nom;}
+    const Coord<T>& getCoord()const{return coord;}
+    void deplacer(T dx, T dy){coord.deplacer(dx, dy);}
+};
+
+template <typename T>
+ostream& operator<<(ostream& os, const Point<T>& p) {
+    return os<<p.getNom()<<"("<<p.getCoord().getX()<<", "<<p.getCoord().getY()<<")";
+}
+*/
+#include <iostream>
+#include <string>
+#include <vector>
+#include <array>
+#include <iterator>
+#include <span>
+#include <algorithm>
+#include <numeric>
+#include <unordered_set>
+#include <unordered_map>
+#include <ostream>
+
+using namespace std;
+template<typename T, size_t CAPACITY =100>
+class Stack {
+private:
+    array<T, CAPACITY> data;
+    int top_index ;
+
+public:
+    Stack(): top_index(-1){}
+
+    //verifie si la pile est vide
+    bool empty() const {
+        return top_index == -1;
+    }
+
+    bool full()const {
+        return top_index == static_cast<int>(CAPACITY)-1;
+    }
+//ajoute un element au sommet de la pile.
+    void push(const T& element) {
+        if(full()) {
+            throw overflow_error("Erreur: La pile est pleine(stack overflow).");
+        }
+        data[++top_index] = element;
+    }
+
+    //retire l'element au sommet de la pile.
+    void pop() {
+        if (empty()) {
+            throw out_of_range("Erreur: la pile est vide(stack underflow).");
+        }
+        --top_index;
+    }
+
+    T& top() {
+        if(empty()) {
+            throw out_of_range("Erreur: la pile est vide.");
+        }
+        return data[top_index];
+    }
+
+    const T& top()const {
+        if(empty()) {
+            throw out_of_range("Erreur: La pile est vide.");
+        }
+        return data[top_index];
+    }
+
+};
+int main() {
+    try {
+        cout << "--- Test avec Stack<int, 5> ---" << endl;
+        Stack<int, 5> s_int;
+        cout << "La pile est vide ? " << boolalpha << s_int.empty() << endl;
+
+        cout << "Empiler : 10, 20, 30" << endl;
+        s_int.push(10);
+        s_int.push(20);
+        s_int.push(30);
+        cout << "Sommet de la pile : " << s_int.top() << endl;
+
+        cout<<"depiler"<<endl;
+        s_int.pop();
+        cout << "Nouveau sommet : " << s_int.top() << endl;
+        cout << "La pile est vide ? " << s_int.empty() << endl;
+
+        cout << "\n--- Test avec Stack<string> (capacité par défaut) ---" << endl;
+        Stack<string> s_str; // Pile de string, capacité par défaut de 100
+
+        cout << "Empiler : \"hello\", \"world\"" << endl;
+        s_str.push("hello");
+        s_str.push("world");
+
+        cout << "Sommet de la pile : " << s_str.top() << endl;
+        s_str.top() = "everybody"; // Modifier le sommet
+        cout << "Nouveau sommet : " << s_str.top() << endl;
+        cout << "\n--- Test de débordement (Stack Overflow) ---" << endl;
+        Stack<int, 2> s_overflow;
+        cout << "Empiler : 1, 2" << endl;
+        s_overflow.push(1);
+        s_overflow.push(2);
+        cout << "La pile est pleine ? " << s_overflow.full() << endl;
+        cout << "Tentative d'empiler un 3eme element..." << endl;
+        s_overflow.push(3); // Ceci va lancer une exception
+
+
+    }catch(const exception& e) {
+        cerr<<"Exception catchee: "<< e.what()<<endl;
+    }
     return 0;
 }
