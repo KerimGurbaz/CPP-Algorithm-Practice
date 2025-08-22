@@ -3432,20 +3432,6 @@ template <typename T>
 ostream& operator<<(ostream& os, const Point<T>& p) {
     return os<<p.getNom()<<"("<<p.getCoord().getX()<<", "<<p.getCoord().getY()<<")";
 }
-*/
-#include <iostream>
-#include <string>
-#include <vector>
-#include <array>
-#include <iterator>
-#include <span>
-#include <algorithm>
-#include <numeric>
-#include <unordered_set>
-#include <unordered_map>
-#include <ostream>
-
-using namespace std;
 template<typename T, size_t CAPACITY =100>
 class Stack {
 private:
@@ -3536,3 +3522,111 @@ int main() {
     }
     return 0;
 }
+template<typename T, size_t N = 100>
+class Stack {
+private:
+    array<T, N> elements;
+    size_t top_index;
+public:
+    Stack(): top_index(0){}
+
+    void push(const T& value) {
+        if(isFull()) {
+            throw overflow_error("Erreur: la pile est plaine(stack overflow)");
+
+        }
+        elements[top_index] = value;
+        top_index++;
+    }
+    void pop() {
+        if(isEmpty()) {
+            throw underflow_error("Erreur : la pile est vide(stack underflow)");
+        }
+        top_index--;
+    }
+    T& top() {
+        if(isEmpty()) {
+            throw underflow_error("Erreur la pile est vide");
+        }
+        return elements[top_index -1];
+    }
+
+    const T&top()const {
+        if(isEmpty()) {
+            throw underflow_error("Erreur la pile est vide");
+        }
+        return elements[top_index - 1];
+    }
+
+    bool isEmpty()const {
+        return top_index ==0;
+    }
+    bool isFull()const {
+        return top_index == N;
+    }
+    size_t size()const {
+        return top_index;
+    }
+};
+
+int main() {
+
+    cout << "--- Test avec Stack<int, 5> ---" << endl;
+    Stack<int, 5> int_stack;
+    cout << "La pile est vide ? " << std::boolalpha << int_stack.isEmpty() << endl;
+
+    cout<<"Ajout de 10, 20, 30.."<<endl;
+    int_stack.push(10);
+    int_stack.push(20);
+    int_stack.push(30);
+    cout << "Taille actuelle : " << int_stack.size() << endl;
+
+    cout << "Element au sommet : " << int_stack.top() << endl;
+    cout << "Modification du sommet a 33..." << endl;
+    int_stack.top() = 33; // Utilise la version non-const de top()
+    cout << "Element au sommet : " << int_stack.top() << endl;
+    cout << "Retrait de l'element au sommet..." << endl;
+    int_stack.pop();
+
+    cout << "Nouveau sommet : " << int_stack.top() << endl;
+    cout << "La pile est pleine ? " << int_stack.isFull() << endl;
+
+    cout << "Remplissage de la pile..." << endl;
+    int_stack.push(40);
+    int_stack.push(50);
+    int_stack.push(60);
+
+    cout << "Taille actuelle : " << int_stack.size() << endl;
+    cout << "La pile est pleine ? " << int_stack.isFull() << endl;
+    try {
+        cout << "Tentative d'ajout sur une pile pleine..." << endl;
+        int_stack.push(70);
+    } catch (const std::overflow_error& e) {
+        cout << "Exception capturee (normal) : " << e.what() << endl;
+    }
+    cout << "\n--- Test avec une pile de strings (taille par defaut) ---" << endl;
+    Stack<string> string_stack; // Utilise N = 100 par défaut
+
+    string_stack.push("Bonjour");
+    string_stack.push("C++");
+    cout << "Sommet de la pile de strings : \"" << string_stack.top() << "\"" << endl;
+    string_stack.pop();
+    cout << "Nouveau sommet : \"" << string_stack.top() << "\"" << endl;
+
+
+    return 0;
+}
+*/
+#include <iostream>
+#include <string>
+#include <vector>
+#include <array>
+#include <iterator>
+#include <span>
+#include <algorithm>
+#include <numeric>
+#include <unordered_set>
+#include <unordered_map>
+#include <ostream>
+#include <stdexcept>
+using namespace std;
