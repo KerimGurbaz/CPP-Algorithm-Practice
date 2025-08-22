@@ -3699,24 +3699,7 @@ int main() {
     s.display();
     cout << endl;
     return 0;
-}
-*/
-#include <iostream>
-#include <string>
-#include <vector>
-#include <array>
-#include <iterator>
-#include <span>
-#include <algorithm>
-#include <numeric>
-#include <unordered_set>
-#include <unordered_map>
-#include <ostream>
-#include <stdexcept>
-using namespace std;
-//Stack.h
-
-#ifndef STACK_H
+}#ifndef STACK_H
 #define STACK_H
 
 #include <iostream>
@@ -3746,3 +3729,87 @@ public:
 #include "Stack_impl.h"
 
 #endif
+
+*/
+#include <iostream>
+#include <string>
+#include <vector>
+#include <array>
+#include <iterator>
+#include <span>
+#include <algorithm>
+#include <numeric>
+#include <unordered_set>
+#include <unordered_map>
+#include <ostream>
+#include <stdexcept>
+using namespace std;
+
+//Stack_impl.h
+
+template<typename T, size_t n>
+void Stack<T, n>::push(const T& v) {
+    if(full()) {
+        throw overflow_error("Stack is full");
+    }
+    data.at(index++) = v;
+}
+
+//definition de la methode pop
+template<typename T, size_t n>
+void Stack<T, n>::pop() {
+    if(empty()) {
+        throw out_of_range("Stack is empty");
+    }
+    --index;
+}
+
+// definition de la methode top
+template<typename T , size_t n>
+const T& Stack<T, n>::top()const {
+    if(empty()) {
+        throw out_of_range("Stack is empty");
+    }
+    return data.at(index -1);
+}
+
+//definition de la methode display
+template<typename T, size_t n>
+void Stack<T, n>::display()const {
+    cout<<"size : "<<size()<<endl;
+    cout<<"data : ";
+    cout<<"[";
+    for(size_t i=0; i<index; ++i) {
+        if(i>0)cout<<", ";
+        cout<<data[i];
+    }
+    cout<<"]"<<endl;
+}
+
+int main() {
+    Stack<int, 10> s;
+    int i = 1;
+
+    s.display();
+    cout << endl;
+
+    while (not s.full()) {
+        s.push(i *= 2);
+    }
+
+    cout << "top  : " << s.top() << endl;
+    cout << "size : " << s.size() << endl;
+    cout << endl;
+
+    s.display();
+    cout << endl;
+
+    while (not s.empty()) {
+        s.pop();
+    }
+
+    s.display();
+    cout << endl;
+
+    return 0;
+}
