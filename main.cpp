@@ -3616,6 +3616,90 @@ int main() {
 
     return 0;
 }
+
+template<typename T, size_t n=100>
+class Stack {
+private:
+
+    array<T, n> data;
+    size_t index;
+public:
+    Stack():index(0){}
+    void push(const T& v);
+    void pop();
+    const T& top()const;
+    void display()const;
+    bool empty()const {
+        return index ==0;
+    }
+    bool full()const {
+        return index == n;
+    }
+    size_t size()const {
+        return index;
+    }
+    size_t capacity()const {
+        return n;
+    }
+};
+
+template<typename T, size_t n>
+void Stack<T, n>::push(const T& v) {
+    if(full()) {
+        throw overflow_error("Stack est plein");
+    }
+    data.at(index++) = v;
+}
+template<typename T, size_t n>
+void Stack<T, n>::pop() {
+    if(empty()) {
+        throw out_of_range("Erreur: stack est vide.");
+    }
+    data.at(--index);
+}
+template<typename T, size_t n>
+const T& Stack<T, n>::top()const {
+    if(empty()) {
+        throw out_of_range("Stack est vide.");
+    }
+    return data.at(index -1);
+}
+
+template<typename T, size_t n>
+void Stack<T, n>::display() const {
+    cout<<"size : "<<size()<<endl;
+    cout<<"data : [";
+    for(size_t i = 0; i<index; ++i) {
+        if(i)cout<<", ";
+        cout<<data[i];
+    }
+    cout<<"]"<<endl;
+}
+int main() {
+
+    Stack<int, 10> s;
+    int i = 1;
+
+    s.display();
+    cout << endl;
+    while (not s.full()) {
+        s.push(i*=2);
+    }
+    s.display();
+    cout << endl;
+    cout << "top  : " << s.top() << endl;
+    cout << "size : " << s.size() << endl;
+    s.display();
+    cout << endl;
+
+    while (not s.empty()) {
+        s.pop();
+    }
+
+    s.display();
+    cout << endl;
+    return 0;
+}
 */
 #include <iostream>
 #include <string>
@@ -3630,3 +3714,35 @@ int main() {
 #include <ostream>
 #include <stdexcept>
 using namespace std;
+//Stack.h
+
+#ifndef STACK_H
+#define STACK_H
+
+#include <iostream>
+#include <array>
+#include <stdexcept>
+using namespace std;
+
+template <typename T, size_t n =100>
+class Stack {
+private:
+    size_t index;
+    array<T, n> data;
+public:
+    Stack():index(0){}
+    bool full()const{return index == n;}
+    bool empty()const{return index == 0;}
+    size_t size()const{return index;}
+    size_t capacity()const{return n;}
+
+    //declaration des methodes plus complexes
+    void push(const T& v);
+    void pop();
+    const T& top() const;
+    void display()const;
+};
+
+#include "Stack_impl.h"
+
+#endif
