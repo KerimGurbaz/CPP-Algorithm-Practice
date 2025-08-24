@@ -3729,22 +3729,6 @@ public:
 #include "Stack_impl.h"
 
 #endif
-
-*/
-#include <iostream>
-#include <string>
-#include <vector>
-#include <array>
-#include <iterator>
-#include <span>
-#include <algorithm>
-#include <numeric>
-#include <unordered_set>
-#include <unordered_map>
-#include <ostream>
-#include <stdexcept>
-using namespace std;
-
 //Stack_impl.h
 
 template<typename T, size_t n>
@@ -3813,3 +3797,77 @@ int main() {
 
     return 0;
 }
+template<typename T>
+class Coord {
+private:
+    T x , y;
+
+public:
+    Coord(T x_val=0, T y_val =0) : x(x_val), y(y_val){}
+    T getX()const{return x;}
+    T getY()const{return y;}
+
+    template<typename R>
+    R distance(const Coord<T>& other)const {
+        T dx = this->x - other.x;
+        T dy = this ->y - other.y;
+        R r_dx = static_cast<R>(dx);
+        R r_dy = static_cast<R>(dy);
+        return sqrt(r_dx *r_dx + r_dy*r_dy);
+    }
+};
+
+template<typename T>
+class Point {
+private:
+    string nom;
+    Coord<T> coord;
+
+public:
+    Point(string n, T x, T y) : nom(n), coord(x, y){}
+    const string& getNom()const{return nom;}
+    const Coord<T>& getCoord()const{return coord;}
+
+    template<typename R>
+    R distance(const Point<T>& other)const {
+        return this->coord.distance<R>(other.getCoord());
+    }
+};
+
+// --- Programme principal de test ---
+int main() {
+    Point<int> p1("p1", 2, 3);
+    Point<int> p2("p2", 7, -1);
+
+    cout << "p1(" << p1.getCoord().getX() << ", " << p1.getCoord().getY() << ")" << endl;
+    cout << "p2(" << p2.getCoord().getX() << ", " << p2.getCoord().getY() << ")" << endl;
+
+    // --- Appels ---
+
+    // 1. Appel via les coordonnées
+    // On spécifie explicitement que le retour doit être un <double>
+    double d1 = p1.getCoord().distance<double>(p2.getCoord());
+    cout << "distance entre deux coordonnees : " << d1 << endl;
+
+    // 2. Appel directement via les points
+    double d2 = p1.distance<double>(p2);
+    cout << "distance entre deux points      : " << d2 << endl;
+
+    return 0;
+}
+*/
+#include <iostream>
+#include <string>
+#include <vector>
+#include <array>
+#include <iterator>
+#include <span>
+#include <algorithm>
+#include <numeric>
+#include <unordered_set>
+#include <unordered_map>
+#include <ostream>
+#include <stdexcept>
+#include <cmath>
+using namespace std;
+
