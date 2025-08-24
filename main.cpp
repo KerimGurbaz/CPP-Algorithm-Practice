@@ -3855,6 +3855,101 @@ int main() {
 
     return 0;
 }
+template<typename T>
+class Coord {
+private:
+    T x, y;
+public:
+    Coord():x(T{}), y(T{}){}
+    Coord(T x_val, T y_val): x(x_val), y(y_val){}
+    T getX()const{return x;}
+    T getY()const{return y;}
+
+    template<typename R, typename U>
+    R distance(const Coord<U>& other)const {
+        R r_dx=static_cast<R>(this->x) - static_cast<R>(other.getX());
+        R r_dy= static_cast<R>(this->y) - static_cast<R>(other.getY());
+        return sqrt(r_dx * r_dx + r_dy*r_dy);
+    }
+};
+
+template<typename T>
+class Point {
+private:
+    string nom;
+    Coord<T> coord;
+
+public:
+    Point(string n, T x, T y) : nom(n), coord(x, y){}
+    const string& getNom()const{return nom;}
+    const Coord<T>& getCoord()const{return coord;}
+
+    template<typename R , typename U>
+    R distance(const Point<U>& other)const{
+        return this->coord.template distance<R, U>(other.getCoord());
+    }
+};
+
+int main() {
+    Point<int> p_int("p_int", 1, 1);
+    Point<double> p_double("p_double", 5.5, 8.2);
+
+    cout << "first point : " << p_int.getNom() << "(" << p_int.getCoord().getX() << ", " << p_int.getCoord().getY() << ")" << endl;
+    cout << "second point : " << p_double.getNom() << "(" << p_double.getCoord().getX() << ", " << p_double.getCoord().getY() << ")" << endl;
+
+    double d = p_int.distance<double>(p_double);
+
+    cout << "\nDistance entre deux types de point differents: " << d << endl;
+
+    return 0;
+}template<typename T>
+class Coord {
+private:
+    T x, y;
+public:
+    Coord():x(T{}), y(T{}){}
+    Coord(T x_val, T y_val): x(x_val), y(y_val){}
+    T getX()const{return x;}
+    T getY()const{return y;}
+
+    template<typename R, typename U>
+    R distance(const Coord<U>& other) const{
+        R dx = static_cast<R>(this->x) - static_cast<R>(other.getX());
+        R dy = static_cast<R>(this->y) -static_cast<R>(other.getY());
+        return sqrt(dx*dx + dy*dy);
+    }
+};
+
+template<typename T>
+class Point {
+private:
+    string nom;
+    Coord<T> coord;
+
+public:
+    Point(string n, T x, T y): nom(n), coord(x, y){}
+    const string& getNom()const{return nom;}
+    const Coord<T>& getCoord()const{ return coord;}
+
+    template<typename R, typename U>
+    R distance(const Point<U>&other) const{
+        return this->coord.template distance<R, U>(other.getCoord());
+    }
+};
+
+int main() {
+    Point<int> p_int("p_int", 1, 1);
+    Point<double> p_double("p_double", 5.5, 8.2);
+
+    cout << "first point : " << p_int.getNom() << "(" << p_int.getCoord().getX() << ", " << p_int.getCoord().getY() << ")" << endl;
+    cout << "second point : " << p_double.getNom() << "(" << p_double.getCoord().getX() << ", " << p_double.getCoord().getY() << ")" << endl;
+
+    double d = p_int.distance<double>(p_double);
+
+    cout << "\nIki farkli tipteki nokta arasindaki mesafe: " << d << endl;
+
+    return 0;
+}
 */
 #include <iostream>
 #include <string>
@@ -3871,3 +3966,51 @@ int main() {
 #include <cmath>
 using namespace std;
 
+template<typename T>
+class Coord {
+private:
+    T x, y;
+public:
+    Coord():x(T{}), y(T{}){}
+    Coord(T x_val, T y_val): x(x_val), y(y_val){}
+    T getX()const{return x;}
+    T getY()const{return y;}
+
+    template<typename R, typename U>
+    R distance(const Coord<U>& other)const {
+        R dx = static_cast<R>(this->x) - static_cast<R>(other.getX());
+        R dy = static_cast<R>(this ->y) - static_cast<R>(other.getY());
+        return sqrt(dx*dx + dy*dy);
+    }
+};
+
+template<typename T>
+class Point {
+private:
+   string nom;
+    Coord<T> coord;
+public:
+
+    Point(string n, T x, T y): nom(n), coord(x, y){}
+    const string& getNom() const{return nom;}
+    const Coord<T>& getCoord()const{return coord;}
+
+    template<typename R, typename U>
+    R distance(const Point<U>& other) const{
+        return this->coord.template distance<R, U>(other.getCoord());
+    }
+};
+
+int main() {
+    Point<int> p_int("p_int", 1, 1);
+    Point<double> p_double("p_double", 5.5, 8.2);
+
+    cout << "first point : " << p_int.getNom() << "(" << p_int.getCoord().getX() << ", " << p_int.getCoord().getY() << ")" << endl;
+    cout << "second point : " << p_double.getNom() << "(" << p_double.getCoord().getX() << ", " << p_double.getCoord().getY() << ")" << endl;
+
+    double d = p_int.distance<double>(p_double);
+
+    cout << "\nIki farkli tipteki nokta arasindaki mesafe: " << d << endl;
+
+    return 0;
+}
