@@ -3950,22 +3950,6 @@ int main() {
 
     return 0;
 }
-*/
-#include <iostream>
-#include <string>
-#include <vector>
-#include <array>
-#include <iterator>
-#include <span>
-#include <algorithm>
-#include <numeric>
-#include <unordered_set>
-#include <unordered_map>
-#include <ostream>
-#include <stdexcept>
-#include <cmath>
-using namespace std;
-
 template<typename T>
 class Coord {
 private:
@@ -3979,7 +3963,7 @@ public:
     template<typename R, typename U>
     R distance(const Coord<U>& other)const {
         R dx = static_cast<R>(this->x) - static_cast<R>(other.getX());
-        R dy = static_cast<R>(this ->y) - static_cast<R>(other.getY());
+        R dy = static_cast<R>(this->y) - static_cast<R>(other.getY());
         return sqrt(dx*dx + dy*dy);
     }
 };
@@ -4014,3 +3998,99 @@ int main() {
 
     return 0;
 }
+*/
+#include <iostream>
+#include <string>
+#include <vector>
+#include <array>
+#include <iterator>
+#include <span>
+#include <algorithm>
+#include <numeric>
+#include <unordered_set>
+#include <unordered_map>
+#include <ostream>
+#include <stdexcept>
+#include <cmath>
+using namespace std;
+
+#pragma once
+
+template <typename T, size_t N>
+class Stack;
+
+template<typename T, size_t N>
+ostream& operator <<(ostream& os, const Stack<T, N>& s);
+
+template<typename T, size_t N>
+bool operator==(const Stack<T, N>& lhs, const Stack<T, N>& rhs);
+
+template<typename T, size_t N>
+class Stack {
+public:
+    Stack();
+    Stack(const Stack& other);
+
+    void push(const T& v);
+    void pop();
+    const T& top()const;
+
+    bool full()const {
+        return index ==N;
+    }
+
+    bool empty()const {
+        return index ==0;
+    }
+
+    size_t size()const {
+        return index;
+    }
+
+    operator std::string()const;
+
+    friend ostream& operator<< <T,N>(ostream& os, const Stack<T, N>& s);
+    friend bool operator==(const Stack<T, N> & lhs, const Stack<T, N>& rhs);
+
+private:
+    size_t index;
+    array<T, N> data;
+};
+
+#include "Stack_Impl.h"
+
+//ifndef STACK_H
+#error "N'incluez pas jamais Stack_Impl.h directement. incluez Stack.h à la place"
+#endif
+
+
+template<typename T, size_t N>
+Stack<T, N>::Stack() : index(0){}
+
+//Definition du constructeur par copie
+template<typename T, size_t N>
+Stack<T, N>::Stack(const Stack& other) : index(other.index), data(other.data){
+
+    template<typename T, size_t N>
+    void Stack<T, N>::push(const T& v) {
+        if(full()) {
+            throw std::overflow_error("Stack OverFlow")
+        }
+        data[index] = v;
+        index++;
+    }
+
+    template<typename T, size_t N>
+    void Stack<T, N>:: pop() {
+        if(empty()) {
+            throw std::underflow_error("Stack UnderFlow");
+        }
+        index--;
+    }
+    template<typename T, size_t N>
+    const T& Stack<T, N>::top()const {
+        if(empty()) {
+            throw std:: out_of_range("Stack is empty");
+        }
+        return data[index -1];
+    }
