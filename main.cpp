@@ -3998,22 +3998,6 @@ int main() {
 
     return 0;
 }
-*/
-#include <iostream>
-#include <string>
-#include <vector>
-#include <array>
-#include <iterator>
-#include <span>
-#include <algorithm>
-#include <numeric>
-#include <unordered_set>
-#include <unordered_map>
-#include <ostream>
-#include <stdexcept>
-#include <cmath>
-using namespace std;
-
 #pragma once
 
 template <typename T, size_t N>
@@ -4094,3 +4078,55 @@ Stack<T, N>::Stack(const Stack& other) : index(other.index), data(other.data){
         }
         return data[index -1];
     }
+*/
+#include <iostream>
+#include <string>
+#include <vector>
+#include <array>
+#include <iterator>
+#include <span>
+#include <algorithm>
+#include <numeric>
+#include <unordered_set>
+#include <unordered_map>
+#include <ostream>
+#include <stdexcept>
+#include <cmath>
+using namespace std;
+void push(const T& value) {
+    if(sz == N) {
+        throw overflow_error("Stacjk is full");
+    }
+    data[sz] = value;
+    sz++;
+}
+
+void pop() {
+    if(sz ==0) {
+        throw underflow_error("stack is empty");
+    }
+    sz--;
+}
+T& top() {
+    if(sz== 0) {
+        throw underflow_error("Stack is emty");
+    }
+    return data[sz -1]
+}
+
+string to_string() const {
+    ostringstream oss;
+    for(size_t i = 0; i <sz; ++i) {
+        oss<<"["<<i<<"] " << data[i]<<"\n";
+    }
+    return oss.str();
+}
+friend bool operator==(const Stack& a, const Stack& b) {
+    if(a.sz != b.sz) return false;
+    for(size_t i = 0; i <a.sz; ++i) {
+        if(a.data[i] != b.data[i])return false;
+    }
+    return true;
+}
+
+//
