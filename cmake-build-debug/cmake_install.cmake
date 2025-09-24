@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/Krm/CLionProjects/untitled20
+# Install script for directory: C:/Users/Krm/Documents/CPP_HEIG-VD/01_Labs/CPP-Algorithm-Practice
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/Krm/CLionProjects/untitled20/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/Krm/Documents/CPP_HEIG-VD/01_Labs/CPP-Algorithm-Practice/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

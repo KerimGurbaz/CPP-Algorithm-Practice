@@ -1,3 +1,3 @@
-C:/Users/Krm/CLionProjects/untitled20/cmake-build-debug/CMakeFiles/untitled20.dir
-C:/Users/Krm/CLionProjects/untitled20/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/Krm/CLionProjects/untitled20/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/Krm/Documents/CPP_HEIG-VD/01_Labs/CPP-Algorithm-Practice/cmake-build-debug/CMakeFiles/untitled20.dir
+C:/Users/Krm/Documents/CPP_HEIG-VD/01_Labs/CPP-Algorithm-Practice/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Krm/Documents/CPP_HEIG-VD/01_Labs/CPP-Algorithm-Practice/cmake-build-debug/CMakeFiles/rebuild_cache.dir
