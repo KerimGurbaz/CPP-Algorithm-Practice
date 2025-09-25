@@ -1,28 +1,35 @@
 #include <iostream>
+#include <cmath>
 using namespace std;
 
 int main() {
+    cout << "Donnez les valeurs de a, b, et c de l'equation a*x^2+b*x+c : ";
+    double a, b, c;
+    cin >> a >> b >> c;
 
-    double note;
-
-        cout<<"Entrez la note UNIGE "<<endl;
-        cin>>note;
-        if(note < 0 or note>6.00) {
-           cout<<"Erreur";
-        }else {
-            if(note>=5.25) {
-                cout<<"A";
-            }else if(note >= 4.75) {
-                cout<<"B";
-            }else if(note >= 4.50) {
-                cout<<"C";
-            }else if(note >= 4.25) {
-                cout<<"D";
-            }else if(note >= 4.) {
-                cout<<"E";
-            }else{
-                cout<<"F";
+    // votre code vient ici.
+    if(a == 0) {
+        if(b == 0) {
+            if(c == 0) {
+                cout<<"Tout x est un solution"<<endl;
+            }else {
+                cout << "pas de solution" << endl;
             }
+        }else {
+            cout<<"1 solution"<<endl;
         }
-    return 0;
+    }else {
+        double discriminant = b*b - 4*a*c;
+        if(discriminant < 0) {
+            cout << "pas de solution" << endl;
+        }else if(discriminant == 0) {
+            cout<<"1 solution : "<<-b / (2*a)<<endl;
+        }else {
+            double d = sqrt(discriminant);
+            double x1 = (-b + d)/ (2*a);
+            double x2 = (-b - d)/ (2*a);
+            cout << "2 solutions : " << x1 << " et " << x2 << endl;
+        }
+
+    }
 }
