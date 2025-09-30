@@ -1,65 +1,36 @@
-
-#include <algorithm>
-#include <cmath>
 #include <iostream>
-using namespace std;
+#include <limits>
 
+// Bu fonksiyon yukarıda düzelttiğimiz haliyle doğru.
+long long factorielle(int n) {
+    if (n < 0) return 0; // Hata durumu
+    if (n == 0) return 1;
+    long long resultat = 1;
+    for (int i = 1; i <= n; ++i) {
+        resultat *= i;
+    }
+    return resultat;
+}
+
+// VERİMLİ OLAN YÖNTEM
+int plus_petit_n_pour_factorielle_de_n_plus_grande_que(int m) {
+    int n = 1;
+    long long fact = 1;
+    while (fact <= m) {
+        n++;
+        fact *= n; // Faktöriyeli sıfırdan hesaplamak yerine bir önceki adımı kullanıyoruz
+    }
+    return n;
+}
 
 int main() {
+    const int m = 100'000'000;
+    int n = plus_petit_n_pour_factorielle_de_n_plus_grande_que(m);
 
-    for(int i = 1;  i<=3; ++i) {
-        for(int j = 1; j<= 4; ++j) {
-            cout<<"*";
-        }
-        cout<<endl;
-    }
+    // main fonksiyonu artık doğru n değerini alacağı için doğru çalışacak.
+    // n = 12 olarak bulunacak.
+    std::cout << n - 1 << "! = " << factorielle(n - 1) << " <= " << m
+              << " < " << factorielle(n) << " = " << n << "!" << std::endl;
 
-    for(int i =1; i<=4; ++i) {
-        for(int j =1; j<=i; ++j) {
-            cout<<"*";
-        }
-        cout<<endl;
-    }
-
-    for(int i = 1; i<=3; ++i) {
-        for(int j= 2; j<=5; ++j) {
-            if(j%2 == 0) {
-                cout<<"o";
-            }else {
-                cout<<"x";
-            }
-        }
-        cout<<endl;
-    }
-
-
-    for(int i = 1; i<=3; ++i) {
-        for(int j=1 ; j<=5; ++j) {
-            if((i+j) %2 == 0) {
-                cout<<"o";
-            }else {
-                cout<<"x";
-            }
-        }
-        cout<<endl;
-    }
-
-    int hauter;
-    do {
-        cout << "Hauteur du triangle (h > 0) : ";
-        cin>>hauter;
-    }while(hauter<=0);
-
-    for(int i = 1; i<=hauter; ++i) {
-        for(int j = 0; j<hauter-i; ++j) {
-            cout<<" ";
-        }
-        for(int k = 0; k<i*2-1; ++k) {
-            cout<<"*";
-        }
-        cout<<endl;
-    }
-
-
-
+    return 0;
 }
