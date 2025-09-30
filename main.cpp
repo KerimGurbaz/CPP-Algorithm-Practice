@@ -7,37 +7,59 @@ using namespace std;
 
 int main() {
 
-    double montant_initial;
-    double taux;
-    int annees;
+    for(int i = 1;  i<=3; ++i) {
+        for(int j = 1; j<= 4; ++j) {
+            cout<<"*";
+        }
+        cout<<endl;
+    }
 
+    for(int i =1; i<=4; ++i) {
+        for(int j =1; j<=i; ++j) {
+            cout<<"*";
+        }
+        cout<<endl;
+    }
+
+    for(int i = 1; i<=3; ++i) {
+        for(int j= 2; j<=5; ++j) {
+            if(j%2 == 0) {
+                cout<<"o";
+            }else {
+                cout<<"x";
+            }
+        }
+        cout<<endl;
+    }
+
+
+    for(int i = 1; i<=3; ++i) {
+        for(int j=1 ; j<=5; ++j) {
+            if((i+j) %2 == 0) {
+                cout<<"o";
+            }else {
+                cout<<"x";
+            }
+        }
+        cout<<endl;
+    }
+
+    int hauter;
     do {
-        cout<<"Entrez le montant initial > ";
-        cin>>montant_initial;
+        cout << "Hauteur du triangle (h > 0) : ";
+        cin>>hauter;
+    }while(hauter<=0);
 
-    }while(montant_initial <1000);
-
-    // Saisie du taux d'intérêt (entre -5 et 50 inclus)
-
-    do {
-        cout<<"Entrez le taux d'interet annuel en % > ";
-        cin>>taux;
-    }while(taux<-5 || taux>50);
-
-    // Saisie du nombre d'années (> 0)
-
-    do {
-        cout<<"Entrez le nobre d'annees > ";
-        cin>>annees;
-    }while(annees <=0);
+    for(int i = 1; i<=hauter; ++i) {
+        for(int j = 0; j<hauter-i; ++j) {
+            cout<<" ";
+        }
+        for(int k = 0; k<i*2-1; ++k) {
+            cout<<"*";
+        }
+        cout<<endl;
+    }
 
 
-    double montant_final = montant_initial * pow(1 + taux/100.0 , annees);
-
-    cout<<"Le montant disponible apres "<<annees
-    <<"an"<<(annees >1 ? "s" : "")
-    <<"est de "<<montant_final<<" CHF"<< endl;
-
-    return 0;
 
 }
