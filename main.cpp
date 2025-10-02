@@ -4,21 +4,49 @@
 #include <vector>
 using namespace std;
 
-
-double volume(double a, double b , double c) {
-    return a*b*c/3.0;
+bool estBissextile (int n) {
+    if(n<1) {
+        return false;
+    }
+    return (n%400 ==0 || (n%4 ==0 && n%100 !=0));
 }
 
+bool listerCaracteres(char debut, char fin) {
+    if(debut > fin) {
+        return false;
+    }
+    for(char c = debut; c <= fin; ++c) {
+        cout<<c;
+    }
+    return true;
+}
+
+void mystere(int& x, int& y) {
+    int temp = y;
+    y =x;
+    x =temp;
+}
+
+void permutation_circulaire(int &a, int &b, int&c) {
+    int temp =c;
+    c=b;
+    b = a;
+    a= temp;
+}
 
 
 int main() {
 
-    double pyramide1 = volume(10, 3.5, 12);
-    double pyramide2 = volume(3.6, 2.4, 2.7);
+    cout<<boolalpha<<estBissextile(2020)<<endl;
+
+    cout<<listerCaracteres(65, 67) <<endl;
+
+    int x = 3, y = 4;
+    mystere(x, y);
+    cout << "x = " << x << " " << "y = " << y << endl;
+    return EXIT_SUCCESS;
 
 
-    cout<<fixed<<setprecision(1)<<pyramide1<<endl;
-    cout<<pyramide2<<endl;
 
     return 0;
 }
