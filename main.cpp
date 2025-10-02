@@ -1,44 +1,24 @@
 #include <iostream>
 #include <limits>
-#include <cmath>
+#include <iomanip>
 #include <vector>
 using namespace std;
 
 
-
+double volume(double a, double b , double c) {
+    return a*b*c/3.0;
+}
 
 
 
 int main() {
 
-
-    double d;
-    const int I = 5;
-    const double D = 5;
-
-    int i =1;
+    double pyramide1 = volume(10, 3.5, 12);
+    double pyramide2 = volume(3.6, 2.4, 2.7);
 
 
-       do {
-         cout<<i;
-           i+=2;
-       }while(i < 10);
-
-    int n = 5;
-    while(n>0) {
-        cout<<n<<" ";
-        if(n == 3) {
-            break;
-        }
-        --n;
-    }
-
-
-
-
-
-
-
+    cout<<fixed<<setprecision(1)<<pyramide1<<endl;
+    cout<<pyramide2<<endl;
 
     return 0;
 }
