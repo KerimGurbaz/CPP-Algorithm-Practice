@@ -2,30 +2,41 @@
 #include <limits>
 #include <iomanip>
 #include <vector>
+#include <cmath>
 using namespace std;
-
-int premier_e(string_view s) {
-    for(int i = 0; i<s.size(); ++i) {
-        if(s[i]== 'e' || s[i]== 'E') return i;
+int demander_valeur_n() {
+  int n_valide;
+    while(true) {
+        cout<<"valeur de n [1-100] : ";
+        cin >>n_valide;
+        if(cin.good() && n_valide>=1 && n_valide<= 100) {
+            break;
+        }
+        cin.clear();
+        cin.ignore(10000, '\n');
+        cout<<"Entree invalide : "<<endl;
     }
-    return -1;
 }
 
-void echanger(int& a, int &b) {
-    int temp = a;
-    a =b;
-    b=temp;
+double serie_de_Bale(int n) {
+    double somme =0;
+    for(int i = 1; i<=n; ++i) {
+        somme += (1/pow(i, 2));
+    }
+return somme;
+
 }
 
 int main() {
 
-    cout<<premier_e("Bonjour")<<endl;
-    cout<<premier_e("Renverser")<<endl;
-    cout<<premier_e("Elan")<<endl;
+    cout<<"Afficher le titre : Problème de Bâle"<<endl;
 
-    int x = 3, y = 5;
-    echanger(x, y);
-    cout << x << " " << y << endl;
+    int val = demander_valeur_n();
+
+    double result = serie_de_Bale(val);
+
+
+    cout<<fixed<<setprecision(4)<<result<<endl;
 
     return 0;
 }
