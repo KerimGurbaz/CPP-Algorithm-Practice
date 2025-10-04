@@ -1,42 +1,42 @@
 #include <iostream>
-#include <limits>
 #include <iomanip>
-#include <vector>
-#include <cmath>
+
 using namespace std;
-int demander_valeur_n() {
-  int n_valide;
-    while(true) {
-        cout<<"valeur de n [1-100] : ";
-        cin >>n_valide;
-        if(cin.good() && n_valide>=1 && n_valide<= 100) {
-            break;
-        }
-        cin.clear();
-        cin.ignore(10000, '\n');
-        cout<<"Entree invalide : "<<endl;
-    }
+
+double effectuerRetrait( double& soldeCourant, double montantSouhaite) {
+  if(soldeCourant <0 || montantSouhaite<0) return 0.0;
+
+    montantSouhaite = min(soldeCourant,montantSouhaite );
+    soldeCourant -=montantSouhaite;
+    return montantSouhaite;
 }
 
-double serie_de_Bale(int n) {
-    double somme =0;
-    for(int i = 1; i<=n; ++i) {
-        somme += (1/pow(i, 2));
-    }
-return somme;
 
-}
+
 
 int main() {
+    double solde = 500.0;
+    cout << fixed << setprecision(2); // Para birimi için formatlama
 
-    cout<<"Afficher le titre : Problème de Bâle"<<endl;
+    cout << "Solde initial du compte = " << solde << " CHF" << endl;
 
-    int val = demander_valeur_n();
+    // --- Premier retrait ---
+    double retrait1 = 300.0;
+    cout << "\nPremier retrait souhaite = " << retrait1 << " CHF" << endl;
 
-    double result = serie_de_Bale(val);
+    double retraitEffectif1 = effectuerRetrait(solde, retrait1);
 
+    cout << "Montant du retrait effectif : " << retraitEffectif1 << " CHF" << endl;
+    cout << "Nouveau solde du compte    : " << solde << " CHF" << endl;
 
-    cout<<fixed<<setprecision(4)<<result<<endl;
+    // --- Deuxième retrait ---
+    double retrait2 = 300.0;
+    cout << "\nDeuxieme retrait souhaite = " << retrait2 << " CHF" << endl;
+
+    double retraitEffectif2 = effectuerRetrait(solde, retrait2);
+
+    cout << "Montant du retrait effectif : " << retraitEffectif2 << " CHF" << endl;
+    cout << "Nouveau solde du compte    : " << solde << " CHF" << endl;
 
     return 0;
 }
