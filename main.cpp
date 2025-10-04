@@ -1,57 +1,101 @@
 #include <iostream>
-#include <iomanip>
-
+#include <cmath>
+#include <cctype>
 using namespace std;
 
-double effectuerRetrait( double& soldeCourant, double montantSouhaite) {
-  if(soldeCourant <0 || montantSouhaite<0) return 0.0;
+enum class StatutOperation {
+    Succes, Erreur_operateur_invalide, Error_division_par_zero
+};
 
-    montantSouhaite = min(soldeCourant,montantSouhaite );
-    soldeCourant -=montantSouhaite;
-    return montantSouhaite;
-}
-double retrait (double& solde, double montant, double comissionPourcent) {
-    if(solde <=0.0 || montant <=0 || comissionPourcent <0.0 )return 0.0;
+StatutOperation calculer(double a, double b, char op, double& resultat) {
+    switch(op) {
+        case '+' :
+            resultat = a+b;
+        return StatutOperation::Succes;
+        case '-':
+            resultat = a-b;
+        return StatutOperation::Succes;
+        case '*':
+            resultat = a*b;
+        return StatutOperation::Succes;
+        case '/':
+            if(b == 0) {
+                return StatutOperation::Error_division_par_zero;
+            }
+        resultat =a/b;
+        return StatutOperation::Succes;
 
- double commision = montant * comissionPourcent/100.0;
-    double total = montant + commision;
+        default:
+            return StatutOperation::Erreur_operateur_invalide;
 
-    if(total> solde) {
-        montant = solde / (1+ comissionPourcent)/100;
-        commision = montant * comissionPourcent/100;
-        total = montant + commision;
     }
-
-    solde -= total;
-    return montant;
 }
 
-
-
+bool operation(double a, double b, char c, double &resultat) {
+    switch (c) {
+        case '+': resultat = a + b;
+            return true;
+        case '-': resultat = a - b;
+            return true;
+        case '*': resultat = a * b;
+            return true;
+        case '/':
+            if (b == 0) {
+                cout << "Error, division par zero..";
+                return false;
+            }
+            resultat = a / b;
+            return true;
+        case '^': resultat = pow(a, b);
+            return true;
+        default:
+            cout << "Erreur : operator inconnu( " << c << ")" << endl;
+            return false;
+    }
+}
 
 int main() {
-    double solde = 500.0;
-    cout << fixed << setprecision(2); // Para birimi için formatlama
+    double x, y, res1;
+    char op =0;
+    double num1, num2, res;
+    char operateur;
+    StatutOperation statut = calculer(num1, num2, operateur, res);
 
-    cout << "Solde initial du compte = " << solde << " CHF" << endl;
 
-    // --- Premier retrait ---
-    double retrait1 = 300.0;
-    cout << "\nPremier retrait souhaite = " << retrait1 << " CHF" << endl;
+   while(true) {
+       cout<<"Entrez deux nombres (ou Ctrl+D pour quitter) : ";
+       if(!(cin>>x>>y)) {
+           cout<<"\nFin de saisie.\n";
+           break;
+       }
 
-    double retraitEffectif1 = effectuerRetrait(solde, retrait1);
+       cout << "Entrez l'operateur (+, -, *, /, ^) ou 'q' pour quitter : ";
+       cin >> op;
 
-    cout << "Montant du retrait effectif : " << retraitEffectif1 << " CHF" << endl;
-    cout << "Nouveau solde du compte    : " << solde << " CHF" << endl;
+       if(tolower(static_cast<unsigned char>(op)) == 'q') {
+           cout<<"Au revoir !"<<endl;
+           break;
+       }
 
-    // --- Deuxième retrait ---
-    double retrait2 = 300.0;
-    cout << "\nDeuxieme retrait souhaite = " << retrait2 << " CHF" << endl;
+       if(operation(x,y,op, res)) {
+           cout << "Resultat : " << res << endl;
+       }else {
+cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-    double retraitEffectif2 = effectuerRetrait(solde, retrait2);
+       }
+return 0;
+   }
 
-    cout << "Montant du retrait effectif : " << retraitEffectif2 << " CHF" << endl;
-    cout << "Nouveau solde du compte    : " << solde << " CHF" << endl;
+    double s, d;
+    while(true) {
+        cout<<"Entez deux numbers : ";
+        if(cin>>x>>y)break;
+        cout<<"invalide entree, repeter svp : ";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');;
+    }
+
+
 
     return 0;
 }
