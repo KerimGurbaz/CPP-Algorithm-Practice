@@ -10,6 +10,21 @@ double effectuerRetrait( double& soldeCourant, double montantSouhaite) {
     soldeCourant -=montantSouhaite;
     return montantSouhaite;
 }
+double retrait (double& solde, double montant, double comissionPourcent) {
+    if(solde <=0.0 || montant <=0 || comissionPourcent <0.0 )return 0.0;
+
+ double commision = montant * comissionPourcent/100.0;
+    double total = montant + commision;
+
+    if(total> solde) {
+        montant = solde / (1+ comissionPourcent)/100;
+        commision = montant * comissionPourcent/100;
+        total = montant + commision;
+    }
+
+    solde -= total;
+    return montant;
+}
 
 
 
