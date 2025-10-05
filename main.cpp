@@ -104,8 +104,6 @@ int main() {
     }
     return 0;
 }
-
- */
 int racineNumerique(int n) {
     int sum = 0;
      while(n>0 ) {
@@ -160,5 +158,35 @@ int main() {
         else if(essai > nombreseCret) cout<<"Plus petit ! "<<endl;
     }
     cout<<"Bravo ! Trouve en "<<compteur<<essai;
+    return 0;
+}
+ */
+void allerAuNord() {
+    cout<<"allerAuNord"<<endl;
+}
+void verifierInventaire() {
+    cout<<"Envanterde bir kılıç ve bir iksir var."<<endl;
+}
+
+
+int main() {
+
+int num;
+
+    do {
+        cout<<"1. Kuzeye git "<<endl;
+        cout<<"2. Kuzeye git "<<endl;
+        cout<<"3. Kuzeye git "<<endl;
+        cout<<"Choisir un num entre 1-3 : ";
+        cin>>num;
+        switch (num) {
+            case 1: allerAuNord();break;
+            case 2: verifierInventaire(); break;
+            case 3: break;
+            default: cout<<"Geçersiz seçim"; break;
+        }
+    }while(num>=1 && num<=3);
+
+
     return 0;
 }
