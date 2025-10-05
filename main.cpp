@@ -3,63 +3,84 @@
 #include <limits>
 
 using namespace std;
+/*
+*    int number;
+    cin>>number;
 
-int factorielle(int n) {
-    int result =1;
-    if(n<0)return 1;
-    if(n == 0 || n==1) {
-        return 1;
+    switch(number) {
+        case 1: cout<< "Saldir";break;
+        case 2: cout<< "Savun";break;
+        case 3: cout<< "Kac";break;
+        case 4: cout<< "Iyiles";break;
+        default : cout<<"Gecersiz komut"; break;
     }
-    for(int i = 2; i<=n; ++i) {
-        if(result > numeric_limits<int>::max() / i) {
-            return -1;
-        }
-        result *= i;
+ */
+/*
+* int sum = 0;
+    int num = 0;
+
+    while(true) {
+        cout<<"enter un number : ";
+        cin>>num;
+     if(num == -1 || (num < -1)) {
+         break;
+     }
+        sum += num;
+        cout<<"total est "<< sum <<endl;
     }
+    cout<<"total est "<< sum <<endl;
+ */
 
-    return result;
+/*
+* int num;
+    do {
+        cout<<"Entrez un number [1-10] : "<<endl;
+        cin>>num;
 
+    }while(num<1 || num>10);
+
+ */
+
+/*
+* bool estPair(int nombre) {
+    if(nombre % 2) {
+        return false;
+    }
+    return true;
 }
-
-string getSeason(int mois) {
-    if(mois<1 || mois>12) {
-        return "invalide mois";
-    }else {
-          switch(mois) {
-            case 3 : case 4: case 5: return "printemps";
-            case 6 : case 7: case 8: return "été";
-            case 1 : case 2: case 12: return "hiver";
-            default: return "automne";
-        }
-    }
+int main() {
+   cout<<boolalpha<< estPair(115);
+    return 0;
 }
+ */
 
-int transformer(string& s, string_view from, string_view to) {
-    int count=0;
-    if(from.size() != to.size()) {
-        return 0;
+/*
+* bool estPair(int nombre) {
+    if(nombre % 2) {
+        return false;
     }
-    for(int i=0; i<from.size(); ++i) {
-        for(int j = 0; j<s.size(); ++j) {
-            if(tolower(from[i]) == tolower(s[j])) {
-                s[j] = isupper(s[j]) ? toupper(to[i]) : tolower(to[i]);
-                count++;
-            }
-        }
-    }
-
-    return count;
-
+    return true;
 }
 
 int main() {
-    cout << factorielle(5) << " " << factorielle(13)<<endl;;
 
-    cout << getSeason(1) << " " << getSeason(6) << " " << getSeason(10)<<endl;
+    int sum = 0;
+    int num = 0;
+
+    while(true) {
+        cout<<"enter un number : ";
+        cin>>num;
+        if(num == -1 || (num < -1)) {
+            break;
+        }else if(estPair(num)) {
+            sum += num;
+        cout<<"total est "<< sum <<endl;
+        }
+
+    }
+    cout<<"total est "<< sum <<endl;
 
 
-    string s = "AbC";
-    cout << transformer(s, "abc", "bca") << endl;
-    cout << s << endl;
     return 0;
 }
+ */
