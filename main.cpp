@@ -56,7 +56,7 @@ int main() {
 
 
 /*    int main() {
-        int num;;
+        int num;
         int tahmin;
         int numInf =1;
         int numSup =20;
@@ -116,11 +116,49 @@ int racineNumerique(int n) {
     return sum > 10 ? racineNumerique(sum) : sum;
 }
 
+int lireNoteValide() {
+    int note;
+    do {
+        cout<<"Entrez une note [1-10] : ";
+        cin>>note;
+    }while(note < 1 || note > 10);
+    return note;
+}
+int racineNumerique2(int n) {
+    while(n>=10) {
+        int somme =0;
+        while (n>0) {
+            somme += n%10;
+            n/=10;
+        }
+        n = somme;
+    }
+    return n;
+}
 
 int main() {
     int n =942;
 
     cout<<racineNumerique(n);
 
+    cout << "Notunuzu giriniz." << endl;
+    int notum = lireNoteValide(); // main ne kadar temiz, görüyor musun?
+    cout << "Gecerli not: " << notum << endl;
+
+    srand(time(0));
+    int nombreseCret = 1 + rand()%100;
+    int essai = 0;
+    int compteur = 0;
+
+    cout << "J'ai choisi un nombre entre 1 et 100. Devinez!" << endl;
+
+    while(essai != nombreseCret) {
+        cout<<"Votre essai : ";
+        cin >>essai;
+        compteur++;
+        if(essai < nombreseCret) cout<<"Plus grand !"<<endl;
+        else if(essai > nombreseCret) cout<<"Plus petit ! "<<endl;
+    }
+    cout<<"Bravo ! Trouve en "<<compteur<<essai;
     return 0;
 }
