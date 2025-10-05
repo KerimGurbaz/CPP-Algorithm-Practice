@@ -1,86 +1,126 @@
 #include <iostream>
-#include <cctype>
-#include <limits>
-
 using namespace std;
-/*
-*    int number;
-    cin>>number;
 
-    switch(number) {
-        case 1: cout<< "Saldir";break;
-        case 2: cout<< "Savun";break;
-        case 3: cout<< "Kac";break;
-        case 4: cout<< "Iyiles";break;
-        default : cout<<"Gecersiz komut"; break;
+/*
+* int main() {
+while(true) {
+    cout<<">> ";
+    int a, b;
+    char op ;
+    cin>>a>>b>>op;
+    if(op =='q' || op =='Q') {
+        break;
     }
- */
-/*
-* int sum = 0;
-    int num = 0;
-
-    while(true) {
-        cout<<"enter un number : ";
-        cin>>num;
-     if(num == -1 || (num < -1)) {
-         break;
-     }
-        sum += num;
-        cout<<"total est "<< sum <<endl;
-    }
-    cout<<"total est "<< sum <<endl;
- */
-
-/*
-* int num;
-    do {
-        cout<<"Entrez un number [1-10] : "<<endl;
-        cin>>num;
-
-    }while(num<1 || num>10);
-
- */
-
-/*
-* bool estPair(int nombre) {
-    if(nombre % 2) {
-        return false;
-    }
-    return true;
-}
-int main() {
-   cout<<boolalpha<< estPair(115);
-    return 0;
-}
- */
-
-/*
-* bool estPair(int nombre) {
-    if(nombre % 2) {
-        return false;
-    }
-    return true;
-}
-
-int main() {
-
-    int sum = 0;
-    int num = 0;
-
-    while(true) {
-        cout<<"enter un number : ";
-        cin>>num;
-        if(num == -1 || (num < -1)) {
+        int result;
+        switch(op) {
+            case '+': result = a + b ;break;
+            case '-': result=  a - b ;break;
+            case '*': result = a * b ;break;
+            case '/': if(b==0) {
+                cout<<"erreur : division par zero ";
+                continue;
+            }else {
+                     result =  a/b;break;
+            }
+            default:
+                cout << "Erreur : Operateur '" << op << "' inconnu." << endl;
             break;
-        }else if(estPair(num)) {
-            sum += num;
-        cout<<"total est "<< sum <<endl;
         }
 
-    }
-    cout<<"total est "<< sum <<endl;
-
+cout<<result<<endl;;
+}
 
     return 0;
 }
  */
+
+
+/*
+* int lireNoteValide(int n) {
+return !(n>0 && n<11);
+}
+
+int main() {
+
+   int num;
+
+    do {
+        cout<<"enter un number : ";
+        cin>>num;
+        if(lireNoteValide(num)) {
+                   cout<<num<<endl;
+        }
+    }while(lireNoteValide(num));
+}
+ */
+
+
+/*    int main() {
+        int num;;
+        int tahmin;
+        int numInf =1;
+        int numSup =20;
+        int milieu;
+        int count(0);
+
+        cout<<"Entrez un number : ";
+        cin>>num;
+        char reponse;
+
+
+
+        do {
+            count++;
+            milieu = (numInf + numSup) / 2;
+            cout<<"tahmininiz "<<milieu <<" den kucuk ve esit mi ? ";
+            cin>>reponse;
+            if(reponse == 'o' ||reponse == 'O') {
+                numSup = milieu;
+
+            }else {
+
+                numInf =milieu + 1;
+
+            }
+        }while(num != milieu);
+
+        cout<<"tahmininiz"<< milieu<<"tebrikler "<<count<<" denemede buldunuz.";
+
+    }*/
+
+
+/*
+* int main() {
+    int number =5;
+    if(number<1 || number>12) {
+        return 0;
+    }else {
+        switch(number) {
+            case 12 :case 1: case 2: cout<<"Hiver"; break;
+            case 5 :case 4: case 3: cout<<"Printemps"; break;
+            case 6 :case 8: case 7: cout<<"été"; break;
+            default:cout<<"Automne";break;
+    }
+    }
+    return 0;
+}
+
+ */
+int racineNumerique(int n) {
+    int sum = 0;
+     while(n>0 ) {
+         int reste = n%10;
+         sum += reste;
+         n /=10;
+     }
+    return sum > 10 ? racineNumerique(sum) : sum;
+}
+
+
+int main() {
+    int n =942;
+
+    cout<<racineNumerique(n);
+
+    return 0;
+}
