@@ -1,67 +1,35 @@
 #include <cstdlib>
-#include <limits>
 #include <iostream>
 
 using namespace std;
 
-int fibo(int n) {
+int a, b;
 
-
-    int a = 0;
-
-    int b= 1;
-    int c;
-
-    for(int i =1; i<=n; ++i) {
-        c = a+b;
-        a = b;
-        b = c;
-    }
-return a;
+//------------------------------------------------------------
+int f(int c) {
+ int n = 0;
+ a = c;
+ if (n < c) {
+  n = a + b;
+ }
+ return n;
 }
 
-void f2(int n) {
-    if (n) {
-        f2(n-1);
-    }
-    cout << 'A' << n << ' ';
+//------------------------------------------------------------
+int g(int c) {
+ int n = 0;
+ int a = c;
+ if (n < f(c)) {
+  n = a + b;
+ }
+ return n;
 }
 
-void f3(int n) {
-    cout << 'A' << n << ' ';
-    if (n) {
-        f3(n-1);
-    }
-    cout << 'B' << n << ' ';
-}
-
-
-void f4(int n) {
-    if (n) {
-        cout << n << ' ';
-        f4(n-1);
-        f4(n/2);
-    }
-}
-
-void f5(int n) {
-    if (n) {
-        f5(n-1);
-        if (n>1)
-            f5(n-2);
-        cout << n << ' ';
-    }
-}
-
-
-
-
+//------------------------------------------------------------
 int main() {
-    cout<<fibo(19)<<endl;
+ int i = 1;
+ int b = g(i);
+ cout << "resultat : " << a + b + i << endl;
 
-    f2(2);;
-    cout<<endl;
-    f3(2);
-
-    return 0;
+ return EXIT_SUCCESS;
 }
