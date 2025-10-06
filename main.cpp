@@ -1,50 +1,51 @@
 #include <iostream>
-#include <cmath>
-
 using namespace std;
 
-void permutation(double & a, double& b, double& c) {
-    double temps =c;
-    c = a;
-    a =b;
-    b =temps;
-
+/*
+* void permuter(double &a, double & b, double &c) {
+    double temps = c;
+    c= b;
+    b=a;
+    a =temps;
 }
+ */
 
-double retrait(double& solde, double somme) {
-   double montabRetire = somme;
-
-    if(solde<somme) {
-        montabRetire = solde;
-    }
-
-    montabRetire= min(solde, somme);
-    solde -= montabRetire;
-
-
-    return somme;
-}
-
-int main() {
-    double a =3;
-    double b =4;
-    double c =5;
-   permutation(a, b, c);
-
-    cout<<a<<b<<c;
-    cout<<endl;
-    int hauter =6;
-
-    for(int ligne = 0; ligne<6; ++ligne) {
-        for(int espace = 0; espace < 6- ligne; ++espace) {
+/*
+* void triangle(int h) {
+    for(int i = 0; i<h; ++i) {
+        for(int espace = 0; espace<h - i; ++espace) {
             cout<<" ";
         }
-        for(int k = 0; k<2*ligne+1; ++k) {
+        for(int etoil = 0; etoil<2*i-1; ++etoil) {
             cout<<"*";
         }
         cout<<endl;
     }
+}
+int main() {
+    int hauteur;
+    do {
+        cout<<"entrez un hauter : ";
+        cin>>hauteur;
+        triangle( hauteur);
+
+    }while(hauteur<0);
+
+}
+ */
+
+int& min(int &a, int &b, int &c) {
+    return (a<b ? (a<c ?a :c) : b<c ?b: c);
+}
+int main() {
+    int a = 5, b = 2, c = 9;
+    cout << "Minimum initial : " << min(a, b, c) << endl;
+
+
+    min(a, b, c) = 1;
+
+
+    cout << "a=" << a << ", b=" << b << ", c=" << c << endl;
 
     return 0;
-
 }
