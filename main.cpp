@@ -1,94 +1,87 @@
 #include <iostream>
 using namespace std;
-#include <cmath>
+
+
 
 void valeurAbsolue(int& n) {
-   if(n<0) n =-n;
+    n =n<0 ? -n : n;
 }
-
 void carre(int n) {
-    if(n<=0)return ;
-        for(int i=1; i<=n; ++i) {
-            for(int j = 1;j<=n; ++j) {
+    if(n>0) {
+        for(int i = 1; i<=n; ++i) {
+            for(int j = 1; j<=n; ++j) {
                 cout<<"*";
             }
             cout<<endl;
         }
-
+    }
 }
 
 int compterPairs(int n) {
-    if(n == 0) return 1;
-    int count = 0;
-while(n>0) {
-    int reste = n%10;
-    if(reste%2 ==0)count++;
-    n/=10;
+    int compte =0;
+    if(n == 0)return 1;
+    if(n<0) {
+        n= abs(n);
+    }
+    while(n>0) {
+        int reste = n%10;
+        if(reste %2 ==0) {
+            compte++;
+        }
+        n/=10;
+    }
+    return  compte;
 }
-    return count;
+bool estBissextile(int annee) {
+    if(annee<0)return false;
+    return annee%400==0 ||( annee%4 ==0 && annee%100!=0);
 }
 
-double celsiusToFahrenheit(double c, double& result) {
-  return  (c * 9./5.)+32;
-}
-#include <cmath>
+double retrait(double& solde, double montant) {
+   int retire = montant;
+    if(solde<0.) {
+        return -1;
+    }else if(montant >= solde) {
+         retire = solde;
+        solde =0.;
+    }else {
+        solde -= montant;
+    }
+        return retire;
 
-bool estPremier(int p2) {
-    if(p2<2)return false;
-    if(p2 %2 ==0) return p2==2;
-    for(int d= 3; 1LL * d*d<=p2; d+=2)
-        if(p2%d == 0)return false;
-    return true;
 }
+
+void permuter_gauche(int& a, int& b, int&c) {
+    int temp =a;
+    a =b;
+    b=c;
+    c=temp;
+}
+
 
 int main() {
-    int n =-100;
-    valeurAbsolue((n));
 
-    carre(3);
-
-    int p =24813;
-        cout<<compterPairs( p)<<endl;
-
-    int c= 100;
-    double r;
+    int n=-100;
+     valeurAbsolue(n);
+    cout<<n<<endl ;
+    int k =5;
+    carre(k);
+    cout<<compterPairs(245678)<<endl;
+    cout<<estBissextile(2400)<<endl;
 
 
-    while(c>=0) {
-        celsiusToFahrenheit(c,r);
-        cout<<c<<" celsius => "<<r<<" Fahrenheit."<<endl;
-        c -=20;
-    }
-    int num;
-    //cin>>num;
-    int somme =0;
-    cout<<"somme de "<<num<<  " = ";
-    while(num>0) {
-
-    int reste = num%10;
-        somme +=reste;
-        num/=10;
-    }
-    cout<<somme;
-
-    int choix;
-    do {
-        cout<<"Menu interactif entrez un numero [1-3]"<<endl;
-        cin>>choix;
-        if(choix>0 && choix<4) {
-            switch(choix) {
-                case 1: cout<<"Bonjour"; break;
-                case 2: cout<<"Au revoir"; break;
-                case 3: break;
-                default:cout<<"mauvais choix"; break;
-            }
+    int h;
+    cin>>h;
+    for(int i=1; i<=h; ++i) {
+        for(int es =0; es<i; ++es) {
+            cout<<" ";
         }
-    }while(choix<0 || choix>4);
+        for(int e = 1;e<=h-i+1; ++e) {
+            cout<<e;
+        }cout<<endl;
 
-    int p2 =9;
-    cout<<boolalpha<<estPremier( p2);
-
-
+    }
 
     return 0;
+
 }
