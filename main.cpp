@@ -1,147 +1,94 @@
 #include <iostream>
 using namespace std;
+#include <cmath>
 
-/*
-* void permuter(double &a, double & b, double &c) {
-    double temps = c;
-    c= b;
-    b=a;
-    a =temps;
+void valeurAbsolue(int& n) {
+   if(n<0) n =-n;
 }
- */
 
-/*
-* void triangle(int h) {
-    for(int i = 0; i<h; ++i) {
-        for(int espace = 0; espace<h - i; ++espace) {
-            cout<<" ";
+void carre(int n) {
+    if(n<=0)return ;
+        for(int i=1; i<=n; ++i) {
+            for(int j = 1;j<=n; ++j) {
+                cout<<"*";
+            }
+            cout<<endl;
         }
-        for(int etoil = 0; etoil<2*i-1; ++etoil) {
-            cout<<"*";
-        }
-        cout<<endl;
-    }
+
 }
+
+int compterPairs(int n) {
+    if(n == 0) return 1;
+    int count = 0;
+while(n>0) {
+    int reste = n%10;
+    if(reste%2 ==0)count++;
+    n/=10;
+}
+    return count;
+}
+
+double celsiusToFahrenheit(double c, double& result) {
+  return  (c * 9./5.)+32;
+}
+#include <cmath>
+
+bool estPremier(int p2) {
+    if(p2<2)return false;
+    if(p2 %2 ==0) return p2==2;
+    for(int d= 3; 1LL * d*d<=p2; d+=2)
+        if(p2%d == 0)return false;
+    return true;
+}
+
 int main() {
-    int hauteur;
+    int n =-100;
+    valeurAbsolue((n));
+
+    carre(3);
+
+    int p =24813;
+        cout<<compterPairs( p)<<endl;
+
+    int c= 100;
+    double r;
+
+
+    while(c>=0) {
+        celsiusToFahrenheit(c,r);
+        cout<<c<<" celsius => "<<r<<" Fahrenheit."<<endl;
+        c -=20;
+    }
+    int num;
+    //cin>>num;
+    int somme =0;
+    cout<<"somme de "<<num<<  " = ";
+    while(num>0) {
+
+    int reste = num%10;
+        somme +=reste;
+        num/=10;
+    }
+    cout<<somme;
+
+    int choix;
     do {
-        cout<<"entrez un hauter : ";
-        cin>>hauteur;
-        triangle( hauteur);
-
-    }while(hauteur<0);
-
-}
- */
-
-/*
-* #include <iomanip>
-
-double volumePyramide(double longueur, double largeur, double hauteur) {
-    return longueur*largeur*hauteur/3.0;
-}
-
-
-int main() {
-    cout<<fixed<<setprecision(1)<<volumePyramide(10, 3.5, 12)<<endl;
-    cout<<fixed<<setprecision(1)<<volumePyramide(3.6, 2.4, 2.7)<<endl;
-    return 0;
-}
-
- */
-/*
-* bool estBissextile(int annee) {
-    if(annee<0) {
-        return false;
-    }
-    return !(annee % 400 || (annee%4==0 && annee % 100 !=0));
-
-}
-
-int main() {
-    cout<<boolalpha<<estBissextile(1900);
-
-    return 0;
-}
- */
-
-/*
-* bool listerCaracteres(char debut, char fin) {
-    return debut<=fin;
-}
-
-int main() {
-cout<<boolalpha<<listerCaracteres('K','C');
-    return 0;
-}
-
-
- */
-
-/*
-* void permutationDroite( double& a,  double& b, double& c) {
-    double temp =c;
-    c=b;
-    b =a;
-    a=temp;
-}
-
-int main() {
-    double a=1;
-    double b=2;
-    double c =3;
-permutationDroite(a,b,c);
-    cout<<a<<b<<c;
-    return 0;
-}
- */
-
-/*
-* double retrait(double& solde, double montant) {
-    double retire = montant;
-    if(retire > solde) {
-        retire =solde;
-        solde=0.0;
-    }
-    solde -= retire;
-    return retire;
-
-}
-
-int main() {
-
-    double solde;
-    double montant;
-
-    do {
-        cout<<"Entrez le solde : ";
-        cin>>solde;
-        cout<<"Entrez le montant : ";
-        cin>>montant;
-    }while(solde<0);
-
-   cout<< retrait(solde, montant);
-
-    return 0;
-}
-
- */
-void triangle(int hauter) {
-    for(int i = 0; i<=hauter; ++i) {
-        for(int espace = 0; espace<= hauter-i; ++espace) {
-            cout<<" ";
+        cout<<"Menu interactif entrez un numero [1-3]"<<endl;
+        cin>>choix;
+        if(choix>0 && choix<4) {
+            switch(choix) {
+                case 1: cout<<"Bonjour"; break;
+                case 2: cout<<"Au revoir"; break;
+                case 3: break;
+                default:cout<<"mauvais choix"; break;
+            }
         }
-        for(int e = 1; e<=2*i-1; ++e) {
-            cout<<"*";
-        }
-        cout<<endl;
-    }
+    }while(choix<0 || choix>4);
 
-}
-int main() {
-int hauter;
-    cin>>hauter;
-    triangle(hauter);
+    int p2 =9;
+    cout<<boolalpha<<estPremier( p2);
+
+
 
     return 0;
 }
