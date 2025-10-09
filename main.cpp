@@ -1,42 +1,161 @@
 #include <iostream>
-#include <limits>
-#include <cmath>
-#include <cctype>
-
+#include <string>
 using namespace std;
 
-int lire_entier(const string& n) {
-    string s = n;
-    int num =static_cast<int>(s);
-    return num;
+/*
+* size_t nbVoyelles(string_view s) {
+    size_t count =0;
+for(int i = 0; i<s.size(); ++i) {
+    if(static_cast<char>(tolower(s[i])) == 'o' ||
+        static_cast<char>(tolower(s[i])) =='a' ||
+        static_cast<char>(tolower(s[i])) =='e' ||
+        static_cast<char>(tolower(s[i])) =='i' ||
+        static_cast<char>(tolower(s[i])) =='y' ||
+        static_cast<char>(tolower(s[i])) =='u' ) {
+        count++;
+    } ;
 }
-
-int syracuse(int & n) {
-    int count =0;
-if(n>0) {
-
-   do {
-       ++count;
-       if(n%2==0) {
-           n/=2;
-       }else {
-           n = n*3+1;
-       }
-   }while(n!=1);
-}
-    else {
-        cout<<"La valeur n'est pas valide";
-    }
     return count;
+
+}
+int main() {
+    string s;
+    getline(cin, s);
+    cout << nbVoyelles(s) << '\n';
+    return 0;
 }
 
+#include <iostream>
+#include <string>
+using namespace std;
+
+string periodeDuJour(int h) {
+    do {
+
+        if(h<0 || h>24) {
+            cout<<"entrez un hour";
+            cin>>h;
+        }
+    }while(h<0 || h>24);
+    if(h>=6 && h<12) {
+        return "matin";
+    }else if(h>=12 && h<=17) {
+        return "apres-midi";
+    }else if(h>17 && h<20) {
+        return "soir";
+    }else if(h>=20 && h<=23) {
+        return "soirée";
+    }else  {
+        return "nuit";
+    }
+
+}
 
 int main() {
+    int h;
+    cin >> h;
+    cout << periodeDuJour(h) << '\n';
+    return 0;
+}
 
-    const string msg = "Veuillez saisir une valeur : ";
-    int i = lire_entier(msg);
-    cout << "La suite de Syracuse pour n = " << i << " : ";
-    int nb_iteration = syracuse(i);
-    cout << "\nLe nombre d'iterations = " << nb_iteration;
+#include <iostream>
+using namespace std;
+
+double retrait(double& solde, double montant){
+    int retire = montant;
+    if(montant > solde) {
+        retire = solde;
+       solde =0;
+        return retire;
+    }
+   solde -= retire;
+    return retire;
+
+}
+
+int main() {
+    double solde = 500;
+    cout << retrait(solde, 300) << " " << solde << '\n'; // 300 200
+    cout << retrait(solde, 300) << " " << solde << '\n'; // 200 0
+
+    return 0;
+}
+
+#include <iostream>
+using namespace std;
+
+int& min3(int& a, int& b, int& c) {
+    return (a<b ?(a<c ?a :c) : (b<c?b:c));
+}
+
+int main() {
+    int a=5, b=2, c=9;
+    cout << min3(a,b,c) << '\n'; // 2
+    min3(a,b,c) = 0;
+    cout << a << " " << b << " " << c << '\n'; // 5 0 9
+    return 0;
+}
+
+#include <iostream>
+using namespace std;
+
+int syracuse(int& n) {
+    int stp =0;
+    while(n!=1) {
+        ++stp;
+        if(n%2==0) {
+            n/=2;
+            cout<<n<<" ";
+        }else {
+          n= 3*n+1;
+            cout<<n<<" ";
+        }
+
+    }
+    return stp;
+
+}
+
+int main() {
+    int n;
+    cin >> n;
+    int copie = n;
+    int steps = syracuse(copie);
+    cout << "\n" << steps << '\n';
+    return 0;
+}
+
+
+
+ */
+
+#include <iostream>
+#include <cmath>
+#include <cmath>
+using namespace std;
+
+int  sommeDiviseursStricts(int n) {
+if(n>1) {
+    int limit = sqrt(n);
+    int somme = 1;
+    for(int i =2; i<=limit; ++i) {
+        if(n%i ==0) {
+            int d = n/i;
+            somme += (d==i) ? i : i+d;
+        }
+    }
+    return somme;
+}
+}
+bool estParfait(int n) {
+   return  sommeDiviseursStricts(n)== n;
+
+}
+
+int main() {
+    int n;
+    cin >> n;
+    cout << sommeDiviseursStricts(n) << '\n';
+    cout << boolalpha << estParfait(n) << '\n';
     return 0;
 }
