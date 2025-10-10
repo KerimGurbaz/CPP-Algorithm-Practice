@@ -1,182 +1,165 @@
 /*
 * // --- Ne pas modifier ---
-#include <iostream>
-#include <cmath>
-using namespace std;
-
-
-#include <iostream>
-#include <string>
-using namespace std;
-
-string periode_de_jour(const int& h) {
-    switch (h) {
-        case 0:case 1:case 2:case 3:case 4:case 5:return "nuit";
-        case 6:case 7:case 8:case 9:case 10:case 11:return "matin";
-        case 12:case 13:case 14:case 15:case 16:case 17:return "apres-midi";
-        case 18:case 19:case 20: return "soir";break;
-        default: return "soiree" ;
-    }
-}
-
-int main() {
-    int h;
-    do {
-        cout<<"entrez un houre :"<<endl;
-        cin >> h;
-        if(h>=0 && h<=24) {
-            cout << periode_de_jour(h) << '\n';
-        }
-    }while(h<0 || h>24);
-    return 0;
-}
-
-/*
-Exemples
-Entrée : 7   -> matin
-Entrée : 12  -> apres-midi
-Entrée : 18  -> soir
-Entrée : 21  -> soiree
-Entrée : 2   -> nuit
-
-#include <iostream>
-#include <iomanip>
-using namespace std;
-
-double moyenne_cumulative(int &x) {
-    static int count;
-    ++count;
-    static double somme=0;
-    somme +=x;
-    return somme/count;
-}
-
-int main() {
-    int x;
-    cout << fixed << setprecision(2);
-    do {
-        cin >> x;
-        if (x == 0) break;                 // fin
-        cout << moyenne_cumulative(x) << '\n';
-    } while (true);
-    return 0;
-}
-#include <iostream>
-using namespace std;
-
-int compter_chiffres_pairs(int n) {
-    int count =0;
-    if(n==0) {
-        return 1;
-    }
-    n = n<0 ? -n : n;
-        while(n>0) {
-            int reste = n%10;
-            if(reste %2== 0)count++;
-            n/=10;
-        }
-    return count;
-}
-
-int main() {
-    long long n;
-    cin >> n;
-    cout << compter_chiffres_pairs(n) << '\n';
-    return 0;
-}
-#include <iostream>
-using namespace std;
-
-double retrait(double &solde, double montant) {
-    double retire_effectif= min(solde, montant);
-    solde -= retire_effectif;
-    return retire_effectif;
-}
-
-int main() {
-    double solde = 500;
-    cout << retrait( solde, 300 ) << " " << solde << '\n'; // 300 200
-    cout << retrait( solde, 300 ) << " " << solde << '\n'; // 200 0
-    return 0;
-}
-
-#include <iostream>
-using namespace std;
-
-int & min3(int &a, int&b, int&c) {
-    return a<b?(a<c?a:c):(b<c? b:c);
-}
-
-int main() {
-    int a=5, b=2, c=9;
-    cout << min3(a,b,c ) << '\n';     // 2
-    min3( a,b,c ) = 0;
-    cout << a << " " << b << " " << c << '\n'; // 5 0 9
-    return 0;
-}
-
-#include <iostream>
-using namespace std;
-
-int syracuse_afficher_et_compter(int &n) {
-int count=0;
-    cout<<n<<" ";
-    while(n!=1) {
-        count++;
-       if(n%2==0) {
-           n/=2;
-           cout<<n<<" ";
-       }else {
-           n= n*3+1;
-           cout<<n<<" ";
-       }
-    }
-
-return count;
-}
-
-int main() {
-    int n;
-    cin >> n;
-    int copie = n;
-    int steps = syracuse_afficher_et_compter(copie);
-    cout << "\n" << steps << '\n';
-    return 0;
-}
-
-/*
-Exemple (entrée 6)
-Affiche : 6 3 10 5 16 8 4 2 1
-Retour  : 8
-*/
-
-
-/*
-*/
 #include <cmath>
 #include <iostream>
 using namespace std;
-int somme_diviseurs_stricts(int n) {
-int limit = sqrt(n);
+
+int sommeDiviseur(int &n) {
+    int limit = sqrt(n);
     int somme =1;
-    for(int i =2; i<=limit; ++i) {
+
+    for(int i =2 ; i<=limit; ++i) {
         if(n%i == 0) {
             int d = n/i;
-            somme += (d == i) ? d : i+d;
+            somme += (d==i) ? d : d+i;
         }
-    }
-    if(limit *limit == n) {
-        somme-=limit;
     }
     return somme;
 }
-bool est_parfait(int n) {
- return n == somme_diviseurs_stricts(n);
+
+bool sontAmicaux(int a, int b) {
+   return  sommeDiviseur(a) == b && sommeDiviseur(b) == a;
+}
+
+int main() {
+
+
+    if (sontAmicaux(220, 284)) {
+        cout << "220 et 284 sont amicaux." << endl;
+    }
+    if (!sontAmicaux(1184, 1211)) { // 1211 n'est pas la somme des diviseurs de 1184
+        cout << "1184 et 1211 ne sont pas amicaux." << endl;
+    }
+    return 0;
+}
+// --- Ne pas modifier ---
+#include <iostream>
+#include <string>
+#include <cctype>
+using namespace std;
+bool estPalindrome(string& s) {
+    int first = 0;
+    int last = s.size()-1;
+    while(first<last) {
+        if(tolower(static_cast<char>(s[first])) != static_cast<char>(s[last])) {
+            return false;
+        }
+        first++;
+        last--;
+    }
+    return true;
+}
+
+int main() {
+    string mot1 = "Kayak";
+    string mot2 = "bonjour";
+    cout << mot1 << " est un palindrome ? " << boolalpha << estPalindrome(mot1) << endl;
+    cout << mot2 << " est un palindrome ? " << boolalpha << estPalindrome(mot2) << endl;
+    return 0;
+}
+#include <iostream>
+using namespace std;
+int diviser(int a, int b, int & q, int& r) {
+    int aa = a;
+     q=1;
+    while((a-b) >= b ) {
+        a= a-b;
+        ++q;
+    }
+    r = aa - q*b;
+    return q;
+}
+
+int main() {
+    int quotient, reste;
+    diviser(17, 5, quotient, reste);
+    cout << "17 divise par 5 -> Quotient: " << quotient << ", Reste: " << reste << endl; // Attendu: 3, 2
+
+    diviser(8, 4, quotient, reste);
+    cout << "8 divise par 2 -> Quotient: " << quotient << ", Reste: " << reste << endl; // Attendu: 4, 0
+    return 0;
+}
+Défi 4 : Traitement d'un Tableau C-style(tablolar vektorler vs sinav konulari dahilidnde degil.. o yuzden geciyorum bu soruyu)
+
+
+// --- Ne pas modifier ---
+// --- Ne pas modifier ---
+#include <iostream>
+using namespace std;
+void dessinerRectangleCreux(int h, int l) {
+    for(int i =1; i<=l; ++i) {
+        if(i>1 && i<l) {
+            for(int k =1; k<=2; ++k) {
+                cout<<"* ";
+            }
+        }else {
+            for(int j=1; j<=h;++j) {
+            cout<<"*";
+        }
+        }
+        cout<<endl;
+    }
 }
 int main() {
-    int n;
-    cin >> n;
-    cout << somme_diviseurs_stricts( n ) << '\n';
-    cout << boolalpha << est_parfait( n ) << '\n';
+    cout << "Rectangle 8x5:" << endl;
+    dessinerRectangleCreux(8, 5);
+    return 0;
+}
+// Sortie attendue pour 8x5:
+// ********
+// * *
+// * *
+// * *
+// ********
+
+#include <iostream>
+using namespace std;
+
+int calculerTrajet(int a, int b, int c) {
+   int jour=0;
+    while(a>=0) {
+        a-=b;
+        if(a!=0) {
+            a+=c;
+            ++jour;
+        }
+    }
+    return jour;
+}
+
+int main() {
+    // Puits de 10m, monte 3m/jour, descend 2m/nuit
+    int jours1 = calculerTrajet(10, 3, 2);
+    cout << "Il faudra " << jours1 << " jours pour sortir du puits de 10m." << endl; // Attendu: 8 jours
+
+    // Puits de 20m, monte 5m/jour, descend 1m/nuit
+    int jours2 = calculerTrajet(20, 5, 1);
+    cout << "Il faudra " << jours2 << " jours pour sortir du puits de 20m." << endl; // Attendu: 5 jours
+    return 0;
+}
+ */
+
+
+// --- Ne pas modifier ---
+#include <iostream>
+using namespace std;
+
+
+ int* ptrElementMax( int  *a, int * b) {
+    return (*a > *b ? a : b);
+}
+
+int main() {
+    int x = 50, y = 100;
+    int* ptrMax = nullptr;
+
+    ptrMax = ptrElementMax(&x, &y);
+    cout << "La valeur maximale est : " << *ptrMax << endl; // Attendu: 100
+
+    // Si la fonction retourne un vrai pointeur, cette ligne doit fonctionner
+    // et modifier la variable y à -1.
+    *ptrMax = -1;
+
+    cout << "Apres modification, x=" << x << " et y=" << y << endl; // Attendu: x=50 et y=-1
     return 0;
 }
