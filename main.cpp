@@ -121,33 +121,72 @@ int main() {
     return 0;
 }
 // --- Ne pas modifier ---
-#include <iostream>
-using namespace std;
 
-void dessinerDamier(int lignes, int colonnes) {
-    for(int i = 0; i<lignes; ++i) {
-        for(int j =0; j<colonnes; ++j) {
-            if(j%2==0) {
-                cout<<"X";
-            }else {
-                cout<<"O";
-            }
-        }cout<<endl;
-    }
-}
-
-int main() {
-    cout << "Damier 4x5 :" << endl;
-    dessinerDamier(4, 5);
-    cout << "\nDamier 3x3 :" << endl;
-    dessinerDamier(3, 3);
-    return 0;
-}
 // Sortie attendue pour 4x5:
 // XOXOX
 // OXOXO
 // XOXOX
 // OXOXO
+
+// --- Ne pas modifier ---
+#include <iostream>
+using namespace std;
+
+int& elementMax(int& a, int& b) {
+    return a<b?a:b;
+}
+
+int main() {
+    int x = 10, y = 20;
+    cout << "Le max entre x et y est : " << elementMax(x, y) << endl;
+
+    // Si la fonction retourne une vraie référence, cette ligne doit fonctionner
+    // et modifier la variable y à 0.
+    elementMax(x, y) = 0;
+
+    cout << "Apres modification, x=" << x << " et y=" << y << endl; // Devrait afficher x=10 et y=0
+    return 0;
+}
  */
 
 
+// --- Ne pas modifier ---
+#include <iostream>
+using namespace std;
+
+int retirerBillets(int& solde, int montantDemande) {
+    int retireEffectif = min(solde, montantDemande);
+    int totalRetire = 0;
+
+    int nb20 = retireEffectif/20;
+    totalRetire += nb20*20;
+    retireEffectif %= 20;
+
+    int nb10 = retireEffectif /10;
+    totalRetire += nb10* 10;
+    retireEffectif %=10;
+
+    int nb5 = retireEffectif/5;
+    totalRetire += nb5 * 5;
+
+
+    solde -= totalRetire;
+
+    return totalRetire;
+
+}
+
+int main() {
+    int compte = 188;
+    cout << "Solde initial : " << compte << endl;
+
+    int retire1 = retirerBillets(compte, 75);
+    cout << "Demande: 75, Retire: " << retire1 << ", Nouveau solde: " << compte << endl;
+    // Attendu: Retire: 75 (3x20, 1x10, 1x5), Nouveau solde: 113
+
+    int retire2 = retirerBillets(compte, 120);
+    cout << "Demande: 120, Retire: " << retire2 << ", Nouveau solde: " << compte << endl;
+    // Attendu: Solde insuffisant. Retire: 110 (5x20, 1x10), Nouveau solde: 3
+
+    return 0;
+}
