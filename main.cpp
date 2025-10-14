@@ -1,25 +1,38 @@
 #include <iostream>
-using namespace std;
+#include <fstream>
 #include <string>
+using namespace std;
 
-
-int fibo(int n) {
-    int a = 0;
-    int b = 1;
-    int sum ;
-
-    while(n>0) {
-        a =b;
-        b = sum;
-        sum = a+b;
-        --n;
-    }
-    return sum;
-}
 int main() {
-    int n;
-    cin>>n;
+ string filename;
+    cout <<" entrez le nom du fichier de sortie..";
+    getline(cin, filename);
 
-    cout<<fibo(n);
+    ifstream check_file(filename);
+    if(check_file.is_open()) {
+        cerr<<"Erreur le fichier "<<filename<<"existe deja:"<<endl;
+        check_file.close();
+        return 1;
+    }
 
+
+    ofstream output_file(filename);
+    if(!output_file.is_open()) {
+        cerr<<"erreur critique :  impossible de creer de fichier"<< filename<<endl;
+        return 1;
+    }
+
+    cout<<"Entrez le texte a enregistrer..."<<endl;
+    string line;
+    while (getline(cin, line)) {
+        if(line== "#exit#") {
+            break;
+        }
+
+        output_file<<line<<endl;
+    }
+cout<<"Saisie est termine.."<<endl;
+    output_file.close();
+
+    return 0;
 }
