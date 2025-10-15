@@ -1,48 +1,74 @@
 #include <iostream>
-#include <fstream> // Pour ifstream et ofstream
 #include <string>
-#include <vector>
+#include <iomanip>
+#include <sstream>
+#include <limits>
 using namespace std;
 
-int main() {
 
-    string input_filename, output_filename, keyword;
+string lire_string(const string& prompt) {
+    string valeur;
+    cout<<prompt;
+    getline(cin, valeur);
+    return valeur;
+}
 
-    cout<<"Entrez le nom du fichier d'entree : ";
-    getline(cin, input_filename);
+int lire_int(const string& prompt) {
+    int valeur;
+    while(true) {
+        cout<<prompt;
+        cin>>valeur;
 
-    cout<<"Entrez le nom du fichier sortie : ";
-    getline(cin, output_filename);
-
-    cout<<"Entrez le mot-cle a rechercher : ";
-    getline(cin, keyword);
-
-    ifstream input_file(input_filename);
-    if(!input_file.is_open()) {
-        cerr<<"Erreur : impossible d'ouvrir le fichier d'entree"<<input_filename<<endl;
-        return 1;
-    }
-
-    ofstream output_file(output_filename);
-    if(!output_file.is_open()) {
-        cerr<<"Erreur imposible de cree le fichier de sortie"<<output_filename<<endl;
-        input_file.close();
-
-        return 1;
-    }
-
-    string ligne;
-    int lines_written =0;
-    cout<<"\nFiltrage en cours..."<<endl;
-    while(getline(input_file, ligne)) {
-        if(ligne.find(keyword) != string::npos) {
-            output_file<<ligne<<endl;
-            lines_written++;
+        if(cin.fail()) {
+            cout<<"Erreur : saisie nom numerique. veuillez reessayer.\n";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }else {
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            return valeur;
         }
     }
+}
 
-    input_file.close();
-    output_file.close();
+double lire_double(const string& prompt) {
+    double valeur;
+    while(true) {
+        cout<<prompt;
+        cin>>valeur;
+        if(cin.fail() || valeur>6.0 ||valeur<0.0) {
+            cout<<"Erreur: saisie invalide.."<<endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }else {
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            return valeur;
+        }
+    }
+}
+double calculer_moyenne(double note1, double note2) {
+    return (note1 + note2)/2.0;
+}
 
-    return 0;
+bool est_admis(double moyenne) {
+    return moyenne >=3.8;
+}
+
+string double_to_str(double valeur) {
+    stringstream ss;
+    ss<<fixed<<setprecision(1)<<valeur;
+    return ss.str();
+}
+
+void afficher(const string& nom, const string& age, const string& note_math, const string& note_prg1, const string& admis) {
+    cout<<left
+    <<setw(18)<<nom
+    <<setw(5)<<age
+    <<setw(14)<<note_math
+    <<setw(13)<<note_prg1
+    <<admis<<endl;
+}
+
+void afficher_resume(double moyenne, bool admis) {
+    cout<<"Moyenne : "<<fixed<<setprecision(2)<<moyenne<<endl;
+    cout<<"resultat"<<(admis ? "Admis" : "Non Admis")<<endl;
 }
