@@ -1,46 +1,57 @@
+#include <chrono>
 #include <iostream>
-#include <cstdlib>
-
-//#include "date.h"
-//#include "personne.h"
-
+using namespace std;
+#include <utility>
+#include <cstdint>
+#include <map>
 using namespace std;
 
+
+using Jour = uint8_t;
+using Mois = uint8_t;
+using Annee = uint16_t;
+
 struct Date {
-    int jour;
-    int mois;
-    int annee;
+    Jour jour;
+    Mois mois;
+    Annee annee;
 };
 
-void afficher_date(const Date& d) {
-cout<<d.jour<<"."
-    <<d.mois<<"."
-    <<d.annee;
+bool est_bissextile(Annee an) {
+    if(an <=0) {
+        return false;
+    }
+    return (an%400 == 0 || (an%4 == 0 && an%100 !=0));
 }
-struct Personne {
-    string prenom;
-    string adres;
-    Date anniversaire;
+enum  MoisValeur {
+    JANVIER =1, FEVRIER, MARS, AVRIL,
+    MAI, JUIN, JUILLET, AOUT,
+    SEPTEMBRE, OCTOBRE, NOVEMBRE, DECEMBRE
 };
 
-void afficher_personne(const Personne& p) {
-    cout<<"Nom : "<<p.prenom<<endl;
-    cout<<"Adress : "<<p.adres;
-    cout<<"Anniversaire : ";
-    afficher_date(p.anniversaire);
-
+Jour nombre_de_jours(Mois m, Annee an) {
+    if(m<JANVIER || m>DECEMBRE) {
+        return 0;
+    }
+    switch (m) {
+        case AVRIL:
+            case JUIN:
+        case SEPTEMBRE:
+        case NOVEMBRE:
+        return 30;
+        case FEVRIER:
+            return est_bissextile(an) ? 29: 28;
+        default:return 31;
+    }
 }
+
 
 int main() {
+    cout << "Jours en Fev 2023 : " << (int)nombre_de_jours(FEVRIER, 2023) << endl;
+    cout << "Jours en Fev 2024 : " << (int)nombre_de_jours(FEVRIER, 2024) << endl;
+    cout << "Jours en Juin 2023: " << (int)nombre_de_jours(JUIN, 2023) << endl;
+    cout << "Jours en Jan 2023: " << (int)nombre_de_jours(JANVIER, 2023) << endl;
+    cout << "Mois invalide (13): " << (int)nombre_de_jours(13, 2023) << endl;
 
-    Date uneDate = {30, 10, 2023};
-    cout << "une date     : "; afficher_date(uneDate);
-    cout << endl << endl;
-
-    Personne anna = {"Anna", "Yverdon", uneDate};
-    afficher_personne(anna);
-
-    cout << endl;
-
-    return EXIT_SUCCESS;
+    return 0;
 }
