@@ -1,45 +1,46 @@
-#include <string>
-#include <algorithm>
 #include <iostream>
-#include <limits>
-#include <cmath>
+#include <cstdlib>
+
+//#include "date.h"
+//#include "personne.h"
+
 using namespace std;
 
-void calculer_representation(double r, double base, double& mantisse, int& exposant) {
-    if( r == 0.0) {
-        mantisse == 0.0;
-        exposant == 0;
-        return;
-    }
+struct Date {
+    int jour;
+    int mois;
+    int annee;
+};
 
-    exposant = 0;
-    mantisse = r;
+void afficher_date(const Date& d) {
+cout<<d.jour<<"."
+    <<d.mois<<"."
+    <<d.annee;
+}
+struct Personne {
+    string prenom;
+    string adres;
+    Date anniversaire;
+};
 
-    while(fabs(mantisse)>=base) {
-        mantisse /=base;
-        exposant++;
-    }
+void afficher_personne(const Personne& p) {
+    cout<<"Nom : "<<p.prenom<<endl;
+    cout<<"Adress : "<<p.adres;
+    cout<<"Anniversaire : ";
+    afficher_date(p.anniversaire);
 
-    while(fabs(mantisse) < 1.0) {
-        mantisse *= base;
-        exposant --;
-    }
 }
 
-
 int main() {
-    cout << "Entrez un nombre réel : ";
-    double r;
-    cin >> r;
 
-    double mantisse;
-    int exposant;
+    Date uneDate = {30, 10, 2023};
+    cout << "une date     : "; afficher_date(uneDate);
+    cout << endl << endl;
 
-    calculer_representation(r, 10., mantisse, exposant);
-    cout << r << " = " << mantisse << " * 10^" << exposant << endl;
+    Personne anna = {"Anna", "Yverdon", uneDate};
+    afficher_personne(anna);
 
-    calculer_representation(r, 2., mantisse, exposant);
-    cout << r << " = " << mantisse << " * 2^" << exposant << endl;
+    cout << endl;
 
-    return 0;
+    return EXIT_SUCCESS;
 }
