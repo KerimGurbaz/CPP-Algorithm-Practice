@@ -1,32 +1,46 @@
 #include <iostream>
-#include <vector>
+#include <string>
+#include <cassert>
 #include <cctype>
 using namespace std;
 
-template <typename T, typename Pred>
-void supprimer_si(vector<T>& v, Pred p) {
-    auto slow =v.begin();
-    for(auto fast = v.begin(); fast!=v.end(); ++fast ) {
-        if(!p(*fast)) {
-            if(slow!= fast) {
-                  *slow =*fast;
-            ++slow;
-            }
+int transformer(string& s, string from, string to) {
+assert(from.size() == to.size());
+    size_t count = 0;
 
+    for(size_t j =0; j<s.size(); ++j) {
+        char orj = s[j];
+        char lower_s = tolower(orj);
+
+        for(size_t i =0 ; i<from.size();++i) {
+            if(tolower(from[i]) == lower_s) {
+                char replacement_char = to[i];
+                s[j] = isupper(orj) ? toupper(replacement_char) : tolower(replacement_char);
+                ++count;
+                break;
+            }
         }
     }
-    v.erase(slow, v.end());
+return count;
+
 }
-bool est_pair(int a) { return a % 2 == 0; }
+
+#include <iostream>
+#include <string>
+#include <cassert>
+#include <cctype>
+using namespace std;
+
+// TODO: size_t transformer(string& s, string_view from, string_view to);
 
 int main() {
-    vector<int> v1{1, 2, 3, 5, 7, 10, 15, 22};
-    supprimer_si(v1, est_pair);
-    for (int e : v1) cout << e << ' ';
-    cout << '\n';
+    string s = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
+               "Phasellus facilisis at dolor eget congue. "
+               "Duis in lacus placerat ante consectetur tempor. "
+               "Aliquam lorem nunc, laoreet quis feugiat accumsan, vulputate vitae justo.";
 
-    vector<char> v2{'R', '2', '-', 'D', '2', ' ', 'C', '-', '3', 'P', 'O'};
-    supprimer_si(v2, ::isdigit);
-    for (char e : v2) cout << e;
-    cout << '\n';
+    cout << transformer(s,"abcdefgh.!,:","fghabcde!,:.") << "\n";
+    cout << s << "\n";
+    cout << transformer(s,"fghabcde!,:.","abcdefgh.!,:") << "\n";
+    cout << s << "\n";
 }
