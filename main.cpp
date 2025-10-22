@@ -6,7 +6,15 @@ using namespace std;
 enum class Chiffre {
     ZERO, UN , DEUX, TROIS, QUTRE, CINQ, SIX,SEPT, HUIT, NEUF
 };
-const int nb_chiffres = 10;
+
+Chiffre avancer(Chiffre c, int pos) {
+    int val = static_cast<int>(c);
+    val = (val + pos) %10;
+    if(pos<0) {
+        val = ( val - pos +10)%10;
+    }
+    return static_cast<Chiffre>(val);
+}
 
 void afficher(Chiffre c) {
     switch(c) {
@@ -33,27 +41,26 @@ void afficher(Chiffre c) {
     }
 }
 
-Chiffre next(Chiffre c) {
-    int val = static_cast<int>(c);
 
-    val = (val +1) % nb_chiffres;
-return static_cast<Chiffre>(val);
 
-}
 
-bool operator<(Chiffre a, Chiffre b) {
-    return static_cast<int>(a) < static_cast<int>(b);
-}
 
 int main() {
-    Chiffre a = Chiffre::NEUF;
-    Chiffre b = next(a);
+    Chiffre c = Chiffre::TROIS;
 
-    afficher(a);
+    cout << "Départ : ";
+    afficher(c);
+    cout << endl;
 
-cout<< (a<b ? " < " : ">=");
+    Chiffre d = avancer(c, -4); // 🧭 recule de 4 positions
+    cout << "Après avancer(c, -4) → ";
+    afficher(d);
+    cout << endl;
 
-    afficher(b);
+    Chiffre e = avancer(c, 6); // 🧭 avance de 6 positions
+    cout << "Après avancer(c, 6) → ";
+    afficher(e);
+    cout << endl;
 
     return 0;
 }
