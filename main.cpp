@@ -1,41 +1,42 @@
 #include <iostream>
-#include <string>
-#include <string_view>
-#include <algorithm>
+#include <vector>
 using namespace std;
-#include <cassert>
-#include <set>
-#include <cctype>
 
-bool verifier(string_view a, string_view b) {
-    set<char> set_a;
-    set<char> set_b;
+// TODO: int somme_voisins(const vector<vector<int>>& m, int r, int c);
+int somme_voisins(const vector<vector<int>>& m, int r, int c) {
+    if(m.empty() || m[0].empty()) {
+        return 0;
+    }
+    int num_rows = m.size();
+    int num_cols = m[0].size();
+    int sum = 0;
 
-    for(char c: a) {
-        char lower_c = tolower(c);
-        if( !set_a.insert(lower_c).second) {
-            return false;
+    for(int dr =-1; dr<=1; ++dr) {
+        for(int dc = -1; dc<=1; ++dc) {
+            if(dr == 0 && dc ==0) {
+                continue;
+            }
+            int nr = r + dr;
+            int nc = c + dc;
+
+            bool isvalidRow = nr>=0 && nr<num_rows;
+            bool isvalidCol= nc>=0 && nc<num_cols;
+
+            if(isvalidCol && isvalidRow) {
+                sum += m[nr][nc];
+            }
         }
     }
-    for(char c : b) {
-        char lower_c = tolower(c);
-        if( !set_b.insert(lower_c).second) {
-            return false;
-        }
-    }
 
-    return set_a == set_b;
+    return sum;
 }
 
-void tester(string_view a, string_view b) {
-    cout << '"' << a << "\" "
-         << (verifier(a, b) ? "" : "in")
-         << "compatible avec "
-         << '"' << b << '"' << '\n';
-}
 
 int main() {
-    tester("abcdef","FEDBAC");
-    tester("abcdef","xyz123");
-    tester("abcA","cAba");
+    vector<vector<int>> m{
+            {1,2,3,4},
+            {5,6,7,8},
+            {9,1,2,3}
+    };
+    cout << somme_voisins(m, 1, 2) << '\n'; // beklenen değer söylemiyorum :)
 }
