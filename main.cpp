@@ -1,22 +1,33 @@
- #include <iostream>
+#include <iostream>
+#include <string>
+#include <cctype> // isdigit için
 using namespace std;
+#include <algorithm>
 
 
+string filtrer_chiffres(const string& s) {
+    string n_string = s;
 
-int n;
-int & plus_petit_modulo_n(int & a, int & b) {
-
-    return ( a % n <b % n ? a : b);
+/*
+    *  auto flt_str = remove_if(n_string.begin(), n_string.end(), [](char c) {
+          return (!isdigit(c));
+      });
+        n_string.erase(flt_str, n_string.end());
+    return n_string;
+ */
+    erase_if(n_string,[](char c) {
+      return  !isdigit(c);
+    });
+    return n_string;
 }
-
 int main() {
+    cout << filtrer_chiffres("a1b2c3d4e5") << endl;
+    cout << filtrer_chiffres("HEIG-VD 2025") << endl;
+    cout << filtrer_chiffres("No digits here") << endl;
 
-    int a = 1234, b = 5643; cout << a << " " << b << endl;
-
-    n = 100;
-    cout << plus_petit_modulo_n(a, b) << endl;
-
-    n = 10;  cout << plus_petit_modulo_n(a, b) << endl;
-
-    plus_petit_modulo_n(a, b) = 9999; cout << a << " " << b << endl;
+    string s("HEIG-VD");
+    string k = s.substr(0, 3).append("X");
+    cout << k;
 }
+
+
