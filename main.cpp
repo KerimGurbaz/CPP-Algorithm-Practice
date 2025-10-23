@@ -1,42 +1,22 @@
-#include <iostream>
-#include <vector>
+ #include <iostream>
 using namespace std;
 
-// TODO: int somme_voisins(const vector<vector<int>>& m, int r, int c);
-int somme_voisins(const vector<vector<int>>& m, int r, int c) {
-    if(m.empty() || m[0].empty()) {
-        return 0;
-    }
-    int num_rows = m.size();
-    int num_cols = m[0].size();
-    int sum = 0;
 
-    for(int dr =-1; dr<=1; ++dr) {
-        for(int dc = -1; dc<=1; ++dc) {
-            if(dr == 0 && dc ==0) {
-                continue;
-            }
-            int nr = r + dr;
-            int nc = c + dc;
 
-            bool isvalidRow = nr>=0 && nr<num_rows;
-            bool isvalidCol= nc>=0 && nc<num_cols;
+int n;
+int & plus_petit_modulo_n(int & a, int & b) {
 
-            if(isvalidCol && isvalidRow) {
-                sum += m[nr][nc];
-            }
-        }
-    }
-
-    return sum;
+    return ( a % n <b % n ? a : b);
 }
 
-
 int main() {
-    vector<vector<int>> m{
-            {1,2,3,4},
-            {5,6,7,8},
-            {9,1,2,3}
-    };
-    cout << somme_voisins(m, 1, 2) << '\n'; // beklenen değer söylemiyorum :)
+
+    int a = 1234, b = 5643; cout << a << " " << b << endl;
+
+    n = 100;
+    cout << plus_petit_modulo_n(a, b) << endl;
+
+    n = 10;  cout << plus_petit_modulo_n(a, b) << endl;
+
+    plus_petit_modulo_n(a, b) = 9999; cout << a << " " << b << endl;
 }
