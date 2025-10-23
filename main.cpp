@@ -1,33 +1,42 @@
 #include <iostream>
-#include <string>
-#include <cctype> // isdigit için
+#include <array>
+#include <iomanip> // setw için
 using namespace std;
-#include <algorithm>
 
-
-string filtrer_chiffres(const string& s) {
-    string n_string = s;
-
-/*
-    *  auto flt_str = remove_if(n_string.begin(), n_string.end(), [](char c) {
-          return (!isdigit(c));
-      });
-        n_string.erase(flt_str, n_string.end());
-    return n_string;
- */
-    erase_if(n_string,[](char c) {
-      return  !isdigit(c);
-    });
-    return n_string;
+template<typename T, size_t N >
+ostream& operator<<(ostream& os, const array<T, N>& arr) {
+    os<<"[";
+    for(size_t i = 0; i<N; ++i) {
+        os<<arr[i];
+        if(i<N-1) {
+            os<<", ";
+        }
+    }
+    os<<"]";
+    return os;
 }
+
+template<typename T, size_t M, size_t N>
+ostream& operator<<(ostream& os, const array<array<T,M>, N>& mat) {
+    os<<"[";
+    for(size_t i = 0; i<N; ++i) {
+        if(i>0) {
+            os<<",\n";
+        }
+        os<<mat[i];
+    }
+    os<<"]";
+        return os;
+    }
+
+
 int main() {
-    cout << filtrer_chiffres("a1b2c3d4e5") << endl;
-    cout << filtrer_chiffres("HEIG-VD 2025") << endl;
-    cout << filtrer_chiffres("No digits here") << endl;
+    array<array<int, 3>, 2> m1 = {1, 2, 3, 4, 5, 6};
+    cout << m1 << "\n\n";
 
-    string s("HEIG-VD");
-    string k = s.substr(0, 3).append("X");
-    cout << k;
+    array<double, 4> v = {1.1, 2.2, 3.3, 4.4};
+    cout << v << "\n\n";
+
+    array<array<int, 4>, 3> m2 = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+    cout << m2;
 }
-
-
