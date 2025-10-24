@@ -1,28 +1,25 @@
 #include <iostream>
-#include <fstream>
-#include <string>
-
+#include <vector>
+#include <cctype>
+#include <algorithm>
 using namespace std;
 
-int compter_lettres(const string& nom) {
+void nettoyer(vector<char>& v) {
+/*
+    *     erase_if(v, [](char c) {
+            return isalpha(c);
+        });
+ */
 
-    ifstream in(nom);
-    if(!in.is_open()) {
-        cerr<<"Le fichier n'est pas ouvrable..\n";
-        return -1;
-    }
-    int compte = 0;
-    string ligne;
-    while(getline(in, ligne)) {
-        for(char c : ligne) {
-            if(isalpha(c)) {
-                compte++;
-            }
-        }
-    }
-return compte;
+    v.erase(remove_if(v.begin(), v.end(),
+        [](char c) {
+        return !isalpha(c);
+    }));
 }
 
 int main() {
-    cout << compter_lettres("notes.txt");
+    vector<char> texte = {'H','e','1','l','2','l','o','!','3'};
+    nettoyer(texte);
+    for (char c : texte) cout << c;
+    cout << '\n';
 }
