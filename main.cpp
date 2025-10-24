@@ -1,24 +1,28 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-using namespace std;
-void afficher_fichier(const string& nom) {
-    ifstream mon_fichier(nom);
 
-    if(!mon_fichier.is_open()) {
-        cerr<<"Erreur le nom de fichier introuvable : ";
-        return;
+using namespace std;
+
+int compter_lettres(const string& nom) {
+
+    ifstream in(nom);
+    if(!in.is_open()) {
+        cerr<<"Le fichier n'est pas ouvrable..\n";
+        return -1;
     }
+    int compte = 0;
     string ligne;
-    int ligneNumber =0 ;
-    while(getline(mon_fichier, ligne)) {
-        cout<<ligneNumber<<" : "<<ligne;
-        ++ligneNumber;
+    while(getline(in, ligne)) {
+        for(char c : ligne) {
+            if(isalpha(c)) {
+                compte++;
+            }
+        }
     }
-    mon_fichier.close();
+return compte;
 }
 
 int main() {
-    string nom = "demo.txt";
-    afficher_fichier(nom);
+    cout << compter_lettres("notes.txt");
 }
