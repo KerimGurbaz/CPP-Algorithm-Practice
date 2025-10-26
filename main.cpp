@@ -1,52 +1,30 @@
-#include <iostream>
 #include <string>
-#include <sstream>
-#include <vector>
+#include <utility>
+#include <iostream>
+
 using namespace std;
 
-void acronyme (const string& s) {
-    vector<string>v;
-    stringstream ss(s);
-    string mot;
-    string acr ="";
-    while(ss>>mot) {
-    v.push_back(mot);
-    }
-    if(v.empty()) {
-        cout<<"Erreur: Aucune entree..";
-        return;
+string remplacer_occurences(const string& s, const string& from, const string& to) {
+    string ss =s;
+    int pos = 0;
+
+     while((pos = ss.find(from, pos)) != string::npos) {
+    ss.replace(pos, to.size(), to);
+         pos += to.size();
+
     }
 
-    string nom="Votre nom est      :";
-    for(int i = 0; i<v.size(); i++) {
-        if(i==0) {
-            cout<<"Votre prenom est   :"<<v[0]<<endl;
-            acr.push_back(toupper(v[i][0]));
-        }else if(i != v.size()) {
-            nom += v[i] + " ";
-            if(i !=v.size()-1) {
-                acr.push_back(toupper(v[i][0]));
-            }
-        }
-    }
-
-    cout<<nom;
-    acr+=toupper(v[v.size()-1].back());
-    cout<<"\nVotre acronyme est :"<<acr;
-    cout<<endl;
+   return ss;
 }
 
-
-
-
 int main() {
-    cout<<"Entrez votre prenom et votre nom : ";
-    string prenomNom;
-
-   getline(cin, prenomNom);
-    acronyme(prenomNom);
-
-
-
-    return 0;
+    string texte{"Les sanglots longs de violons de l'automne "
+                 "bercent mon coeur d'une langueur monotone"};
+    cout << texte << endl;
+    for (auto p: {pair<string, string>{"on", "ON"},
+                  {"on", "o"},
+                  {"on", "oin"},
+                  {"o", "ooo"}}) {
+        cout << remplacer_occurences(texte, p.first, p.second) << endl;
+                  }
 }
