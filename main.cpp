@@ -55,8 +55,6 @@ int main() {
 
     return 0;
 }
- */
-
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -109,3 +107,74 @@ int main() {
     outputRead.close();
     return 0;
 }
+#include <iostream>
+#include <cmath> // log10, floor, pow, abs için
+#include <string>
+
+using namespace std;
+#include <vector>
+#include <array>
+
+int main() {array<int,5> a{1,2,3,4,5};
+    for (size_t i = 1; i < a.size(); ++i)
+        a[i] = a[i-1];
+    for (int e : a) cout << e;
+cout<<endl;
+
+    cout << hex << uppercase << showbase << 42;
+
+    return 0;
+}
+ */
+/*
+* vector<int> pairs_carres_tries(const vector<int> &v) {
+    vector<int> myVec;
+
+  copy_if(v.begin(), v.end(), back_inserter(myVec),[](int n) {
+      return (n%2 == 0);
+  });
+
+    transform(myVec.begin(), myVec.end(), myVec.begin(),[](int n) {
+        return n*n;
+    });
+    sort(myVec.begin(), myVec.end());
+
+    return myVec;
+}
+ */
+
+#include <iostream>
+#include <vector>
+using namespace std;
+#include <algorithm>
+
+vector<int>intersection_sorted(vector<int>& a,vector<int>& b) {
+   vector<int> r;
+    size_t i = 0;
+    size_t j = 0;
+
+    while(i < a.size() && j < b.size()) {
+        if(a[i] < b[j]) {
+
+            i++;
+        }else if(b[j] < a[i]) {
+
+            ++j;
+        }else {
+            r.push_back(a[i]);
+            i++;
+            j++;
+        }
+    }
+    return r;
+}
+
+int main() {
+    vector<int> a{1,2,2,3,5,7,9};
+    vector<int> b{2,2,4,5,6,9,9};
+    auto r = intersection_sorted(a, b);
+    for (int x : r) cout << x << ' ';
+}
+
+
+
