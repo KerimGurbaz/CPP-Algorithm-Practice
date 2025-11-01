@@ -141,8 +141,6 @@ cout<<endl;
 
     return myVec;
 }
- */
-
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -176,5 +174,32 @@ int main() {
     for (int x : r) cout << x << ' ';
 }
 
+ */
 
 
+
+
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+int compter_mots(const string& s) {
+
+    ifstream in(s);
+    if(!in.is_open()) {
+        cerr<<"Error l'ouverture de fiichier "<<s;
+        return -1;
+    }
+    string mot;
+    int compte =0;
+    while(in>>mot) {
+        compte++;
+    }
+    in.close();
+    return compte;
+}
+
+
+int main() {
+    cout << compter_mots("notes.txt") << '\n';
+}
