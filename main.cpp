@@ -1,100 +1,56 @@
-/*
-* #include <iostream>
-#include <vector>
-#include <array>
-
-using namespace std;
-
-size_t oter_hors_limite(vector<double>&v , array<double, 2>limites) {
-    double min = limites[0];
-    double max = limites[1];
-
-    size_t slow = 0;
-    for(size_t fast = 0; fast<v.size();++fast) {
-        if((v[fast] >= min) && (v[fast] <= max)) {
-                v[slow]= v[fast];
-                ++slow;
-        }
-    }
-    return slow;
-}
-
-
-int main() {
-    vector<double> v1{1.0, 2.3, 1.4, 5.3, 3.4, 2.4, 4.6};
-    array<double, 2> lim1{2.3, 5.0};
-
-    // v1 = {1.0, 2.3, 1.4, 5.3, 3.4, 2.4, 4.6}
-    // Korunanlar: 2.3, 3.4, 2.4, 4.6 (5.3 aralık dışında)
-
-    size_t n1 = oter_hors_limite(v1, lim1);
-
-    // Sadece yeni boyuta kadar bas
-    for (size_t i = 0; i < n1; ++i)
-        cout << v1[i] << ' ';
-    // Beklenen Çıktı: 2.3 3.4 2.4 4.6
-
-    cout << "\nvektorun son hali: ";
-    for (double e : v1) cout << e << ' ';
-
-}
 #include <iostream>
 #include <string>
-#include <cctype>
+#include <utility>
+
 using namespace std;
 
-bool est_palindrome_insensible(const string& s) {
-    int first = 0;
-    int last = s.size()-1;
+// Définition de la structure Livre
+struct Livre {
+    string titre;
+    string auteur;
+    string langue;
+    int year;
+};
 
-    while(first < last) {
-        while(ispunct(s[first]) || isspace(s[first])) {
-            ++first;
-        }
-        while(ispunct(s[last]) || isspace(s[last])) {
-            --last;
-        }
-        if(tolower(s[first]) !=tolower( s[last])) {
-            return false;
-        }
-        ++first;
-        --last;
-    }
-    return true;
-}
+// Définition de l'enum StatutLivre
+// (Enum değerleri DISPONIBLE, EMPRUNTE, RESERVE olmalı)
+enum class StatutLivre{
+    DISPONIBLE=1, EMPRUNTE=2, RESERVE=3
+};
+
 
 int main() {
-    cout << boolalpha; // 'true'/'false' basar
-    cout << est_palindrome_insensible("Radar") << endl;
-    cout << est_palindrome_insensible("A man, a plan, a canal: Panama") << endl;
-    cout << est_palindrome_insensible("hello") << endl;
-}
- */
+    Livre nouveauLivre;
+    StatutLivre st;
+    int en =0;
 
-#include <iostream>
-#include <string>
-using namespace std;
+    // Lecture des informations du livre
+    cout << "Entrez le titre du livre: ";
+    std::getline(std::cin,nouveauLivre.titre);
+    cout << "Entrez l'auteur du livre: ";
+    std::getline(std::cin, nouveauLivre.auteur);
+    cout << "Entrez la langue du livre: ";
+    std::getline(std::cin, nouveauLivre.langue);
+    cout << "Entrez l'année du livre: ";
+    std::cin >> nouveauLivre.year;
+    cout << "Entrez le statut du livre (1 pour DISPONIBLE, 2 pour EMPRUNTE, 3 pour RESERVE): ";
+    std::cin >> en; // int'e oku
+    st = static_cast<StatutLivre>(en);
 
-string compresser(const string& s) {
-    int count =1;
+    // Affichage des informations du livre
+    cout << "Titre du Livre : " <<nouveauLivre.titre << endl;
+    cout << "Auteur du Livre : " <<nouveauLivre.auteur << endl;
+    cout << "Langue du Livre : " <<nouveauLivre.langue << endl;
+    cout << "Année du Livre : " << nouveauLivre.year<< endl;
+    cout << "Statut : ";
 
+    // 'switch' kullanarak enum'u string'e çevirip basın
+    switch (st) {
+        case StatutLivre::DISPONIBLE: cout<<"DISPONIBLE";break;
+        case StatutLivre::EMPRUNTE : cout<<"EMPRUNTE";break;
+        case StatutLivre::RESERVE : cout<<"RESERVE"; break;
+    };
+    cout << std::endl;
 
-    string result ="";
-    for(size_t i = 0; i<s.size();++i) {
-        if(s[i]==s[i+1]) {
-            count++;
-        }else if(s[i] != s[i+1]) {
-
-            result +=s[i];
-            result += to_string(count) ;
-            count=1;
-        }
-    }
-    return result;
-}
-
-int main() {
-    cout << compresser("aabcccccaaa") << endl;
-   cout << compresser("WWWWWWWWWWWWBWWWWWWWWWWWWBBBWWWWWWWWWWWWWWWWWWWWWWWWB") << endl;
-    cout << compresser("abc") << endl;
+    return 0;
 }
