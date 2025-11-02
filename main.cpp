@@ -1,37 +1,69 @@
-#include <iostream>
+/*
+* #include <iostream>
 #include <vector>
-#include <iomanip> // setw
-
+#include <algorithm>
 using namespace std;
 
-vector<vector<int>>generer_matrice(
-    const vector<int>& contenu,
-    const vector<size_t>& tailles) {
-    int pos =0;
-    vector<vector<int>> r(tailles.size());
-    for(int i=0; i<tailles.size();++i) {
-        //r[i].resize(tailles[i]);
-        for(int j = tailles[i]; j>0 ; --j) {
-            r[i].push_back(contenu[pos]);
-            ++pos;
-        }
-    }
-    return r;
-}
-
-void print_matrix(const vector<vector<int>>& m) {
-    for (const auto& row : m) {
-        for (int e : row) {
-            cout << setw(3) << e;
-        }
-        cout << endl;
-    }
+bool verifier_tri(const vector<int>& v) {
+ for(size_t i = 1 ; i<v.size();++i) {
+     if(v[i]<v[i-1]) {
+         return false;
+     }
+ }
+    return true;
 }
 
 int main() {
-    const vector<int> contenu{1, 2, 3, 4, 5, -1, -2, -3, -4, -5};
-    const vector<size_t> tailles{2, 3, 1, 4};
+    cout << boolalpha;
+    cout << verifier_tri({1,2,3,3,5}) << endl;   // true
+    cout << verifier_tri({1,3,2,5}) << endl;     // false
+}
 
-    auto m = generer_matrice(contenu, tailles);
-    print_matrix(m);
+ */
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+vector<int>fusion_sorted(const vector<int>&v1,
+                        const vector<int>&v2) {
+    vector<int>r;
+    r.reserve((v1.size()+ v2.size()));
+    int p1 =0 ;
+    int p2 = 0;
+
+    while(p1 < v1.size() && p2 < v2.size() ) {
+        if(v1[p1] < v2[p2] ){
+            r.push_back(v1[p1]);
+            p1++;
+        }
+       else if(v2[p2]< v1[p1] ){
+            r.push_back(v2[p2]);
+            p2++;
+        }else {
+            r.push_back(v2[p2]);
+            r.push_back(v1[p1]);
+            p1++;
+            p2++;
+        }
+
+    }
+    while(p1 < v1.size()) {
+        r.push_back(v1[p1]);
+        ++p1;
+    }
+    while(p2 < v2.size()) {
+        r.push_back(v2[p2]);
+        ++p2;
+    }
+
+    return r;
+}
+
+int main() {
+    vector<int> a{1,3,5,9};
+    vector<int> b{2,4,6,7,8};
+    auto r = fusion_sorted(a,b);
+    for (int x : r) cout << x << ' ';
 }
