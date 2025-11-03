@@ -1,22 +1,20 @@
 #include <iostream>
-#include <algorithm>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
-size_t unique_en_place(vector<int>& v) {
-    size_t slow = 0;
-    for(size_t fast = 1; fast <v.size(); ++fast) {
-        if(v[fast] != v[slow]) {
-            ++slow;
-            v[slow]=v[fast];
-        }
+void rotate_right(vector<int>& v, size_t k) {
+if(v.empty())return;
+    size_t n = v.size();
+    vector<int>temp(n) ;
+    for(size_t i = 0; i<n; ++i) {
+         temp[(i+k)%n]= v[i];
     }
-return slow+1;
+    v=temp;
 }
 
 int main() {
-    vector<int> v{1,1,2,2,2,3,3,5,5,7};
-   size_t n = unique_en_place(v);
-    v.resize(n);
-    for (int x : v) cout << x << ' '; // beklenen: 1 2 3 5 7
+    vector<int> v{1,2,3,4,5};
+    rotate_right(v, 2);
+    for (int x : v) cout << x << ' '; // beklenen: 4 5 1 2 3
 }
