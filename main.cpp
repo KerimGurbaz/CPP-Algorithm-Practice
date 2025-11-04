@@ -1,20 +1,64 @@
+
 #include <iostream>
-#include <vector>
-#include <algorithm>
+#include <string>
 using namespace std;
 
-void rotate_right(vector<int>& v, size_t k) {
-if(v.empty())return;
-    size_t n = v.size();
-    vector<int>temp(n) ;
-    for(size_t i = 0; i<n; ++i) {
-         temp[(i+k)%n]= v[i];
+void remplacer_toutes(string& texte, const string&mot, const string& alternatif) {
+
+        size_t pos = 0;
+        while((pos = texte.find(mot, pos)) != string::npos) {
+            texte.replace(pos, mot.size(), alternatif);
+            pos += alternatif.size();
     }
-    v=temp;
 }
 
 int main() {
-    vector<int> v{1,2,3,4,5};
-    rotate_right(v, 2);
-    for (int x : v) cout << x << ' '; // beklenen: 4 5 1 2 3
+    string s1 = "le chat chasse le chat, mais le chat est rapide.";
+    remplacer_toutes(s1, "chat", "chien");
+    cout << s1 << endl;
+
+    string s2 = "aaaaa";
+    remplacer_toutes(s2, "aa", "b");
+    cout << s2 << endl; // Dikkat, örtüşen (overlapping) durum!
 }
+ /*
+
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+struct Etudiant {
+    string nom;
+    double note;
+};
+Etudiant trouver_meilleur_etudiant(const vector<Etudiant>& v) {
+    if(v.empty())return {"inconnu", 0.0};
+    Etudiant meilleur = v[0];
+    for(size_t i =1; i<v.size(); ++i) {
+        if(v[i].note>=meilleur.note) {
+            meilleur =v[i];
+        }
+    }
+    return meilleur;
+}
+
+int main() {
+    vector<Etudiant> classe = {
+        {"Alice", 85.0},
+        {"Bob", 92.5},
+        {"Charlie", 78.0},
+        {"David", 92.5} // Eşitlik durumu (égalité)
+    };
+
+    Etudiant meilleur = trouver_meilleur_etudiant(classe);
+    cout << "Meilleur etudiant: " << meilleur.nom
+         << " (Note: " << meilleur.note << ")" << endl;
+
+    vector<Etudiant> vide;
+    Etudiant personne = trouver_meilleur_etudiant(vide);
+    cout << "Meilleur etudiant: " << personne.nom
+         << " (Note: " << personne.note << ")" << endl;
+}
+*/
