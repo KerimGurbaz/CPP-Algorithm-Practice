@@ -3,80 +3,41 @@
 #include <algorithm>
 #include <vector>
 using namespace std;
-const int CAPACITY = 10;
 
-struct Stack {
-    array<int, CAPACITY> a;
-    size_t sz = 0;
-    const int maxVal = 10;
+void affichage(const vector<int> &v) {
+    for (int c: v) {
+        cout << c << " ";
+    }
+    cout << endl;
+}
+
+void my_push_back(vector<int> &v, const int n) {
+    v.push_back(n);
+    affichage(v);
 };
 
-void display(const Stack &s) {
-    cout << "size : " << s.sz;cout<<endl;
-    cout << "data : " ;
+void my_pop_back(vector<int> &v) {
+    v.pop_back();
+    affichage(v);
+};
 
-
-    cout << "[";
-    for (size_t i = 0; i < s.sz; ++i) {
-        cout << s.a[i];
-        if (i < s.sz -1) {
-            cout << ",";
-        }
-    }
-    cout << "]" << endl;
+void my_resize(vector<int> &v, const int n) {
+    v.resize(n);
+    affichage(v);
 }
 
-bool full(const Stack &s) {
-    return s.sz == CAPACITY;
+void my_resize(vector<int> &v, const int n, const int k) {
+    v.resize(n, k);
+    affichage(v);
 }
 
-bool empty(const Stack &s) {
-    return s.sz == 0;
-}
-
-void push(Stack &s, const int &n) {
-    if (!full(s)) {
-        s.a[s.sz] = n;
-        s.sz++;
-    }
-}
-
-int top(const Stack &s) {
-    return s.a[s.sz - 1];
-}
-
-void pop(Stack &s) {
-    if(!empty(s)) {
-            s.sz--;
-    }
-}
-
-int size(Stack &s) {
-    return s.sz;
-}
 
 int main() {
-    Stack s;
-    int i = 1;
-
-    display(s);
-    cout << endl;
-
-    while (not full(s)) {
-        push(s, i *= 2);
-    }
-
-    cout << "top  : " << top(s) << endl;
-    cout << "size : " << size(s) << endl;
-    cout << endl;
-
-    display(s);
-    cout << endl;
-
-    while (not empty(s)) {
-        pop(s);
-    }
-
-    display(s);
-    cout << endl;
+    vector<int> v{1, 2, 3, 4, 5, 6};
+    my_push_back(v, 7); // v contient {1, 2, 3, 4, 5, 6, 7}
+    my_pop_back(v); // v contient {1, 2, 3, 4, 5, 6}
+    my_pop_back(v); // v contient {1, 2, 3, 4, 5}
+    my_resize(v, 3); // v contient {1, 2, 3}
+    my_resize(v, 5, 1); // v contient {1, 2, 3, 1, 1}
+    my_resize(v, 8); // v contient {1, 2, 3, 1, 1, 0, 0, 0}
 }
