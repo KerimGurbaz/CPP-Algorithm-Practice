@@ -1,43 +1,39 @@
 #include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm> // std::sort için
+
 using namespace std;
-#include <iomanip>
 
-struct Date {
-    int day;
-    int mois;
-    int annee;
-};
-
-struct Personne {
+struct Etudiant {
     string nom;
-    string ville;
-    Date date;
+    double note;
 };
 
-void afficher_date(Date &d) {
-    cout << d.day << "."
-            << d.mois << "."
-            << d.annee << "\n";
+void print_classe(const vector<Etudiant>& classe) {
+    for(const auto& e : classe) {
+        cout << e.nom << " (" << e.note << ")" << endl;
+    }
 }
-
-void afficher_personne(Personne &p) {
-    cout << "Nom    : " << p.nom << "\n";
-    cout << "Adresse    : "<< p.ville << "\n";
-    cout << "Anniversaire   : "; afficher_date(p.date);
-}
-
 
 int main() {
-    Date uneDate = {30, 10, 2023};
-    cout << "une date     : ";
-    afficher_date(uneDate);
-    cout << endl << endl;
+    vector<Etudiant> classe = {
+        {"Bob", 92.5},
+        {"Alice", 85.0},
+        {"David", 92.5}, // Bob ile notu eşit
+        {"Charlie", 78.0},
+        {"Eve", 95.0}
+    };
 
-    Personne anna = {"Anna", "Yverdon", uneDate};
-    afficher_personne(anna);
+    sort(classe.begin(), classe.end(),[](const Etudiant& a, const Etudiant& b) {
+        if(a.note != b.note) {
+            return a.note > b.note;
+        }
+        return a.nom < b.nom;
+    });
 
-    cout << endl;
 
 
-    return 0;
+
+    print_classe(classe);
 }
