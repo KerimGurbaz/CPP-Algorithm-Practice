@@ -5,11 +5,13 @@
 using namespace std;
 
 void supprimer_elements_centraux(vector<int>& v) {
+    int millieu = v.size()/2;
     if(v.size()<3) {
         return;
     }
-
-    v.erase(v.begin()+1, v.end()-1);
+    if(v.size()%2) {
+        v.erase(v.begin()+millieu,  v.begin()+millieu+1);
+    }
 
 }
 void print_vec(const vector<int>& v) {

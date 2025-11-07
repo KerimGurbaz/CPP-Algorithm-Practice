@@ -150,8 +150,10 @@ CMakeFiles/untitled20.dir/main.cpp.obj: \
  C:/Program\ Files/JetBrains/CLion\ 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/ostream.tcc \
  C:/Program\ Files/JetBrains/CLion\ 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/istream \
  C:/Program\ Files/JetBrains/CLion\ 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/istream.tcc \
- C:/Program\ Files/JetBrains/CLion\ 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/fstream \
- C:/Program\ Files/JetBrains/CLion\ 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/codecvt.h \
- C:/Program\ Files/JetBrains/CLion\ 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/basic_file.h \
- C:/Program\ Files/JetBrains/CLion\ 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/c++io.h \
- C:/Program\ Files/JetBrains/CLion\ 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/fstream.tcc
+ C:/Program\ Files/JetBrains/CLion\ 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/vector \
+ C:/Program\ Files/JetBrains/CLion\ 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_uninitialized.h \
+ C:/Program\ Files/JetBrains/CLion\ 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_vector.h \
+ C:/Program\ Files/JetBrains/CLion\ 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_bvector.h \
+ C:/Program\ Files/JetBrains/CLion\ 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/vector.tcc \
+ C:/Program\ Files/JetBrains/CLion\ 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/iterator \
+ C:/Program\ Files/JetBrains/CLion\ 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stream_iterator.h
