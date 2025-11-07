@@ -1,76 +1,72 @@
 #include <iostream>
 #include <vector>
-#include <utility> // std::swap için
-
+#include <algorithm>
 using namespace std;
 
-// YARDIMCI FONKSİYON
-void print_vec(const vector<int> &v) {
-    for (int e: v) cout << e << " ";
-    cout << endl;
+/*
+ *
+ */
+int compter_doublons(const vector<int> &v) {
+    int slow = 0;
+    int count = 0;
+    int el = 99999;
+
+    for (size_t fast = 1; fast < v.size();) {
+        if (v[slow] == v[fast] && v[slow] != el) {
+            el = v[slow];
+            ++count;
+        }
+        ++slow;
+        ++fast;
+    }
+    return count;
 }
 
-void tri_a_bulle(vector<int> &v) {
-    for (size_t i = 0; i < v.size()-1; ++i) {
-        for (size_t j = 0; j < v.size()-i-1; ++j) {
-            if (v[j] > v[j +1]) {
-                swap(v[j + 1], v[j]);
+int somme_impairs(const vector<int> &v) {
+    int somme = 0;
+    for (int c: v) {
+        if (c % 2) {
+            somme += c;
+        }
+    }
+    return somme;
+}
+bool egaux( vector<int> v1, vector<int> v2 ) {
+    if(v1.size() != v2.size()) {
+        return false;
+    }
+    sort(v1.begin(),v1.end());
+    sort(v2.begin(),v2.end());
+    for(size_t i = 0; i<v1.size(); ++i) {
+        if(v1[i] != v2[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+pair<int, int> minmax( vector<int>&v) {
+    pair<int, int> result;
+    for(size_t i = 0; i<v.size(); ++i) {
+        for(size_t j = 1; j<v.size(); ++j) {
+            if(v[j] < v[j-1]) {
+                swap(v[j], v[j-1]);
             }
         }
+        result.first = v[0];
+        result.second = v[v.size()-1];
+
     }
+    return result;
 }
-
-// GÖREV 13.8 (Tri par Sélection / Selection Sort)
-// Konsept: 'i' pozisyonundan başla. Dizinin geri kalanındaki
-// EN KÜÇÜK (le minimum) elemanı bul. Bulduğun en küçüğü 'i' ile yer değiştir.
-void tri_par_selection(vector<int> &v) {
-
-
-    for (size_t j = 0; j < v.size(); ++j) {
-        size_t minIdx = j;
-        for (size_t i = j+1; i < v.size(); ++i) {
-         if(v[i] < v[minIdx]) {
-            minIdx =i;
-         }
-        }
-       swap(v[j], v[minIdx]);
-    }
-}
-
-// GÖREV 13.9 (Tri par Insertion / Insertion Sort)
-// Konsept: 'i' pozisyonundaki elemanı ('key') al.
-// 'i-1' den geriye doğru git, 'key'den büyük olan her şeyi
-// bir sağa kaydır (décaler). 'key' için doğru yeri aç.
-void tri_par_insertion(vector<int> &v) {
-
-    for(size_t i =1; i<v.size();++i) {
-        int key = v[i];
-        size_t j = i;
-
-        while(j>0 && v[j-1] > key) {
-            v[j] = v[j-1];
-            --j;
-        }
-        v[j]=key;
-    }
-}
-
 int main() {
-    // Test 1: Bubble Sort
-    vector<int> v1 = {5, 1, 4, 2, 8};
-    tri_a_bulle(v1);
-    cout << "Tri a bulle:     ";
-    print_vec(v1); // Beklenen: 1 2 4 5 8
+    vector<int> v{1, 2, 3, 4, 5, 6, 7};
+    cout << somme_impairs(v); // beklenen: 16
+    cout << boolalpha << egaux({1,2,3}, {1,2,3}) << '\n';
+    cout << boolalpha << egaux({1,2,3}, {3,2,1}) << '\n';
 
-    // Test 2: Selection Sort
-    vector<int> v2 = {64, 25, 12, 22, 11};
-    tri_par_selection(v2);
-    cout << "Tri par selection: ";
-    print_vec(v2); // Beklenen: 11 12 22 25 64
-      // Test 3: Insertion Sort
-        vector<int> v3 = {12, 11, 13, 5, 6};
-        tri_par_insertion(v3);
-        cout << "Tri par insertion: ";
-        print_vec(v3); // Beklenen: 5 6 11 12 13
+    vector<int> s{4,8,2,9,1,7};
+    auto [mn, mx] = minmax(s);
+    cout << mn << " " << mx; // beklenen: 1 9
+
 
 }
