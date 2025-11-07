@@ -1,91 +1,36 @@
-/*
-* #include <iostream>
-#include <fstream>
-using namespace std;
-
-
-int compter_lignes(const string& s) {
-    int compter =0;
-    ifstream in(s);
-    if(!in.is_open()) {
-    cerr<<"Erreur l'ouverture de fichier.. ";
-        return 1;
-    }
-
-    string line;
-
-    while(getline(in,line )) {
-        ++compter;
-    }
-in.close();
-return compter;
-}
-int main() {
-    cout << compter_lignes("lines.txt") << endl;
-}
-
-size_t compter_mots(const string& s) {
-    size_t compter = 0;
-    ifstream in(s);
-    if(!in.is_open()) {
-        cerr<<"Erreur de l'ouverture de fichier..";
-        return 0;
-    }
-
-    string mot;
-
-    while(in>>mot) {
-        compter++;
-    }
-in.close();
-    return compter;
-}
-
-int main() {
-
-
-    ofstream f("text.txt");
-    f << "Bonjour a tous\nBienvenue a HEIG\nC++ est genial\n";
-    f.close();
-
-    cout << compter_mots("text.txt") << '\n';
-}
-
- */
-
 #include <iostream>
-#include <fstream>
+#include <vector>
+#include <iterator> // next, prev için
+
 using namespace std;
 
-void filtrer_lignes(const string& entree, const string& sortie, char debut) {
-    ifstream in(entree);
-    if(!in.is_open()) {
-        cerr<<"l'erreur de l'ouverture..";
+void supprimer_elements_centraux(vector<int>& v) {
+    if(v.size()<3) {
+        return;
     }
 
-    ofstream out(sortie);
-    if(!out.is_open()) {
-        cerr<<"l'erreur de l'ouverture..";
-    }
-    string mot ;
-    while(in>>mot) {
-        if(mot[0]== debut) {
-            out<<mot<<"\n";
-        }
+    v.erase(v.begin()+1, v.end()-1);
 
-    }
+}
+void print_vec(const vector<int>& v) {
+    for (int e : v) cout << e << " ";
+    cout << endl;
 }
 
-
 int main() {
-    ofstream f("data.txt");
-    f << "Chat\nChien\nLapin\nCheval\nSouris\n";
-    f.close();
+    vector<int> v1 = {1, 2, 3, 4, 5};
+    supprimer_elements_centraux(v1);
+    print_vec(v1); // Beklenen Çıktı: 1 5
 
-    filtrer_lignes("data.txt", "filtre.txt", 'C');
+    vector<int> v2 = {1, 2};
+    supprimer_elements_centraux(v2);
+    print_vec(v2); // Beklenen Çıktı: 1 2
 
-    ifstream in("filtre.txt");
-    string line;
-    while (getline(in, line))
-        cout << line << endl;
+    vector<int> v3 = {1};
+    supprimer_elements_centraux(v3);
+    print_vec(v3); // Beklenen Çıktı: 1
+    
+    vector<int> v4 = {1, 2, 3};
+    supprimer_elements_centraux(v4);
+    print_vec(v4); // Beklenen Çıktı: 1 3
 }
