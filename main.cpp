@@ -1,91 +1,55 @@
 #include <iostream>
-#include <string>
-#include <array>
-#include <sstream>
-
+#include <vector>
 using namespace std;
-/*
-#include <unordered_map>
 
-int compter_voyelles(const string& s) {
-    const string voyelles = "aeiouy";
-    size_t count =0;
-    unordered_map<char, int>myMap;
-    for(char c : s) {
-        myMap[tolower(c)]++;
-    }
-    for(const auto&p : myMap) {
-        for(char c : voyelles) {
-            if(p.first == c) {
-                count += p.second;
+pair<int, int>somme_diagonales(const vector<vector<int>>& m) {
+    using v = vector<int>;
+    using mm = vector<v>;
+    int sum1 =0;
+    int sum2 =0;
+    for(size_t i = 0; i<m.size(); ++i) {
+        for(size_t j = 0; j<m[i].size(); ++j) {
+            if(i == j) {
+                sum1 += m[i][j];
+            }
+            if(i + j == m.size()-1) {
+                sum2 += m[i][j];
             }
         }
     }
-    return count;
+    return {sum1, sum2};
 }
-
-int main() {
-
-    const string s = "Ali ata bak lutfen..";
-
-
-    cout<< compter_voyelles(s);
-    return 0;
-}
-int compter_voyelles(const string& s) {
-    int count= 0;
-    const string voyelle ="aeiouy";
-  for(char c : s) {
-      c= tolower(c);
-      if(voyelle.find(c) != string::npos) {
-          ++count;
-      }
-  }
-    return count;
-}
-
-int main() {
-
-    const string s = "Ali ata bak lutfen..";
-
-
-    cout<< compter_voyelles(s);
-    return 0;
-}
- */
+#include <unordered_map>
 #include <sstream>
-#include <vector>
-string plus_long_mot(const string& phrase) {
-    stringstream ss(phrase);
-    string mot ;
-    string maxMot ="";
+string mot_le_plus_frequent(const string& s) {
+    stringstream ss(s);
+    unordered_map<string, int>myMap;
+    string mot;
+
     while (ss>>mot) {
-        if(mot.size() > maxMot.size()) {
-            maxMot =mot;
-        }
+        myMap[mot]++;
     }
-    return maxMot;
-}
-bool est_symetrique(const vector<int>& v) {
-    int slow = 0;
-    int fast = v.size()-1;
-    while(slow < fast) {
-        if(v[slow] != v[fast]) {
-            return false;
-        }
-        ++slow; --fast;
+    int plusFrequant =0;
+    string plusFrequantMot ="";
+    for(const auto&p : myMap) {
+      if(p.second >plusFrequant ) {
+          plusFrequant = p.second;
+          plusFrequantMot = p.first;
+      }
     }
-    return true;
+
+    return plusFrequantMot;
 }
-
-
-
-
 int main() {
-    cout << plus_long_mot("Le C++ moderne est puissant!") << endl;
-    vector<int>v = {1,2,3};
+    vector<vector<int>> m{
+            {1,2,3},
+            {4,5,6},
+            {7,8,9}
+    };
+    auto [dp, ds] = somme_diagonales(m);
+    cout << dp << " " << ds << "\n"; // beklenen: 15 15
 
-    cout<<boolalpha<<est_symetrique(v);
 
-    return 0;
+    string t = "le code en C++ est rapide et le code est fort";
+    cout << mot_le_plus_frequent(t) << "\n"; // "le" veya "est"
 }
