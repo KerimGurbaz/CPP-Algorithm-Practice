@@ -1,52 +1,91 @@
 #include <iostream>
-#include <fstream>   // ifstream
-#include <sstream>   // stringstream
 #include <string>
-#include <vector>
+#include <array>
+#include <sstream>
 
 using namespace std;
+/*
+#include <unordered_map>
 
-
-struct StatsFichier {
-    size_t lignes = 0;
-    size_t mots = 0;
-    size_t caracteres = 0;
-};
-
-void creer_fichier_test() {
-    ofstream f("test.txt");
-    f << "Bonjour le monde" << endl;
-    f << "Ceci est un test" << endl;
-    f << "   fin." << endl;
-}
-
-StatsFichier analyser_fichier(const string &nom_fichier) {
-    StatsFichier stats;
-    ifstream in(nom_fichier);
-    if (!in.is_open()) {
-        return stats;
+int compter_voyelles(const string& s) {
+    const string voyelles = "aeiouy";
+    size_t count =0;
+    unordered_map<char, int>myMap;
+    for(char c : s) {
+        myMap[tolower(c)]++;
     }
-    string ligne;
-    while (getline(in, ligne)) {
-        stats.lignes++;
-        stats.caracteres += ligne.size();
-        stringstream ss(ligne);
-        string mot;
-        while (ss >> mot) {
-            stats.mots++;
-
+    for(const auto&p : myMap) {
+        for(char c : voyelles) {
+            if(p.first == c) {
+                count += p.second;
+            }
         }
     }
-    return stats;
+    return count;
 }
+
+int main() {
+
+    const string s = "Ali ata bak lutfen..";
+
+
+    cout<< compter_voyelles(s);
+    return 0;
+}
+int compter_voyelles(const string& s) {
+    int count= 0;
+    const string voyelle ="aeiouy";
+  for(char c : s) {
+      c= tolower(c);
+      if(voyelle.find(c) != string::npos) {
+          ++count;
+      }
+  }
+    return count;
+}
+
+int main() {
+
+    const string s = "Ali ata bak lutfen..";
+
+
+    cout<< compter_voyelles(s);
+    return 0;
+}
+ */
+#include <sstream>
+#include <vector>
+string plus_long_mot(const string& phrase) {
+    stringstream ss(phrase);
+    string mot ;
+    string maxMot ="";
+    while (ss>>mot) {
+        if(mot.size() > maxMot.size()) {
+            maxMot =mot;
+        }
+    }
+    return maxMot;
+}
+bool est_symetrique(const vector<int>& v) {
+    int slow = 0;
+    int fast = v.size()-1;
+    while(slow < fast) {
+        if(v[slow] != v[fast]) {
+            return false;
+        }
+        ++slow; --fast;
+    }
+    return true;
+}
+
+
 
 
 int main() {
-    creer_fichier_test(); // test.txt dosyasını oluştur
+    cout << plus_long_mot("Le C++ moderne est puissant!") << endl;
+    vector<int>v = {1,2,3};
 
-    StatsFichier s = analyser_fichier("test.txt");
+    cout<<boolalpha<<est_symetrique(v);
 
-    cout << "Lignes: " << s.lignes << endl;
-    cout << "Mots: " << s.mots << endl;
-    cout << "Caracteres: " << s.caracteres << endl;
+    return 0;
 }
