@@ -1,107 +1,40 @@
-/*
-* #include <iostream>
-#include <fstream>
-#include <sstream>
-#include <iomanip>
-
-using namespace std;
-
-void creer_fichier_csv() {
-    ofstream in("data.csv");
-    in<<"Nom, Prenom, ville, Note"<<endl;
-    in<<"Durand, Alice, Yverdon, 18"<<endl;
-    in<<"Weber, Bob,,12"<<endl;
-    in<<"Merlin, Carlie, Lausanne, 20"<<endl;
-    in.close();
-}
- void display_csv(const string& s, char separateur, int largeur ) {
-
-    ifstream f(s);
-    if(!f.is_open()) {
-        throw runtime_error("Impossible d'ovrir le fichier.." + s);
-    }
-    string ligne;
-
-    while(getline(f, ligne)) {
-        stringstream ss(ligne);
-        string mot;
-        while(getline(ss, mot, separateur)) {
-            cout<<setw(largeur)<<left<<mot;
-        }
-        cout<<endl;
-    }
-f.close();
-
-}
-
-int main() {
-    creer_fichier_csv();
-    int largeur_colonne = 10;
-    char separateur = ',';
-
-    try {
-        display_csv("data.csv", separateur, largeur_colonne);
-
-        cout << "\n--- Test non-existant ---" << endl;
-        display_csv("nexiste_pas.csv", separateur, largeur_colonne);
-
-    } catch (const std::runtime_error& e) {
-        cerr << "ERREUR: " << e.what() << endl;
-    }
-}
-
-
 #include <iostream>
 #include <vector>
 #include <string>
-#include <algorithm>
-#include <cctype>
-using namespace std;
-
-template<typename T>
-void print_vec(const vector<T>& v) {
-    for(const auto& e : v) {
-        cout<<e<<" ";
-    }
-    cout<<endl;
-}
-template<typename T, typename Predicat>
-void supprimer_si(vector<T>& v, Predicat p) {
-  auto it = remove_if(v.begin(), v.end(), p );
-    v.erase(it, v.end());
-}
-bool est_pair(int a) {
-    return a%2 ==0;
-}
-
-int main() {
-    // Test 1: int vektörü
-    vector<int> v1{1, 2, 3, 5, 7, 10, 15, 22};
-    supprimer_si(v1, est_pair); // Çiftleri sil
-    print_vec(v1); // Beklenen: 1 3 5 7 15
-
-    // Test 2: char vektörü
-    vector<char> v2{'R', '2', '-', 'D', '2', ' ', 'C', '-', '3', 'P', 'O'};
-    supprimer_si(v2, ::isdigit); // Rakamları sil
-    print_vec(v2); // Beklenen: R - D   C - P O
-}
- */
-#include <iostream>
-#include <limits> // (Gerekirse)
 
 using namespace std;
-int trouver_limite_float() {
-    int i = 1;
-    for(; ; ++i) {
-        float f =i;
-      int r =f;
-        if(r != i) {
-            return i;
-        }
-    }
-}
+
+ bool recherche_dichotomique(const vector<int>& v_trie, int cible) {
+     int low =0;
+     int hight =v_trie.size()-1;
+     int mid = hight/2;
+
+     if(cible<=v_trie[mid]) {
+         for(size_t i =0; i<mid; ++i) {
+             if(v_trie[i] == cible) {
+                 return true;
+             }
+         }
+         return false;
+     }else {
+         for(size_t j = mid; j<v_trie.size();++j) {
+             if(v_trie[j] == cible) {
+                 return true;
+             }
+         }
+         return false;
+     }
+ }
+
 
 int main() {
-    cout << "Plus petit entier non representable en float: "
-         << trouver_limite_float() << endl;
+    vector<int> v = {2, 5, 7, 8, 11, 12, 45, 100};
+
+    cout << boolalpha;
+    cout << "Test 11: " << recherche_dichotomique(v, 11) << endl; // Ortada
+    cout << "Test 2:  " << recherche_dichotomique(v, 2)  << endl; // Başta
+    cout << "Test 100: " << recherche_dichotomique(v, 100) << endl; // Sonda
+    cout << "Test 13: " << recherche_dichotomique(v, 13) << endl; // Yok
+    cout << "Test 1:  " << recherche_dichotomique(v, 1)  << endl; // Yok (Düşük)
+    cout << "Test 200:" << recherche_dichotomique(v, 200) << endl; // Yok (Yüksek)
 }
