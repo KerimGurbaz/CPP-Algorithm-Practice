@@ -1,55 +1,48 @@
 #include <iostream>
+#include <string>
 #include <vector>
 using namespace std;
-#include <algorithm>
 
-size_t remove_duplicates(vector<int>& v) {
-    if(v.size() < 2) {
-        return v.size();
-    }
-    size_t first = 0;
-    for(size_t i =1; i < v.size(); ) {
-        if(v[first] != v[i]) {
-            ++first;
-            v[first]=v[i];
-            ++i;
-        }else {
-            v[first]=v[i];
-            ++i;
-        }
-    }
-            v.erase(v.begin() + first + 1 , v.end());
+enum class Statut { DISPONIBLE, EMPRUNTE, RESERVE };
 
-    return v.size();
+struct Livre {
+    string nomLivre;
+    string nomAuteur;
+    int annee;
+    Statut statut;
+};
+
+
+void afficher_livre(const Livre &l) {
+    cout << l.nomLivre << ", \n";
+    cout << l.nomAuteur << ", \n";
+    cout << l.annee << ", \n";
+    switch(l.statut) {
+        case Statut::RESERVE: cout<<"RESERVE"; break;
+        case Statut::EMPRUNTE: cout<<"EMPRUNTE"; break;
+        case Statut::DISPONIBLE: cout<<"DISPONIBLE"; break;
+        default:cout<<"inconnu"; break;
+    }
 }
 
-vector<int> uniq(vector<int>& v) {
-    auto new_end = unique(v.begin(), v.end());
-    v.erase(new_end, v.end());
-    return v;
+vector<Livre> filtrer_par_statut(const vector<Livre> & v, Statut s) {
+    vector<Livre> result;
+    for (const auto el&: v) {
+        if (el.statut == s) {
+            result.push_back(el);
+        }
+    }
+    return result;
 }
 
 
 int main() {
-    vector<int> v{1,1,2,2,2,3,3,5,5,7};
-    size_t n = remove_duplicates(v);
-    v.resize(n);
-    for (int x : v) cout << x << ' ';  // beklenen: 1 2 3 5 7
-    cout << '\n';
-
-    vector<int> a{};
-    cout << remove_duplicates(a) << '\n'; // beklenen: 0
-
-    vector<int> b{4};
-    size_t nb = remove_duplicates(b);
-    b.resize(nb);
-    for (int x : b) cout << x << ' ';    // beklenen: 4
-    cout << '\n';
-
-    cout << '\n';    cout << '\n';
-    vector<int> v2{1,2,5, 1,2,2,2,23, 33,33,5,5,7};
-    uniq(v2);
-    for(int c :v2) {
-        cout<<c<<" ";
-    }
+    vector<Livre> bib = {
+        {"Cien Años de Soledad", "G. Garcia Marquez", 1967, Statut::DISPONIBLE},
+        {"Le Petit Prince", "A. de Saint-Exupéry", 1943, Statut::EMPRUNTE},
+        {"1984", "George Orwell", 1949, Statut::RESERVE},
+        {"Les Misérables", "Victor Hugo", 1862, Statut::EMPRUNTE}
+    };
+    auto empruntes = filtrer_par_statut(bib, Statut::EMPRUNTE);
+    for (const auto &l: empruntes) afficher_livre(l);
 }
