@@ -1,49 +1,55 @@
 #include <iostream>
 #include <fstream>
+#include <vector>
 #include <string>
-#include <sstream>
-#include <tuple>
+#include <utility>
+#include <map>
 using namespace std;
 
-tuple<int, int, string> analyser_fichier(const string & s) {
+vector<pair<string,double>> notes_moyennes(const string& fichier) {
+map<string, pair<double, int>> result;
 
-    ifstream in(s);
+    ifstream in(fichier);
     if(!in.is_open()) {
-        cerr<<"erreur de l'ouverture de fichier";
-        return {};
+        cerr<<"Erreur d'ouverture : "<<fichier<<endl;
     }
 
-    string lignes;
-    string mot;
-    int motsCount = 0;
-    string motLong;
-    int lignesCount = 0;
-    while(getline(in, lignes)) {
-        ++lignesCount;
-        stringstream ss(lignes);
-        while(ss>>mot) {
-            ++motsCount;
-            if(mot.size() > motLong.size() ) {
-                motLong = mot;
-            }
-        }
+    string nom, prenom;
+    double note;
+
+    while(in>>nom>>prenom>>note) {
+        string key = nom + " " + prenom;
+
+        result[key].first += note;
+        result[key].second++;
     }
 
-    return {motsCount, lignesCount, motLong};
+vector<pair<string, double>> resultats;
+    resultats.reserve(result.size());
+    for(const auto& entry : result) {
+        const string& name = entry.first;
+        double total = entry.second.first;
+        int count = entry.second.second;
+
+        double moyenne = total / count;
+
+        resultats.push_back({name, moyenne});
+    }
+
+    return resultats;
 }
-
 
 int main() {
 
-    ofstream f("journal.txt");
-
-    f<<"Bonjour a tous\nBienvenue a HEIG\nC++ est puissant et genial\n";
+    ofstream f("notes.txt");
+    f << "Ali Veli 5.5\n";
+    f << "Ayse Demir 4.2\n";
+    f << "Mehmet Kaya 6.0\n";
+    f << "Ali Veli 5.8\n";
+    f << "Ayse Demir 5.0\n";
     f.close();
 
-    auto[lignes, mots, pluslong] = analyser_fichier("journal.txt");
-    cout<<lignes<<endl;
-    cout<<mots<<endl;
-    cout<<pluslong<<endl;
-
-    return 0;
+    auto r = notes_moyennes("notes.txt");
+    for (const auto& [nom, moy] : r)
+        cout << nom << " : " << moy << '\n';
 }
