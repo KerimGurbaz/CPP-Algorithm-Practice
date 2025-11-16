@@ -1,31 +1,52 @@
 #include <iostream>
+#include <vector>
 #include <string>
-#include <cctype>
-#include <algorithm>
 
 using namespace std;
 
-string nettoyer_adn(const string & s) {
-    string ss = s;
-    const string DNA ="ACGT";
-            auto ne = remove_if(ss.begin(), ss.end(), [](char c) {
-            return isspace(c);
-    });
-    string result ="";
-    ss.erase(ne, ss.end());
-    for(char c : ss ) {
-        c=toupper(c);
-    if(DNA.find(c) == string::npos) {
-        return "";
-    }else {
-        result += c;
+enum class Categorie { ALIMENTATION, ELECTRONIQUE, VETEMENT };
+
+struct Produit {
+    string nom;
+    Categorie cat;
+    int quantite;
+    double prix;
+};
+
+void ajouter_stock( vector<Produit>&stock,const string nom,const Categorie cat, const int quantite,const double prix) {
+    for(auto & produit : stock) {
+        if(produit.nom == nom) {
+            produit.quantite += quantite;
+            return;
+        }
     }
+
+    stock.push_back({nom, cat, quantite, prix});
+
+
+}
+
+// YARDIMCI
+void afficher_stock(const vector<Produit>& stock) {
+    for (const auto& p : stock) {
+        cout << p.nom << ": " << p.quantite << endl;
     }
-    return result;
 }
 
 int main() {
-    cout << "|" << nettoyer_adn("a c g t A G") << "|" << endl; // |ACGTAG|
-    cout << "|" << nettoyer_adn("AcGtX") << "|" << endl;       // || (X geçersiz)
-    cout << "|" << nettoyer_adn("") << "|" << endl;            // ||
+    vector<Produit> magasin;
+
+    // 1. Yeni ürün ekle
+    ajouter_stock(magasin, "Pomme", Categorie::ALIMENTATION, 50, 0.5);
+
+    // 2. Yeni ürün ekle
+    ajouter_stock(magasin, "Laptop", Categorie::ELECTRONIQUE, 10, 999.9);
+
+    // 3. MEVCUT ürünü güncelle (Sadece miktar artmalı, yeni satır eklenmemeli)
+    ajouter_stock(magasin, "Pomme", Categorie::ALIMENTATION, 20, 0.5);
+
+    afficher_stock(magasin);
+    // Beklenen:
+    // Pomme: 70
+    // Laptop: 10
 }
