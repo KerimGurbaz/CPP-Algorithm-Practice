@@ -131,27 +131,114 @@ int main() {
 #include <string>
 #include <iomanip>
 using namespace std;
+/*
+*
+unordered_map<int, int> compter_doublons_consecutifs(const vector<int>& v) {
 
-void f(int)        { cout << "A"; }
-void f(double)     { cout << "B"; }
-void f(long)       { cout << "C"; }
-void f(const int&) { cout << "D"; }
-struct Point { int x; int y; };
+    unordered_map<int, int> result;
+
+    for(const auto& el : v) {
+        result[el]++;
+    }
+
+    for(const auto& [number, frekans]: result) {
+        cout<<number<< " : "<<frekans<<endl;;
+    }
+cout<<endl;
+
+    return result;
+
+}
 
 int main() {
-    Point p1 = {10, 20};
-    Point* ptr = &p1;
-
-    short x = 5;
-    cout<<endl;
-    cout << showpos << scientific << setprecision(1) << 12345.67;
-    cout<<endl;
-
-    // 1. p1'in x değerini 'ptr' kullanarak 50 yapın:
-    ptr->x = 50;
-    // VEYA (*ptr).x = 50;
-
-    // 2. Ok operatörü (->) OLMADAN y değerini basın:
-    cout << scientific << setprecision(3) << 0.0123456 << " ";
-    // Parantez şarttır çünkü '.' operatörünün önceliği '*' dan yüksektir.
+ compter_doublons_consecutifs({1,1,2,2,2,3,3,5,5,7}) ;
+ compter_doublons_consecutifs({1,2,3,4});            // 0
+   compter_doublons_consecutifs({9,9,9,9});            // 1
 }
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+using namespace std;
+
+// TODO: v sıralı, kaç farklı eleman en az 2 kez ardışık görünüyor?
+size_t compter_doublons_consecutifs(const vector<int>& v) {
+    unordered_map<int, int> result;
+    for(const auto& el : v) {
+        result[el]++;
+    }
+    int count =0;
+
+    for(const auto&el: result) {
+        if(el.second >1) {
+            count++;
+        }
+    }
+    return count;
+}
+
+int main() {
+    cout << compter_doublons_consecutifs({1,1,2,2,2,3,3,5,5,7}) << '\n'; // 4
+    cout << compter_doublons_consecutifs({1,2,3,4}) << '\n';             // 0
+    cout << compter_doublons_consecutifs({9,9,9,9}) << '\n';             // 1
+}
+
+#include <iostream>
+#include <string>
+#include <cctype>
+#include <sstream>
+using namespace std;
+
+// TODO: sadece harfleri tut, hepsini lowercase, kelimeler arası tek boşluk
+string nettoyer_string(const string& s) {
+    string myStr=s;
+    stringstream ss(myStr);
+    string mot;
+    string result;
+    while(ss>>mot) {
+        result.push_back(' ');
+        for(char & c : mot) {
+            if(isalpha(c)) {
+                c = tolower(c);
+                result+=c;
+            }
+
+        }
+    }
+    result= result.replace(0,1, "");
+    return result;
+}
+
+int main() {
+    cout << nettoyer_string("Hello, C++ World !") << '\n';      // "hello c world"
+    cout << nettoyer_string("  HEIG-VD   2025 !!! ") << '\n';   // "heigvd"
+    cout << nettoyer_string("C  est    genial") << '\n';        // "c est genial"
+}
+#include <iostream>
+#include <vector>
+using namespace std;
+#include <unordered_map>
+size_t compter_occurrences(const vector<int>& v, int x) {
+unordered_map<int, int> result ;
+    for(const auto& el : v) {
+        result[el]++;
+    }
+    for(const auto& el : result) {
+        if(el.first == x) {
+            return el.second;
+        }
+    }
+    return 0;
+}
+
+int main() {
+    cout << compter_occurrences({1,2,3,2,2,4}, 2) << '\n'; // 3
+    cout << compter_occurrences({1,1,1}, 1) << '\n';       // 3
+    cout << compter_occurrences({1,2,3}, 4) << '\n';       // 0
+}
+
+
+
+ */
+
+
+
