@@ -1,91 +1,29 @@
-#include <iostream>
 #include <vector>
-#include <sstream>
-#include <algorithm>
+#include <iostream>
+#include <string>
 using namespace std;
 
-/*
-* string compresser(const string & s) {
-    ostringstream os;
-    size_t slow = 0;
-
- for(size_t i = 1; i<=s.size();) {
-     size_t count =1;
-    while(s[slow] == s[i]) {
-        ++count;
-        ++i;
-    }
-     os<<s[slow]<<count;
-     slow = i;
-     ++i;
- }
-return os.str();
-}
-int main() {
-    cout << compresser("aaabbc") << '\n';        // a3b2c1
-    cout << compresser("HEIG") << '\n';          // H1E1I1G1
-    cout << compresser("xxxYYYYzz") << '\n';     // x3Y4z2
-    cout << '"' << compresser("") << '"' << '\n';// ""
-}
-string compresser(const string&s) {
-    if(s.empty())return "";
-
-    ostringstream os;
-
-    size_t i = 0;
-
-    while(i<s.size()) {
-        char current = s[i];
-        size_t count=0;
-
-        while(i<s.size() && s[i] == current) {
-            ++count;
-            ++i;
+// TODO: retourner les mots de longueur >= min_len
+vector<string> filtrer_longueur(const vector<string>& mots, size_t min_len) {
+    vector<string> new_str;
+    new_str.reserve(mots.size());
+    for(const auto& el : mots) {
+        if(el.size() >= min_len ) {
+            new_str.push_back(el);
         }
-
-        os<<current<<count;
     }
-
-return os.str();
+    return new_str;
 }
+
+
 
 int main() {
-    cout << compresser("aaabbc") << '\n';        // a3b2c1
-    cout << compresser("HEIG") << '\n';          // H1E1I1G1
-    cout << compresser("xxxYYYYzz") << '\n';     // x3Y4z2
-    cout << '"' << compresser("") << '"' << '\n';// ""
-}
+    vector<string> v{"C++", "est", "genial", "HEIG-VD", "SYL"};
+    auto r1 = filtrer_longueur(v, 4);
+    auto r2 = filtrer_longueur(v, 6);
+    auto r3 = filtrer_longueur(v, 10);
 
- */
-static void printv(const vector<int>& v) {
-    for (int x : v) cout << x << ' ';
-    cout << '\n';
-}
-
-void miroir(vector<int>& v) {
-   int slow = 0;
-    int fast = v.size()-1;
-
-    while(slow < fast) {
-        int temp = v[slow];
-        v[slow]= v[fast];
-        v[fast] = temp;
-        slow++;
-        fast--;
-    }
-
-}
-
-int main() {
-    vector<int> a{1,2,3,4,5};
-    vector<int> b{10};
-    vector<int> c{};
-
-    miroir(a); // 5 4 3 2 1
-    miroir(b); // 10
-    miroir(c); // (rien)
-
-    printv(a);
-    printv(b);
-    printv(c);
+    for (auto& s : r1) cout << s << ' '; cout << '\n'; // genial HEIG-VD
+    for (auto& s : r2) cout << s << ' '; cout << '\n'; // genial HEIG-VD
+    for (auto& s : r3) cout << s << ' '; cout << '\n'; // (rien)
 }
