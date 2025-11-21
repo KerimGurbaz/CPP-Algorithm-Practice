@@ -169,4 +169,74 @@ int main() {
     // Beklenen Çıktı (Sıralı): 3.2 10.5 100
 }
 
+#include <iostream>
+#include <string>
+using namespace std;
+
+enum class Direction { NORD, EST, SUD, OUEST };
+
+string dir_to_string(const Direction d) {
+    switch (d) {
+        case Direction::EST: return "EST";
+        case Direction::SUD: return "SUD";
+        case Direction::NORD: return "NORD";
+        case Direction::OUEST: return "OUEST";
+        default : return "inconnu";
+    }
+}
+
+Direction tourner_a_droite (const Direction& d) {
+     int val = static_cast<int>(d);
+        val = (val+1)%4;
+    return static_cast<Direction>(val);
+
+}
+
+int main() {
+    Direction d = Direction::NORD;
+    for (int i = 0; i < 9; ++i) {
+        d = tourner_a_droite(d);
+        cout << dir_to_string(d) << " ";
+    }
+}
+
+
  */
+
+#include <iostream>
+#include <cstdint>
+#include <sstream>
+using namespace std;
+
+using namespace std;
+using heur = uint8_t;
+using minutes = uint8_t;
+using secondes = uint16_t;
+
+struct Temps {
+    heur h;
+    minutes m;
+    secondes s;
+};
+
+void normaliser(Temps& t) {
+    while(t.s > 59) {
+        t.s -= 60;
+        t.m +=1;
+    }
+    while(t.m > 59) {
+        t.m -= 60;
+        t.h +=1;
+    }
+}
+int main() {
+
+    Temps t = {10, 59, 65};
+
+    cout << "Avant: " << +t.h << ":" <<+t.m << ":" << +t.s << endl;
+
+    normaliser(t);
+
+    cout << "Apres: " << +t.h << ":" << +t.m << ":" << +t.s << endl;
+
+}
