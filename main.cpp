@@ -1,56 +1,90 @@
-/*
-*
 #include <iostream>
 #include <vector>
-#include <utility>
-using namespace std;
-
-vector<pair<int, int>>compress_runs(const vector<int>& v) {
-    vector<pair<int, int>> result;
-    result.reserve(v.size());
-    int slow =0 ;
-    int count =0;
-    for(size_t fast = 0; fast<v.size();++fast) {
-        if(v[slow] == v[fast]) {
-            ++count;
-        }else {
-            result.push_back({v[slow], count});
-            count =1;
-            slow = fast;
-        }
-    }
-    result.push_back({v[slow], count});
-    return result;
-}
-
-int main() {
-    vector<int> v{1,1,1,2,2,3,5,5,5,5};
-    auto r = compress_runs(v);
-    for (auto [val, cnt] : r) {
-        cout << "(" << val << "," << cnt << ") ";
-    }
-
-}
-
- */
-#include <iostream>
-#include <vector>
+#include <map>
 #include <algorithm>
 using namespace std;
 
-vector<int> filtrer_intervalle( vector<int>v, int min_Val, int max_Val) {
-auto it = remove_if(v.begin(), v.end(),[min_Val, max_Val](int n) {
-    return (n < min_Val || n>max_Val);
-});
+/*
+*
+bool sont_anagrammes(const string &s1, const string &s2) {
+    map<char, int> result1;
+    map<char, int> result2;
 
-    v.erase(it, v.end());
-    sort(v.begin(), v.end());
-    return v;
+    for (auto c: s1) {
+        if (isalpha(c)) {
+            c = tolower(c);
+            result1[c]++;
+        }
+    }
+    for (char c: s2) {
+        if (isalpha(c)) {
+            c = tolower(c);
+            result2[c]++;
+        }
+    }
+        return equal(result1.begin(), result1.end(),
+                     result2.begin(), result2.end());
 }
 
-int main() {
-    vector<int> v{5,1,9,3,7,2,8};
-    auto r = filtrer_intervalle(v, 3, 7);
-    for (int x : r) cout << x << ' ';
+#include <array>
+#include <cctype>
 
+bool sont_anagrammes(const string& s1, const string s2) {
+    array<int, 26>count{};
+    count.fill(0);
+
+    for(char c: s1) {
+        if(isalpha(c)) {
+             count[tolower(c) - 'a']++;
+        }
+    }
+
+    for(char c: s2) {
+        if(isalpha(c)) {
+            count[tolower(c) - 'a']--;
+        }
+    }
+
+    for(int n : count) {
+        if(n!=0) {
+            return false;
+        }
+    }
+    return true;
+}
+
+
+int main() {
+    cout << sont_anagrammes("Listen", "Silent");
+    cout << sont_anagrammes("Hello", "Olelh!");
+    cout << sont_anagrammes("HEIG", "VD");
+}
+
+ */
+using vec = vector<char>;
+using matrice =vector<vec>;
+
+matrice cadre_diagonale(size_t n) {
+    matrice m;
+    m.resize(n,vec(n));
+    for(size_t i =0; i<n; ++i) {
+        for(size_t j = 0; j<n; ++j) {
+            if(i == j) {
+                m[i][j]= 'X';
+            } if(j == n-1-i) {
+                m[i][j]='X';
+            }
+        }
+    }
+    return m;
+}
+
+
+
+int main(){
+    auto m = cadre_diagonale(5);
+    for (auto& row : m) {
+        for (char c : row) cout << c;
+        cout << '\n';
+    }
 }
