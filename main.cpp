@@ -1,105 +1,56 @@
 /*
-* #include <iostream>
-#include <vector>
-#include <string>
-#include <cstdint>
-using namespace std;
-
-struct Personne {
-    string nom;
-    uint16_t annee;
-};
-string trouver_doyen(const vector<Personne>& p ) {
-  if(!p.empty()) {
-      Personne doyen = p[0];
-      for(size_t i = 0; i<p.size(); ++i) {
-          if(p[i].annee < doyen.annee ) {
-              doyen = p[i];
-          }
-      }
-      return doyen.nom;
-  }else {
-      return "inconnu";
-  }
-}
-
-int main() {
-    // İsim, Doğum Yılı
-    vector<Personne> groupe = {
-        {"Alice", 1990},
-        {"Bob", 1985},
-        {"Charlie", 1992},
-        {"David", 1985} // Eşit yaşta, ilk geleni veya fark etmez
-    };
-
-    // Vektör boş değilse en yaşlıyı (yılı en küçük olanı) bul
-    string doyen = trouver_doyen(groupe);
-
-    cout << "Le doyen est: " << doyen << endl;
-    // Beklenen: Bob (veya David, mantığına göre)
-
-    vector<Personne> vide;
-    cout << "Vide: " << trouver_doyen(vide) << endl;
-    // Beklenen: Inconnu
-}
-
+*
 #include <iostream>
-#include <cmath> // abs için
+#include <vector>
+#include <utility>
 using namespace std;
 
-struct Point {
-    int a = 0;
-    int b = 0;
-};
-
-struct Rectangle {
-    Point p1;
-    Point p2;
-};
-
-int calculer_surface(const Rectangle &r) {
-    int largeur = abs(r.p2.a - r.p1.a);
-    int longeur = abs(r.p2.b - r.p1.b);
-    return (largeur * longeur);
+vector<pair<int, int>>compress_runs(const vector<int>& v) {
+    vector<pair<int, int>> result;
+    result.reserve(v.size());
+    int slow =0 ;
+    int count =0;
+    for(size_t fast = 0; fast<v.size();++fast) {
+        if(v[slow] == v[fast]) {
+            ++count;
+        }else {
+            result.push_back({v[slow], count});
+            count =1;
+            slow = fast;
+        }
+    }
+    result.push_back({v[slow], count});
+    return result;
 }
 
 int main() {
-    Rectangle r = {{0, 10}, {20, 0}};
+    vector<int> v{1,1,1,2,2,3,5,5,5,5};
+    auto r = compress_runs(v);
+    for (auto [val, cnt] : r) {
+        cout << "(" << val << "," << cnt << ") ";
+    }
 
-    int area = calculer_surface(r);
-
-    cout << "Surface: " << area << endl;
 }
 
  */
-
 #include <iostream>
+#include <vector>
+#include <algorithm>
 using namespace std;
 
-struct Coord {
-   double x;
-    double y;
-};
+vector<int> filtrer_intervalle( vector<int>v, int min_Val, int max_Val) {
+auto it = remove_if(v.begin(), v.end(),[min_Val, max_Val](int n) {
+    return (n < min_Val || n>max_Val);
+});
 
-const Coord& plus_proche(const Coord& p1, const Coord& p2) {
-    double dist1 = (p1.x *p1.x) + (p1.y * p1.y);
-    double dist2 = (p2.x *p2.x) + (p2.y * p2.y);
-
-    if(dist1 < dist2) {
-        return p1;
-    }else {
-        return p2;
-    }
+    v.erase(it, v.end());
+    sort(v.begin(), v.end());
+    return v;
 }
 
-
 int main() {
-    Coord p1 = {3.0, 4.0};   // Orijine uzaklık: 5 (3-4-5 üçgeni)
-    Coord p2 = {10.0, 10.0}; // Orijine uzaklık: ~14.1
+    vector<int> v{5,1,9,3,7,2,8};
+    auto r = filtrer_intervalle(v, 3, 7);
+    for (int x : r) cout << x << ' ';
 
-    // Dikkat: Fonksiyon, p1 veya p2'nin KENDİSİNİ (referansını) döndürmeli
-    const Coord& proche = plus_proche(p1, p2);
-
-    cout << "Plus proche: " << proche.x << ", " << proche.y << endl;
-    // Beklenen: 3, 4
 }
