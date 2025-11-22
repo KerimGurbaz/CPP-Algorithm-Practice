@@ -3,85 +3,84 @@
 #include <vector>
 using namespace std;
 
-enum class Niveau { DEBUTANT, INTERMEDIAIRE, AVANCE };
+enum class Statut{DISPONIBLE, EMPRUNTE, RESERVE};
 
-struct Personne {
-    string nom;
-    int age;
-    Niveau niveau;
+struct Livre {
+    string titre;
+    string auteur;
+    int annee;
+    Statut statut;
 };
 
-size_t compter_par_niveau(const vector<Personne> &p, const Niveau &n) {
+size_t compter_statut(const vector<Livre>&v , const Statut& s) {
     size_t count = 0;
-    for (const auto &el: p) {
-        if (el.niveau == n) {
-            ++count;
+    for(const auto& el: v) {
+        if(el.statut == s) {
+            count++;
         }
     }
     return count;
 }
 
-double moyenne_age(const vector<Personne> &p) {
-    double somme = 0.0;
-    if (!p.empty()) {
-        for (const auto &el: p) {
-            somme += el.age;
-        }
-        return somme / p.size();
-    }
-    return 0.0;
-}
 
-vector<Personne> filtrer_par_age(const vector<Personne> &p, int min_age, int max_age) {
-    vector<Personne> result;
-    result.reserve(p.size());
-    for (const auto &el: p) {
-        if (el.age >= min_age && el.age <= max_age) {
+vector<Livre> livres_par_auteur(const vector<Livre>& s, const string& prenom) {
+    vector<Livre> result;
+    for(const auto& el : s) {
+        if(el.auteur == prenom) {
             result.push_back(el);
         }
     }
     return result;
 }
-
-
-void afficher(const vector<Personne> &v) {
-    for (const auto &p: v) {
-        cout << p.nom << " (" << p.age << ") ";
-        switch (p.niveau) {
-            case Niveau::DEBUTANT: cout << "[DEBUTANT]";
-                break;
-            case Niveau::INTERMEDIAIRE: cout << "[INTERMEDIAIRE]";
-                break;
-            case Niveau::AVANCE: cout << "[AVANCE]";
-                break;
+Livre * chercher_plus_recent( vector<Livre>& v) {
+    if(!v.empty()) {
+            Livre * ptr = &v[0];
+    for(size_t i = 0; i<v.size(); ++i){
+        if(v[i].annee > (*ptr).annee) {
+            ptr = &v[i];
         }
-        cout << '\n';
     }
+    return ptr ;
+    }
+    return nullptr;
+
 }
 
+void afficher_livre(const Livre& l) {
+    cout << l.titre << " - " << l.auteur << " (" << l.annee << ") ";
+    switch (l.statut) {
+        case Statut::DISPONIBLE: cout << "[DISPONIBLE]"; break;
+        case Statut::EMPRUNTE:   cout << "[EMPRUNTE]";   break;
+        case Statut::RESERVE:    cout << "[RESERVE]";    break;
+    }
+    cout << '\n';
+}
+
+void afficher_biblio(const vector<Livre>& v) {
+    for (const auto& l : v) afficher_livre(l);
+}
 
 int main() {
-    vector<Personne> personnes = {
-        {"Ali", 20, Niveau::DEBUTANT},
-        {"Zehra", 25, Niveau::INTERMEDIAIRE},
-        {"Mehmet", 30, Niveau::AVANCE},
-        {"Ayse", 28, Niveau::INTERMEDIAIRE},
-        {"John", 35, Niveau::AVANCE}
+    vector<Livre> bib = {
+        {"Cien Años de Soledad", "Garcia Marquez", 1967, Statut::DISPONIBLE},
+        {"Le Petit Prince",     "Saint-Exupéry",  1943, Statut::EMPRUNTE},
+        {"1984",                "George Orwell",  1949, Statut::RESERVE},
+        {"Animal Farm",         "George Orwell",  1945, Statut::DISPONIBLE},
+        {"Les Misérables",      "Victor Hugo",    1862, Statut::EMPRUNTE}
     };
 
-    cout << "Nb DEBUTANT      : "
-            << compter_par_niveau(personnes, Niveau::DEBUTANT) << '\n';
+    cout << "Nb DISPONIBLE : " << compter_statut(bib, Statut::DISPONIBLE) << '\n';
+    cout << "Nb EMPRUNTE   : " << compter_statut(bib, Statut::EMPRUNTE)   << '\n';
+    cout << "Nb RESERVE    : " << compter_statut(bib, Statut::RESERVE)    << '\n';
 
-    cout << "Nb INTERMEDIAIRE : "
-            << compter_par_niveau(personnes, Niveau::INTERMEDIAIRE) << '\n';
+    cout << "\nLivres de George Orwell:\n";
+    auto orwell = livres_par_auteur(bib, "George Orwell");
+    afficher_biblio(orwell);
 
-    cout << "Nb AVANCE        : "
-            << compter_par_niveau(personnes, Niveau::AVANCE) << '\n';
-
-    cout << "Moyenne d'age    : "
-            << moyenne_age(personnes) << '\n';
-
-    cout << "\nFiltre [25..30] :\n";
-    auto f = filtrer_par_age(personnes, 25, 30);
-    afficher(f);
+    cout << "\nLivre le plus recent:\n";
+    if (auto p = chercher_plus_recent(bib)) {
+        afficher_livre(*p);
+    } else {
+        cout << "Aucun livre.\n";
+    }
 }
