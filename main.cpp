@@ -1,83 +1,52 @@
 #include <iostream>
 #include <array>
-#include <sstream>
+#include <vector>
 using namespace std;
 
-const int capacity = 10;
+void print(const vector<int>& v) {
+for(size_t i = 0; i<v.size(); ++i) {
+    if(i)cout<<",";
+    cout<<v[i];
+}
+    cout<<endl;
+}
 
-struct Stack {
-    int size = 0;
-    array<int, capacity> data{};
-};
+vector<int >my_push_back(vector<int>& v, const int n) {
+    v.resize(v.size()+1);
+    v[v.size()-1]=n;
+    return v;
+}
 
-void display(const Stack &s) {
-    ostringstream os;
-    os << "size   :";
-    os << s.size << "\n";
-    os << "data   :[";
-    for (int i = 0; i < s.size; ++i) {
-        os << s.data[i];
-        if (i < s.size - 1) {
-            os << ", ";
-        }
+vector<int> my_pop_back(vector<int>& v) {
+    v.resize(v.size()-1);
+    return v;
+}
+
+vector<int>my_resize(vector<int>& v,int n, int value=int()) {
+    while(v.size() < n) {
+        v.push_back(value);
     }
-    os << "]\n";
-    cout << os.str();
-}
-
-
-bool full(const Stack &s) {
-    return s.size == capacity;
-}
-
-void push(Stack &s, int n) {
-    s.data[s.size] = n;
-    s.size++;
-}
-
-bool empty(const Stack &s) {
-    return s.size == 0;
-}
-
-size_t top(const Stack &s) {
-    if (!empty(s)) {
-        return s.data[s.size];
-    } else { return 0; };
-}
-
-void pop(Stack &s) {
-    if (!empty(s)) {
-        s.size--;
+    while(v.size()>n) {
+        v.pop_back();
     }
+    return v;
 }
-
-size_t size(const Stack &s) {
-    return s.size;
-}
-
 int main() {
-    Stack s;
-    int i = 1;
+    vector<int> v{1, 2, 3, 4, 5, 6};
+    my_push_back(v, 7);     // v contient {1, 2, 3, 4, 5, 6, 7}
+    print(v);
 
-    display(s);
-    cout << endl;
+    my_pop_back(v);         // v contient {1, 2, 3, 4, 5, 6}
+print(v);
 
+    my_pop_back(v);         // v contient {1, 2, 3, 4, 5}
+    print(v);
 
-    while (not full(s)) {
-        push(s, i *= 2);
-    }
+    my_resize(v,3);         // v contient {1, 2, 3}
+    print(v);
+    my_resize(v,5,1);       // v contient {1, 2, 3, 1, 1}
+    print(v);
+    my_resize(v,8);         // v contient {1, 2, 3, 1, 1, 0, 0, 0}
+    print(v);
 
-    cout << "top  : " << top(s) << endl;
-    cout << "size : " << size(s) << endl;
-    cout << endl;
-
-    display(s);
-    cout << endl;
-
-    while (not empty(s)) {
-        pop(s);
-    }
-
-    display(s);
-    cout << endl;
 }
