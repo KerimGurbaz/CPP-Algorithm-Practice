@@ -1,86 +1,83 @@
 #include <iostream>
-#include <string>
-#include <vector>
+#include <array>
+#include <sstream>
 using namespace std;
 
-enum class Statut{DISPONIBLE, EMPRUNTE, RESERVE};
+const int capacity = 10;
 
-struct Livre {
-    string titre;
-    string auteur;
-    int annee;
-    Statut statut;
+struct Stack {
+    int size = 0;
+    array<int, capacity> data{};
 };
 
-size_t compter_statut(const vector<Livre>&v , const Statut& s) {
-    size_t count = 0;
-    for(const auto& el: v) {
-        if(el.statut == s) {
-            count++;
+void display(const Stack &s) {
+    ostringstream os;
+    os << "size   :";
+    os << s.size << "\n";
+    os << "data   :[";
+    for (int i = 0; i < s.size; ++i) {
+        os << s.data[i];
+        if (i < s.size - 1) {
+            os << ", ";
         }
     }
-    return count;
+    os << "]\n";
+    cout << os.str();
 }
 
 
-vector<Livre> livres_par_auteur(const vector<Livre>& s, const string& prenom) {
-    vector<Livre> result;
-    for(const auto& el : s) {
-        if(el.auteur == prenom) {
-            result.push_back(el);
-        }
-    }
-    return result;
-}
-Livre * chercher_plus_recent( vector<Livre>& v) {
-    if(!v.empty()) {
-            Livre * ptr = &v[0];
-    for(size_t i = 0; i<v.size(); ++i){
-        if(v[i].annee > (*ptr).annee) {
-            ptr = &v[i];
-        }
-    }
-    return ptr ;
-    }
-    return nullptr;
-
+bool full(const Stack &s) {
+    return s.size == capacity;
 }
 
-void afficher_livre(const Livre& l) {
-    cout << l.titre << " - " << l.auteur << " (" << l.annee << ") ";
-    switch (l.statut) {
-        case Statut::DISPONIBLE: cout << "[DISPONIBLE]"; break;
-        case Statut::EMPRUNTE:   cout << "[EMPRUNTE]";   break;
-        case Statut::RESERVE:    cout << "[RESERVE]";    break;
-    }
-    cout << '\n';
+void push(Stack &s, int n) {
+    s.data[s.size] = n;
+    s.size++;
 }
 
-void afficher_biblio(const vector<Livre>& v) {
-    for (const auto& l : v) afficher_livre(l);
+bool empty(const Stack &s) {
+    return s.size == 0;
+}
+
+size_t top(const Stack &s) {
+    if (!empty(s)) {
+        return s.data[s.size];
+    } else { return 0; };
+}
+
+void pop(Stack &s) {
+    if (!empty(s)) {
+        s.size--;
+    }
+}
+
+size_t size(const Stack &s) {
+    return s.size;
 }
 
 int main() {
-    vector<Livre> bib = {
-        {"Cien Años de Soledad", "Garcia Marquez", 1967, Statut::DISPONIBLE},
-        {"Le Petit Prince",     "Saint-Exupéry",  1943, Statut::EMPRUNTE},
-        {"1984",                "George Orwell",  1949, Statut::RESERVE},
-        {"Animal Farm",         "George Orwell",  1945, Statut::DISPONIBLE},
-        {"Les Misérables",      "Victor Hugo",    1862, Statut::EMPRUNTE}
-    };
+    Stack s;
+    int i = 1;
 
-    cout << "Nb DISPONIBLE : " << compter_statut(bib, Statut::DISPONIBLE) << '\n';
-    cout << "Nb EMPRUNTE   : " << compter_statut(bib, Statut::EMPRUNTE)   << '\n';
-    cout << "Nb RESERVE    : " << compter_statut(bib, Statut::RESERVE)    << '\n';
+    display(s);
+    cout << endl;
 
-    cout << "\nLivres de George Orwell:\n";
-    auto orwell = livres_par_auteur(bib, "George Orwell");
-    afficher_biblio(orwell);
 
-    cout << "\nLivre le plus recent:\n";
-    if (auto p = chercher_plus_recent(bib)) {
-        afficher_livre(*p);
-    } else {
-        cout << "Aucun livre.\n";
+    while (not full(s)) {
+        push(s, i *= 2);
     }
+
+    cout << "top  : " << top(s) << endl;
+    cout << "size : " << size(s) << endl;
+    cout << endl;
+
+    display(s);
+    cout << endl;
+
+    while (not empty(s)) {
+        pop(s);
+    }
+
+    display(s);
+    cout << endl;
 }
