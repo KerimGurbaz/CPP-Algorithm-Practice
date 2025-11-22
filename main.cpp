@@ -1,77 +1,87 @@
 #include <iostream>
-#include <vector>
-#include <array>
-#include <algorithm>
-using namespace std;
 #include <string>
-#include <sstream>
-
-
-#include <iostream>
-#include <array>
+#include <vector>
 using namespace std;
 
-using Vec3d = array<double, 3>;
+enum class Niveau { DEBUTANT, INTERMEDIAIRE, AVANCE };
 
-string to_string(const Vec3d &v) {
-    ostringstream os;
-    os << "(";
-    for (size_t i = 0; i < v.size(); ++i) {
-        if (i)os << ", ";
-        os << v[i];
+struct Personne {
+    string nom;
+    int age;
+    Niveau niveau;
+};
+
+size_t compter_par_niveau(const vector<Personne> &p, const Niveau &n) {
+    size_t count = 0;
+    for (const auto &el: p) {
+        if (el.niveau == n) {
+            ++count;
+        }
     }
-    os << ")";
-    return os.str();
+    return count;
 }
 
-Vec3d produit(const Vec3d &v, double n) {
-    Vec3d copy_a = v;
-    for (double &el: copy_a) {
-        el *= n;
+double moyenne_age(const vector<Personne> &p) {
+    double somme = 0.0;
+    if (!p.empty()) {
+        for (const auto &el: p) {
+            somme += el.age;
+        }
+        return somme / p.size();
     }
-    return copy_a;
+    return 0.0;
 }
 
-double produit_scalaire(const Vec3d &v1, const Vec3d &v2) {
-
-    double sum = 0;
-    for (size_t i = 0; i < v1.size(); ++i) {
-        sum += v1[i] * v2[i];
+vector<Personne> filtrer_par_age(const vector<Personne> &p, int min_age, int max_age) {
+    vector<Personne> result;
+    result.reserve(p.size());
+    for (const auto &el: p) {
+        if (el.age >= min_age && el.age <= max_age) {
+            result.push_back(el);
+        }
     }
-    return sum;
-}
-
-Vec3d produit_vectoriel(const Vec3d &a, const Vec3d &b) {
-    Vec3d result;
-    result[0] = (a[1] * b[2]) - (b[1] * a[2]);
-    result[1] = (a[2] * b[0]) - (b[2] * a[0]);
-    result[2] = (a[0] * b[1]) - (b[0] * a[1]);
     return result;
 }
 
 
+void afficher(const vector<Personne> &v) {
+    for (const auto &p: v) {
+        cout << p.nom << " (" << p.age << ") ";
+        switch (p.niveau) {
+            case Niveau::DEBUTANT: cout << "[DEBUTANT]";
+                break;
+            case Niveau::INTERMEDIAIRE: cout << "[INTERMEDIAIRE]";
+                break;
+            case Niveau::AVANCE: cout << "[AVANCE]";
+                break;
+        }
+        cout << '\n';
+    }
+}
+
+
 int main() {
-    Vec3d a{1., 2., 3.};
-    Vec3d b{2., 4., 3.};
-    cout << "a = " << to_string(a) << endl
-            << "b = " << to_string(b) << endl;
+    vector<Personne> personnes = {
+        {"Ali", 20, Niveau::DEBUTANT},
+        {"Zehra", 25, Niveau::INTERMEDIAIRE},
+        {"Mehmet", 30, Niveau::AVANCE},
+        {"Ayse", 28, Niveau::INTERMEDIAIRE},
+        {"John", 35, Niveau::AVANCE}
+    };
 
-    Vec3d c = produit(a, 2.);
-    cout << "c = a*2 = " << to_string(c) << endl;
+    cout << "Nb DEBUTANT      : "
+            << compter_par_niveau(personnes, Niveau::DEBUTANT) << '\n';
 
-    cout << "a.b = " << produit_scalaire(a, b)
-            << ", a.c = " << produit_scalaire(a, c)
-            << ", b.c = " << produit_scalaire(b, c) << endl;
+    cout << "Nb INTERMEDIAIRE : "
+            << compter_par_niveau(personnes, Niveau::INTERMEDIAIRE) << '\n';
 
+    cout << "Nb AVANCE        : "
+            << compter_par_niveau(personnes, Niveau::AVANCE) << '\n';
 
-    Vec3d d = produit_vectoriel(a, b);
-    cout << "d = a^b = " << to_string(d) << endl;
-    cout << "a.d = " << produit_scalaire(a, d)
-            << ", b.d = " << produit_scalaire(b, d) << endl;
+    cout << "Moyenne d'age    : "
+            << moyenne_age(personnes) << '\n';
 
-    Vec3d e = produit_vectoriel(a, a);
-    cout << "e = a^a = " << to_string(e) << endl;
-
-    array<int,3> k;
-    cout << k[0] << k[1] << k[2];
+    cout << "\nFiltre [25..30] :\n";
+    auto f = filtrer_par_age(personnes, 25, 30);
+    afficher(f);
 }
