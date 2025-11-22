@@ -1,90 +1,77 @@
 #include <iostream>
 #include <vector>
-#include <map>
+#include <array>
 #include <algorithm>
 using namespace std;
+#include <string>
+#include <sstream>
 
-/*
-*
-bool sont_anagrammes(const string &s1, const string &s2) {
-    map<char, int> result1;
-    map<char, int> result2;
 
-    for (auto c: s1) {
-        if (isalpha(c)) {
-            c = tolower(c);
-            result1[c]++;
-        }
+#include <iostream>
+#include <array>
+using namespace std;
+
+using Vec3d = array<double, 3>;
+
+string to_string(const Vec3d &v) {
+    ostringstream os;
+    os << "(";
+    for (size_t i = 0; i < v.size(); ++i) {
+        if (i)os << ", ";
+        os << v[i];
     }
-    for (char c: s2) {
-        if (isalpha(c)) {
-            c = tolower(c);
-            result2[c]++;
-        }
-    }
-        return equal(result1.begin(), result1.end(),
-                     result2.begin(), result2.end());
+    os << ")";
+    return os.str();
 }
 
-#include <array>
-#include <cctype>
-
-bool sont_anagrammes(const string& s1, const string s2) {
-    array<int, 26>count{};
-    count.fill(0);
-
-    for(char c: s1) {
-        if(isalpha(c)) {
-             count[tolower(c) - 'a']++;
-        }
+Vec3d produit(const Vec3d &v, double n) {
+    Vec3d copy_a = v;
+    for (double &el: copy_a) {
+        el *= n;
     }
+    return copy_a;
+}
 
-    for(char c: s2) {
-        if(isalpha(c)) {
-            count[tolower(c) - 'a']--;
-        }
-    }
+double produit_scalaire(const Vec3d &v1, const Vec3d &v2) {
 
-    for(int n : count) {
-        if(n!=0) {
-            return false;
-        }
+    double sum = 0;
+    for (size_t i = 0; i < v1.size(); ++i) {
+        sum += v1[i] * v2[i];
     }
-    return true;
+    return sum;
+}
+
+Vec3d produit_vectoriel(const Vec3d &a, const Vec3d &b) {
+    Vec3d result;
+    result[0] = (a[1] * b[2]) - (b[1] * a[2]);
+    result[1] = (a[2] * b[0]) - (b[2] * a[0]);
+    result[2] = (a[0] * b[1]) - (b[0] * a[1]);
+    return result;
 }
 
 
 int main() {
-    cout << sont_anagrammes("Listen", "Silent");
-    cout << sont_anagrammes("Hello", "Olelh!");
-    cout << sont_anagrammes("HEIG", "VD");
-}
+    Vec3d a{1., 2., 3.};
+    Vec3d b{2., 4., 3.};
+    cout << "a = " << to_string(a) << endl
+            << "b = " << to_string(b) << endl;
 
- */
-using vec = vector<char>;
-using matrice =vector<vec>;
+    Vec3d c = produit(a, 2.);
+    cout << "c = a*2 = " << to_string(c) << endl;
 
-matrice cadre_diagonale(size_t n) {
-    matrice m;
-    m.resize(n,vec(n));
-    for(size_t i =0; i<n; ++i) {
-        for(size_t j = 0; j<n; ++j) {
-            if(i == j) {
-                m[i][j]= 'X';
-            } if(j == n-1-i) {
-                m[i][j]='X';
-            }
-        }
-    }
-    return m;
-}
+    cout << "a.b = " << produit_scalaire(a, b)
+            << ", a.c = " << produit_scalaire(a, c)
+            << ", b.c = " << produit_scalaire(b, c) << endl;
 
 
+    Vec3d d = produit_vectoriel(a, b);
+    cout << "d = a^b = " << to_string(d) << endl;
+    cout << "a.d = " << produit_scalaire(a, d)
+            << ", b.d = " << produit_scalaire(b, d) << endl;
 
-int main(){
-    auto m = cadre_diagonale(5);
-    for (auto& row : m) {
-        for (char c : row) cout << c;
-        cout << '\n';
-    }
+    Vec3d e = produit_vectoriel(a, a);
+    cout << "e = a^a = " << to_string(e) << endl;
+
+    array<int,3> k;
+    cout << k[0] << k[1] << k[2];
 }
