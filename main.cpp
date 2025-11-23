@@ -1,120 +1,121 @@
 #include <iostream>
-#include <array>
 #include <vector>
-#include <sstream>
+
 using namespace std;
 
 /*
-* void display(const vector<int> &v) {
-    for (int i = 0; i < v.size(); ++i) {
-        cout << v[i];
-        if (i < v.size() - 1) {
-            cout << ", ";
-        }
+* void doubler_valeurs(vector<int>& v) {
+    for(int& i : v) {
+        i *=2;
     }
-}
-
-void rotateRight(vector<int> &v) {
-    vector<int>temp(v.size());
-
-    for (int i = 0; i < v.size(); ++i) {
-       temp[(i-1 +v.size())% v.size()] = v[i];
-    }
-    v = temp;
 }
 
 int main() {
-    vector<int> v{1, 2, 3, 4, 5, 6, 7, 8, 9};
+    vector<int> v = {1, 2, 3};
+    doubler_valeurs(v);
 
-    rotateRight(v);
-    display(v);
-}
-void supprimer_centre(vector<int>& v) {
-    int m = v.size()/2;
-    if(v.size()<3) {
-        v.erase(v.begin(), v.end());
-    }else if(v.size()%2) {
-        v.erase(v.begin()+m, v.begin()+m+1);
-    }else {
-        v.erase(v.begin()+m-1,v.begin()+m+1 );
-    }
-}
-int main() {
-    for (vector<int> v: {vector<int>{},
-                         {1},
-                         {1, 2},
-                         {1, 2, 3},
-                         {1, 2, 3, 4},
-                         {1, 2, 3, 4, 5},
-                         {1, 2, 3, 4, 5, 6}}) {
-        cout << to_string(v) << " -> ";
-        supprimer_centre(v);
-        cout << to_string(v) << endl;
-                         }
+    for(int e : v) cout << e << " ";
+    // Beklenen Çıktı: 2 4 6
 }
 
-void supprimer_valeur(vector<int>& v , const int& n) {
-    int slow = 0;
-    for(size_t fast = 0; fast<v.size(); ++fast) {
-        if(v[fast] != n) {
-            v[slow]= v[fast];
-            ++slow;
-        }
+string changer_animal(const string& s) {
+    string myStr =s;
+    string from ="chat";
+    int pos = 0;
+    while((pos = myStr.find(from, pos)) != string::npos) {
+        myStr.replace(pos,from.size(), "lion");
+        pos +=1;
     }
-    while(v.size() > slow) {
-        v.pop_back();
-    }
-
+    return myStr;
 }
 
 int main() {
-    for (vector<int> v: {vector<int>{},
-                         {2},
-                         {1, 2, 2, 2, 3, 1, 2, 4},
-                         {2, 3, 4, 3, 2, 1},
-                         {2, 2, 2},
-                         {5, 4, 3, 2, 1, 2}}) {
-        cout << to_string(v) << " -> ";
-        supprimer_valeur(v,2);
-        cout << to_string(v) << endl;
-                         }
+    string s = "le chat dort";
+    string s2 = changer_animal(s);
+
+    cout << s << endl;
+    cout << s2 << endl;
 }
+
+Soru 3) "Pozitif"
+
+#include <sstream>
+
+int extraire_prix(const string& s) {
+    int prix = 0;
+
+    stringstream ss(s);
+    string produit;
+    string prixS;
+    getline(ss, produit, ':');
+    getline(ss, prixS, ':');
+    prix += stoi(prixS);
+
+    return prix;
+}
+
+
+
+int main() {
+    int p1 = extraire_prix("Kalem:25");
+    int p2 = extraire_prix("Defter:40");
+
+    cout << "Total: " << p1 + p2 << endl;
+
+}
+
+struct Ogrenci {
+    string nom;
+    vector<double> notes;
+    double moyenne = 0.0;
+};
+int main() {
+    Ogrenci o = {"Ali", {4.0, 5.0, 6.0}, 0.0};
+    cout << o.nom << " not sayisi: " << o.notes.size() << endl;
+}//boyle soru olmaz ama sinav kalitesinde olmasini istiyoruz, onemli pratik metodlari ogrenmek istiyoruz. =(
+
+enum class Couleur{ROUGE=0, ORANGE, VERT};
+
+
+Couleur prochaine_couleur(const Couleur& c) {
+    int cVal = static_cast<int>(c);
+    int nVal = ((cVal + 2)%3);
+    Couleur N = static_cast<Couleur>(nVal);
+    return N;
+}
+int main() {
+    Couleur c = Couleur::ROUGE;
+    c = prochaine_couleur(c);
+    c = prochaine_couleur(c);
+
+    if(c == Couleur::ORANGE) cout << "OK";
+}
+
 
  */
 
-string to_string(const vector<int>& v) {
-    ostringstream os;
-    os<<"[";
-    for(size_t i = 0; i<v.size(); ++i) {
-        os<<v[i];
-        if(i<v.size()-1) {
-            os<<", ";
-        }
-    }
-    os<<"]";
-    return  os.str();
+struct Ogrenci {
+    string nom;
+    vector<double> notes;
+    double moyenne;
+};
+void trier_par_moyenne(vector<Ogrenci>& v) {
+ for(size_t i =0 ;  i<v.size()-1; ++i) {
+     if(v[i].moyenne < v[i+1].moyenne) {
+         swap(v[i], v[i+1]);
+     }
+ }
 }
-
-void rendre_unique(vector<int>& v) {
-    int slow =0;
-    for(size_t fast =1; fast<v.size(); ++fast) {
-        if(v[fast] != v[slow]) {
-            v[++slow]= v[fast];
-        }
-    }
-    v.resize(slow +1);
-}
-
 
 int main() {
-    for (vector<int> v: {vector<int>{},
-                         {2},
-                         {1, 2, 2, 2, 3, 1, 2, 4},
-                         {2, 3, 3, 2, 2, 1},
-                         {2, 2, 2},
-                         {5, 4, 4, 3, 2, 2, 2, 3}}) {
-        cout << to_string(v) << " -> ";
-        rendre_unique(v);
-        cout << to_string(v) << endl;
-                         }
+    vector<Ogrenci> sinif = {
+        {"Zayif", {}, 2.5},
+        {"Caliskan", {}, 5.5},
+        {"Orta", {}, 4.0}
+    };
+
+    trier_par_moyenne(sinif);
+
+    cout << sinif[0].nom;
+    // Beklenen: Caliskan (Çünkü 5.5 en yüksek)
 }
