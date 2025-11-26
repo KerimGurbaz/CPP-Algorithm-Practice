@@ -192,6 +192,65 @@ int main() {
 
     return 0;
 }
+using Data = double;
+using Ligne = vector<Data>;
+using Matrice = vector<Ligne>;
+
+
+template<typename T>
+void afficher(span<const T> s) {
+    cout << "[";
+    for (size_t i = 0; i < s.size(); ++i) {
+        if (i > 0)cout << ", ";
+        cout << s[i];
+    }
+    cout << "]" << endl;
+}
+
+template<typename T>
+T somme(const vector<T> &v) {
+    T result = T{};
+    for (const T &el: v) {
+        result += el;
+    }
+    return result;
+}
+
+template<typename T>
+T moyenne(const vector<T> &v) {
+    if (v.empty()) return {};
+    return somme(v) / static_cast<T>(v.size());
+}
+
+template<typename T, typename Func>
+vector<T> vectStats(const vector<vector<T>>& m, Func f) {
+    vector<T> resultats;
+    resultats.reserve(m.size());
+
+    for(const auto& ligne :m) {
+        resultats.push_back(f(ligne));
+    }
+    return resultats;
+}
+
+int main() {
+    const Matrice notes {{4.0, 5.0, 6.0},
+                         {4.1, 5.1, 4.8},
+                         {3.5, 4.1     }, // Eksik notu olan öğrenci
+                         {4.5, 4.5, 4.6}};
+
+    cout << fixed << setprecision(1);
+
+    cout << "somme   : ";
+    vector<Data> resultSomme = vectStats(notes, somme<Data>);
+    afficher(span<const Data>(resultSomme));
+    cout << endl;
+
+    cout << "moyenne : ";
+    vector<Data> resultMoyenne = vectStats(notes, moyenne<Data>);
+    afficher(span<const Data>(resultMoyenne));
+    cout << endl;
+}
 
  */
 #include <span>
@@ -199,5 +258,6 @@ int main() {
 #include <array>
 #include <iterator>
 #include <algorithm>
+#include <iomanip>
 using namespace std;
 
