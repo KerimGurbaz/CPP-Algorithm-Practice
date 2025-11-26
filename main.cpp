@@ -127,6 +127,71 @@ int main() {
 
 }
 
+template<typename T>
+void afficher(const vector<T> &v) {
+    cout << "[";
+    for (size_t i = 0; i < v.size(); ++i) {
+        cout << v[i] << (i < v.size() - 1 ? ", " : "");
+    }
+    cout << "]" << endl;
+}
+
+template<typename T>
+void afficher(const vector<const T *> &v) {
+    cout << "[";
+    for (size_t i = 0; i < v.size(); ++i) {
+        cout << *v[i] << (i < v.size() - 1 ? ", " : "");
+    }
+    cout << "]" << endl;
+}
+
+template<typename T>
+void trier(vector<T> &v) {
+    sort(v.begin(), v.end());
+}
+
+template<typename T>
+vector<const T *> trier(const vector<T> &v) {
+    vector<const T *> ptrs;
+
+    ptrs.reserve(v.size());
+
+    for (const auto &el: v) {
+        ptrs.push_back(&el);
+    }
+
+    sort(ptrs.begin(), ptrs.end(), [](const T *a, const T *b) {
+        return *a < *b;
+    });
+
+    return ptrs;
+}
+
+
+int main() {
+    // Cas 1 : Vecteur modifiable
+    cout << "--- Test vector<int> (modifiable) ---" << endl;
+    vector<int> v1{6, 2, 9, 7, 1, 3};
+    afficher(v1); // Affiche l'original
+    trier(v1); // Trie sur place
+    afficher(v1); // Affiche le trié
+    cout << endl;
+
+    // Cas 2 : Vecteur constant d'entiers
+    cout << "--- Test const vector<int> ---" << endl;
+    const vector<int> vInt{6, 2, 9, 7, 1, 3};
+    afficher(vInt);
+    // trier(vInt) retourne un vector<const int*>, on l'affiche directement
+    afficher(trier(vInt));
+    cout << endl;
+
+    cout << "--- Test const vector<string> ---" << endl;
+    const vector<string> vStr{"chien", "chat", "souris", "poisson"};
+    afficher(vStr);
+    afficher(trier(vStr));
+
+    return 0;
+}
 
  */
 #include <span>
@@ -136,30 +201,3 @@ int main() {
 #include <algorithm>
 using namespace std;
 
-template <typename T, typename U> int fct(T,       U)      { cout<<"fct1 ; " ;}; // 1
-template <typename T, typename U> int fct(T*,      U)      {cout<<"fct2 ; "; } ; // 2
-template <typename T>             int fct(T,       T)      {cout<<"fct3 ; ";};  // 3
-template <typename T>             int fct(T,       int)    { cout<<"fct4 ; "; } ; // 4
-int fct(int,     int)    {cout<<"fct5 ; ";} ; // 5
-int fct(int*,    float)  { cout<<"fct6 ; "; };  // 6
-
-
-int main() {
-
-    int     i  = 1;
-    char    c  = 65;     // code ASCII de 'A'
-    short   s  = 2;
-    float   f  = 1.7f;
-    double  d  = 3.1;
-    int*    pi = &i;     // ptr sur i
-    char*   pc = &c;     // ptr sur c
-    float*  pf = &f;     // ptr sur f
-    double* pd = &d;     // ptr sur d
-
-    // no 1
-    fct(pd, d);
-
-    cout<<endl;
-
-
-}
