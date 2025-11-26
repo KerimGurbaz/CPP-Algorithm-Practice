@@ -1,121 +1,165 @@
 #include <iostream>
-#include <vector>
-
+#include <limits>
 using namespace std;
 
 /*
-* void doubler_valeurs(vector<int>& v) {
-    for(int& i : v) {
-        i *=2;
+* template<typename T>
+void afficher(T& x,
+              T& y,
+              T& z) {
+    cout << "x = " << x << ", "
+         << "y = " << y << ", "
+         << "z = " << z << endl;
+}
+template<typename T>
+void permutation(T& x,T& y,T& z) {
+    T temp = z;
+    z = y;
+    y = x;
+    x =temp;
+
+}
+
+
+int main() {
+
+    int x=2, y=3, z=4;
+    afficher(x,y,z);
+    permutation(x,y,z);
+    cout<<endl;
+    afficher(x,y,z);
+
+}template<typename T>
+T& min(T&a, T&b, T&c) {
+    return (a<b ? a<c ? a:c : b<c ? b: c);
+}
+
+template<typename T>
+T& min (T& a, T& b, T& c) {
+    T *m = &a;
+    if(b < *m) m = &b;
+    if(c< *m) m = &c;
+
+    return *m;
+
+}
+int main() {
+    int    a = 5;
+    int    b = 2;
+    int    c = 9;
+
+    double d = 5.0;
+    double e = 2.0;
+    double f = 9.0;
+
+    cout << min(a, b, c);
+    min(a, b, c) = 1;
+    int& min_abc = min(a, b, c);
+
+    cout << min(d, e, f);
+    min(d, e, f) = 1;
+    double& min_def = min(d, e, f);
+}
+
+
+template<typename Container>
+void afficher(const Container &c) {
+    cout << "[";
+
+    auto it = begin(c);
+    auto end = std::end(c);
+    //
+    // if (it != end) {
+    //     cout << *it;
+    //     ++it;cout
+        while (it != end) {
+            cout << *it;
+            ++it;
+           if(it != end) {
+                cout<<", ";
+            }
+
+        }
+    // }
+    cout << "]";
+}
+
+template<typename Iterator>
+void tri_selection(Iterator begin, Iterator end) {
+    for(Iterator  i =begin; i != end; ++i) {
+        Iterator min_idx = i;
+    for(Iterator j = i; j != end; ++j) {
+        if(*j < *min_idx) {
+            min_idx =j;
+        }
+    }
+        if(i != min_idx) {
+            iter_swap(i, min_idx);
+        }
     }
 }
 
 int main() {
-    vector<int> v = {1, 2, 3};
-    doubler_valeurs(v);
+    using namespace std::string_literals;
 
-    for(int e : v) cout << e << " ";
-    // Beklenen Çıktı: 2 4 6
-}
+    // --- 1. Vector ---
+    vector v {6, 2, 8, 7, 1, 3};
+    afficher(v);
+    tri_selection(v.begin(), v.end());
+    afficher(v);
+    cout << endl;
 
-string changer_animal(const string& s) {
-    string myStr =s;
-    string from ="chat";
-    int pos = 0;
-    while((pos = myStr.find(from, pos)) != string::npos) {
-        myStr.replace(pos,from.size(), "lion");
-        pos +=1;
-    }
-    return myStr;
-}
+    // --- 2. Array ---
+    array a {"chien"s, "chat"s, "souris"s, "poisson"s};
+    afficher(a);
+    tri_selection(a.begin(), a.end());
+    afficher(a);
+    cout << endl;
 
-int main() {
-    string s = "le chat dort";
-    string s2 = changer_animal(s);
+    // --- 3. Tableau C (Le plus difficile à gérer génériquement) ---
+    double t[] = {6.1, 2.2, 8.3, 7.4, 1.5, 3.6};
+    afficher(t);
 
-    cout << s << endl;
-    cout << s2 << endl;
-}
+    // Pour un tableau C, begin() et end() n'existent pas en tant que méthodes.
+    // On utilise les fonctions libres std::begin(t) et std::end(t)
+    tri_selection(std::begin(t), std::end(t));
+    afficher(t);
 
-Soru 3) "Pozitif"
-
-#include <sstream>
-
-int extraire_prix(const string& s) {
-    int prix = 0;
-
-    stringstream ss(s);
-    string produit;
-    string prixS;
-    getline(ss, produit, ':');
-    getline(ss, prixS, ':');
-    prix += stoi(prixS);
-
-    return prix;
-}
-
-
-
-int main() {
-    int p1 = extraire_prix("Kalem:25");
-    int p2 = extraire_prix("Defter:40");
-
-    cout << "Total: " << p1 + p2 << endl;
-
-}
-
-struct Ogrenci {
-    string nom;
-    vector<double> notes;
-    double moyenne = 0.0;
-};
-int main() {
-    Ogrenci o = {"Ali", {4.0, 5.0, 6.0}, 0.0};
-    cout << o.nom << " not sayisi: " << o.notes.size() << endl;
-}//boyle soru olmaz ama sinav kalitesinde olmasini istiyoruz, onemli pratik metodlari ogrenmek istiyoruz. =(
-
-enum class Couleur{ROUGE=0, ORANGE, VERT};
-
-
-Couleur prochaine_couleur(const Couleur& c) {
-    int cVal = static_cast<int>(c);
-    int nVal = ((cVal + 2)%3);
-    Couleur N = static_cast<Couleur>(nVal);
-    return N;
-}
-int main() {
-    Couleur c = Couleur::ROUGE;
-    c = prochaine_couleur(c);
-    c = prochaine_couleur(c);
-
-    if(c == Couleur::ORANGE) cout << "OK";
 }
 
 
  */
+#include <span>
+#include <vector>
+#include <array>
+#include <iterator>
+#include <algorithm>
+using namespace std;
 
-struct Ogrenci {
-    string nom;
-    vector<double> notes;
-    double moyenne;
-};
-void trier_par_moyenne(vector<Ogrenci>& v) {
- for(size_t i =0 ;  i<v.size()-1; ++i) {
-     if(v[i].moyenne < v[i+1].moyenne) {
-         swap(v[i], v[i+1]);
-     }
- }
-}
+template <typename T, typename U> int fct(T,       U)      { cout<<"fct1 ; " ;}; // 1
+template <typename T, typename U> int fct(T*,      U)      {cout<<"fct2 ; "; } ; // 2
+template <typename T>             int fct(T,       T)      {cout<<"fct3 ; ";};  // 3
+template <typename T>             int fct(T,       int)    { cout<<"fct4 ; "; } ; // 4
+int fct(int,     int)    {cout<<"fct5 ; ";} ; // 5
+int fct(int*,    float)  { cout<<"fct6 ; "; };  // 6
+
 
 int main() {
-    vector<Ogrenci> sinif = {
-        {"Zayif", {}, 2.5},
-        {"Caliskan", {}, 5.5},
-        {"Orta", {}, 4.0}
-    };
 
-    trier_par_moyenne(sinif);
+    int     i  = 1;
+    char    c  = 65;     // code ASCII de 'A'
+    short   s  = 2;
+    float   f  = 1.7f;
+    double  d  = 3.1;
+    int*    pi = &i;     // ptr sur i
+    char*   pc = &c;     // ptr sur c
+    float*  pf = &f;     // ptr sur f
+    double* pd = &d;     // ptr sur d
 
-    cout << sinif[0].nom;
-    // Beklenen: Caliskan (Çünkü 5.5 en yüksek)
+    // no 1
+    fct(pd, d);
+
+    cout<<endl;
+
+
 }
