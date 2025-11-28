@@ -1,117 +1,142 @@
-// #ifndef  TRI_H
-// #define TRI_H
-//
-// #include <span>
-// #include <utility>
-// using namespace std;
-
-//
-// template <typename T, size_t N>
-// size_t ind_min(span<T, N>s) {
-//     size_t min_idx = 0;
-//     for(size_t i = 1; i<s.size(); ++i) {
-//         if(s[i] < s[min_idx]) {
-//             min_idx = i;
-//         }
-//     }
-//     return min_idx;
-// }
-//
-// template <typename T, size_t N>
-// size_t m_idx(span<T, N> s) {
-//     size_t min_idx =0;
-//     for(size_t i = 1; i<s.size(); ++i) {
-//         if(s[i] < s[min_idx]) {
-//             min_idx = i;
-//         }
-//     }
-//     return min_idx;
-// }
-//
-// template<typename T, size_t N>
-// void tri(span<T, N>tab) {
-//     for(size_t i = 0; i<tab.size()-1; ++i) {
-//         size_t min_relatif = m_idx(tab.subspan(i));
-//         size_t min_absolu = i +min_relatif;
-//         if(i != min_absolu) {
-//             swap(tab[i], tab[min_absolu]);
-//         }
-//     }
-// }
-//
-// #endif
-
-
-// template <typename T, size_t N>
-//
-// size_t m_idx(span<T, N>s) {
-//     size_t min_idx =0;
-//     for(size_t i = 0; i<s.size();++i) {
-//         if(s[i] < s[min_idx]) {
-//             min_idx = i;
-//         }
-//     }
-//     return min_idx;
-// }
-// // template <typename T, size_t N>
-// // void tri(span<T, N>s) {
-// //     for(size_t i= 0; i<s.size()-1 ;  ++i) {
-// //         size_t i_min = i+ m_idx(s.subspan(i));
-// //     swap(s[i] , s[i_min]);
-// //     }
-// // }
-//
-// #endif
-// template<typename T, size_t N>
-// void tri(span<T, N>s) {
-//     for(size_t i =0 ; i<s.size()-1; ++i) {
-//         size_t min_idx =i;
-//         for(size_t j = i+1; j<s.size(); ++j) {
-//             if(s[j] < s[min_idx]) {
-//                 min_idx = j;
-//             }
-//         }
-//         if(i != min_idx)
-//         swap(s[i], s[min_idx]);
-//     }
-// }
-
 #include <iostream>
 #include <array>
+#include <iomanip>
+#include <cstdint>
+#include <string>
+#include <limits>
+#include <cstdint>
 using namespace std;
 
-// template<typename T, size_t N>
-// using Ligne = array<T, N>;
-//
-// template<typename T, size_t N, size_t M>
-// using Matrice = array<Ligne<T, N>, M>;
-//
-// template<typename T, size_t N, size_t M>
-// T somme(const Matrice<T, N, M>& m) {
-//     T total = T{};
-//     for(size_t i = 0; i<M; ++i) {
-//         for(size_t j = 0; j<N; ++j) {
-//             total += m[i][j];
-//         }
-//     }
-//     return total;
-// }
+struct HeureMinute {
+    int8_t heure;
+    int8_t minute;
+};
 
-template<typename T, size_t N>
-using Ligne = array<T, N>;
+int toMinutes(const HeureMinute &hm) {
+    return hm.heure * 60 + hm.minute;
+}
 
-template<typename T, size_t N, size_t M>
-using Matrice = array<Ligne<T, N>, M>;
+HeureMinute fromMinutes(int totalMinutes) {
+    return HeureMinute{
+        static_cast<int8_t>(totalMinutes / 60),
+        static_cast<int8_t>(totalMinutes % 60)
+    };
+};
 
-template<typename T, size_t N, size_t M>
+ostream &operator<<(ostream &os, const HeureMinute &hm) {
+    os << +hm.heure << ":" << setfill('0') << setw(2) << +hm.minute;
+    return os;
+}
 
-T somme (const Matrice<T, N, M>&m) {
-    T total =T{};
+istream &operator>>(istream &is, HeureMinute &hm) {
+    int h, m;
+    char sep;
 
-    for(const auto& el : m) {
-        for(const auto& e : el) {
-            total += e;
+    if (is >> h >> sep >> m) {
+        if (sep == ':') {
+            hm.heure = static_cast<int8_t>(h);
+            hm.minute = static_cast<int8_t>(m);
+        } else {
+            is.setstate(ios::failbit);
         }
     }
-    return total;
+    return is;
+}
+
+bool operator<(const HeureMinute &lhs, const HeureMinute &rhs) {
+    return toMinutes(lhs) < toMinutes(rhs);
+}
+
+bool operator>(const HeureMinute &lhs, const HeureMinute &rhs) {
+    return rhs < lhs;
+}
+
+bool operator<=(const HeureMinute &lhs, const HeureMinute &rhs) {
+    return !(lhs > rhs);
+}
+
+bool operator>=(const HeureMinute &lhs, const HeureMinute &rhs) {
+    return !(lhs < rhs);
+}
+
+bool operator==(const HeureMinute &lhs, const HeureMinute &rhs) {
+    return toMinutes(lhs) == toMinutes(rhs);
+}
+
+bool operator!=(const HeureMinute &lhs, const HeureMinute &rhs) {
+    return !(lhs == rhs);
+}
+
+HeureMinute operator+(const HeureMinute& lhs, const HeureMinute& rhs) {
+    return fromMinutes(toMinutes(rhs) + toMinutes(lhs));
+}
+
+HeureMinute operator+(const HeureMinute &lhs, int minutes) {
+    return fromMinutes(toMinutes(lhs) + minutes);
+}
+
+HeureMinute operator+(int minutes, const HeureMinute &rhs) {
+    return rhs + minutes;
+}
+
+HeureMinute &operator +=(HeureMinute &lhs, int minutes) {
+    lhs = lhs + minutes;
+    return lhs;
+}
+
+HeureMinute &operator++(HeureMinute &hm) {
+    hm += 1;
+    return hm;
+}
+
+HeureMinute operator++(HeureMinute& hm, int) {
+    HeureMinute temp =hm;
+    ++hm;
+    return temp;
+}
+
+
+HeureMinute saisie(const string& msg) {
+    HeureMinute hm;
+    bool erreur;
+    do {
+        cout<<msg;
+        cin>> hm;
+        erreur = cin.fail();
+        if(erreur) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            return hm;
+        }
+    }while(erreur);
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    return hm;
+}
+
+int main() {
+    HeureMinute hm1 = {12, 34};
+    HeureMinute hm2 = {21, 43};
+
+    cout << boolalpha;
+    cout << hm1 << " <  " << hm2 << "  : " << (hm1 <  hm2) << endl;
+    cout << hm1 << " >  " << hm2 << "  : " << (hm1 >  hm2) << endl;
+    cout << hm1 << " <= " << hm2 << "  : " << (hm1 <= hm2) << endl;
+    cout << hm1 << " >= " << hm2 << "  : " << (hm1 >= hm2) << endl;
+    cout << hm1 << " == " << hm2 << "  : " << (hm1 == hm2) << endl;
+    cout << hm1 << " != " << hm2 << "  : " << (hm1 != hm2) << endl;
+
+    cout << hm1 << " +  " << hm2 << "  : " << (hm1 +  hm2) << endl;
+    cout << hm1 << " +  " << 44  << "     : " << (hm1 +  44 ) << endl;
+    cout << 44  << "    +  " << hm1 << "  : " << (44  +  hm1) << endl;
+    cout << hm1 << " += "  << 2 << "      : " << (hm1+=2 )    << endl;
+
+    cout << "++" << hm1  << "\t\t: " << ++hm1 << endl;
+    cout << hm1  << "++" << "\t\t: " << hm1++ << endl;
+    cout << hm1 << endl;
+
+    cout << endl;
+    // Note: J'ai légèrement nettoyé la fonction saisie pour le buffer,
+    // mais la logique reste celle demandée pour tester l'opérateur >>
+    HeureMinute hm3 = saisie("heure [hh:mm]: ");
+    cout << "votre saisie : " << hm3 << endl;
 }
