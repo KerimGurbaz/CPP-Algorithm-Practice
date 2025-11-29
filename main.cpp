@@ -47,53 +47,206 @@ using namespace std;
 //     return 0;
 // }
 
+//
+// enum class Chiffre { ZERO, UN, DEUX, TROIS, QUATRE, CINQ, SIX, SEPT, HUIT, NEUF };
+//
+// string to_string(Chiffre c) {
+//     switch (c) {
+//         case Chiffre::ZERO: return "ZERO";
+//         case Chiffre::UN: return "UN";
+//         case Chiffre::DEUX: return "DEUX";
+//         case Chiffre::TROIS: return "TROIS";
+//         case Chiffre::QUATRE: return "QUATRE";
+//         case Chiffre::CINQ: return "CINQ";
+//         case Chiffre::SIX: return "SIX";
+//         case Chiffre::SEPT: return "SEPT";
+//         case Chiffre::HUIT: return "HUIT";
+//         case Chiffre::NEUF: return "NEUF";
+//         default: return "incnnu";
+//     }
+// }
+//
+// ostream &operator<<(ostream & os, const vector<Chiffre> &v) {
+//     for (size_t i = 0; i < v.size(); ++i) {
+//         if (i > 0) os << " ";
+//         os << to_string(v[i]);
+//     }
+//     return os;
+// }
+//
+// vector<Chiffre> nbreToEnums(int n) {
+//     if (n == 0)return {Chiffre::ZERO};
+//     vector<Chiffre> result;
+//     n = abs(n);
+//
+//     while (n > 0) {
+//         int digit = n % 10;
+//         result.push_back(static_cast<Chiffre>(digit));
+//         n /= 10;
+//     }
+//
+//     reverse(result.begin(), result.end());
+//     return result;
+// }
+//
+//
+// int main() {
+//     cout << nbreToEnums(123) << endl; // UN DEUX TROIS
+//     cout << nbreToEnums(0) << endl;   // ZERO
+//     cout << nbreToEnums(905) << endl; // NEUF ZERO CINQ
+//
+//     return 0;
+// }
 
-enum class Chiffre { ZERO, UN, DEUX, TROIS, QUATRE, CINQ, SIX, SEPT, HUIT, NEUF };
+// struct Date {
+//     int jour;
+//     int mois;
+//     int annee;
+// };
+//
+// ostream& operator<<(ostream& os, const Date& d) {
+//     return os<<d.jour<<"."<<d.mois<<"."<<d.annee;
+// }
+//
+// struct Personne {
+//     string Prenom;
+//     string nom;
+//     Date naissance;
+// };
+//
+// #include <span>
+// template<typename T, size_t N>
+// ostream& operator<<(ostream& os, const Personne& p) {
+//     os<<"prenom "<<p.nom<<"\n";
+//     os<<"nom    "<<p.nom<<"\n";
+//     os<<"date   "<<p.naissance;
+//     return os;
+// }
+//
+//
+//
+// template<typename T, size_t N>
+// ostream& operator<<(ostream& os, span<T, N>& s) {
+//     for(size_t i =0; i<s.size(); ++i) {
+//        os<<s[i];
+//     }
+//     return os;
+// }
+//
+// int main() {
+//     // Nécessaire pour le suffixe "s" (ex: "Jean"s)
+//     using namespace std::string_literals;
+//
+//     // Déclaration fournie par l'énoncé
+//     array carnet {
+//         Personne{"Jean"s,   "Veuxplus"s, Date{ 7,  4, 1975}},
+//         Personne{"Alain"s,  "Verse"s,    Date{21, 12, 2018}},
+//         Personne{"Justin"s, "Ptipeu"s,   Date{ 1,  8, 2023}},
+//         Personne{"Remi"s,   "Fasol"s,    Date{17,  5, 1957}}
+//     };
+//
+//     // L'instruction magique
+//     carnet;
+//
+//     return 0;
+// }
 
-string to_string(Chiffre c) {
-    switch (c) {
-        case Chiffre::ZERO: return "ZERO";
-        case Chiffre::UN: return "UN";
-        case Chiffre::DEUX: return "DEUX";
-        case Chiffre::TROIS: return "TROIS";
-        case Chiffre::QUATRE: return "QUATRE";
-        case Chiffre::CINQ: return "CINQ";
-        case Chiffre::SIX: return "SIX";
-        case Chiffre::SEPT: return "SEPT";
-        case Chiffre::HUIT: return "HUIT";
-        case Chiffre::NEUF: return "NEUF";
-        default: return "incnnu";
-    }
-}
+// template<typename T, size_t N, typename Fn>
+// void transformer(array<T, N>& a, Fn f) {
+//     for(T& t : a)
+//         t = f(t);
+// }
+#include <iostream>
 
-ostream &operator<<(ostream & os, const vector<Chiffre> &v) {
-    for (size_t i = 0; i < v.size(); ++i) {
-        if (i > 0) os << " ";
-        os << to_string(v[i]);
-    }
-    return os;
-}
+using namespace std;
 
-vector<Chiffre> nbreToEnums(int n) {
-    if (n == 0)return {Chiffre::ZERO};
-    vector<Chiffre> result;
-    n = abs(n);
+// struct Point {
+//     double x =0.0;
+//     double y =0.0;
+//
+//     void afficher()const {
+//         cout<<"("<<x<<", "<<y<<" )"<<endl;
+//     }
+//
+//     void deplacer(double dx, double dy) {
+//         x += dx;
+//         y += dy;
+//     }
+//
+// };
 
-    while (n > 0) {
-        int digit = n % 10;
-        result.push_back(static_cast<Chiffre>(digit));
-        n /= 10;
-    }
+// struct Point {
+//     double x = {};
+//     double y = {};
+//
+//     void afficher() const {
+//         cout << "(" << x << ", " << y << " )" << endl;
+//     }
+//
+//     void deplacer(double dx, double dy) {
+//         x += dx;
+//         y += dy;
+//     }
+// };
 
-    reverse(result.begin(), result.end());
-    return result;
-}
+// struct Point {
+//     double x;
+//     double y;
+//
+//     Point() : x(0.0), y(0.0){}
+//
+//     Point(double x, double y):x(x), y(y){}
+//
+//     void afficher()const {
+//         cout<<"("<<x<<","<<y<<")"<<endl;
+//     }
+//
+//     void deplacer(double dx, double dy) {
+//         x += dx;
+//         y += dy;
+//     }
+//
+// };
+// int main() {
+//     Point centre{};
+//     centre.afficher(); // (0,0)
+//
+//     Point p{1.2, 2.4}; // Initialisation par agrégat (C++11)
+//     p.afficher(); // (1.2,2.4)
+//
+//     p.deplacer(0.8, 0.6);
+//     p.afficher(); // (2,3)
+//
+//     p.x = 5.5; // Accès direct autorisé car struct
+//     p.y = 10.3;
+//     cout << p.x << " -- " << p.y << endl; // 5.5 -- 10.3
+// }
 
-
-int main() {
-    cout << nbreToEnums(123) << endl; // UN DEUX TROIS
-    cout << nbreToEnums(0) << endl;   // ZERO
-    cout << nbreToEnums(905) << endl; // NEUF ZERO CINQ
-
-    return 0;
-}
+// #ifndef POINT_H
+// #define POINT_H
+// struct Point {
+//     double x, y;
+//
+//     void deplacer(double dx, double dy);
+//     void afficher()const;
+// };
+// #endif
+// #include <iostream>
+// #include "Point.h";
+//
+// void Point::deplacer(double dx, double dy) {
+//     x += dx;
+//     y += dy;
+// }
+//
+// void Point::afficher()const {
+//     cout << "(" << x << "," << y << ")" << endl;
+// }
+//
+// #include <iostream>
+// #include "Point.h"
+// using namespace std;
+//
+// int main() {
+//
+// }
