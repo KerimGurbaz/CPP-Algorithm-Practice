@@ -250,3 +250,51 @@ using namespace std;
 // int main() {
 //
 // }
+
+class Point {
+private:
+    double x, y;
+
+public:
+    Point(double val_x, double val_y): x(val_x), y(val_y){}
+   Point():Point(0.0, 0.0){}
+
+    void setX(double val) {
+        x = val;
+    }
+
+    void setY(double val) {
+        y = val;
+    }
+
+    double getX()const {
+        return x;
+    }
+
+    double getY()const {
+        return y;
+    }
+
+    void deplacer(double dx, double dy) {
+        x += dx;
+        y += dy;
+    }
+
+    void afficher()const {
+        cout<<"("<<x<<", "<<y<<")"<<endl;
+    }
+};
+
+int main() {
+    Point centre;
+    centre.afficher();
+
+    Point p(1.2, 2.4);
+    p.afficher();
+
+    p.setX(5.5);
+    p.setY(10.3);
+    cout << p.getX() << " -- " << p.getY() << endl;
+
+    return 0;
+}
