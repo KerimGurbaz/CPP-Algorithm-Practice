@@ -250,51 +250,222 @@ using namespace std;
 // int main() {
 //
 // }
+//
+// class Point {
+// private:
+//     double x, y;
+//
+// public:
+//     Point(double val_x, double val_y): x(val_x), y(val_y){}
+//    Point():Point(0.0, 0.0){}
+//
+//     void setX(double val) {
+//         x = val;
+//     }
+//
+//     void setY(double val) {
+//         y = val;
+//     }
+//
+//     double getX()const {
+//         return x;
+//     }
+//
+//     double getY()const {
+//         return y;
+//     }
+//
+//     void deplacer(double dx, double dy) {
+//         x += dx;
+//         y += dy;
+//     }
+//
+//     void afficher()const {
+//         cout<<"("<<x<<", "<<y<<")"<<endl;
+//     }
+// };
+//
+// class Cercle {
+// private:
+//     Point centre;
+//     double rayon;
+//
+// public:
+//     Cercle(const Point&  c, double r=1) : centre(c), rayon(r){}
+//     double getRayon()const {
+//         return rayon;
+//     }
+//     Point getCentre() {
+//         return centre;
+//     }
+//     void setRayon(double s_r) {
+//         rayon = s_r;
+//     }
+//
+//     void setCentre(const Point& p) {
+//         centre =p;
+//     }
+//
+//     void deplacer(double dx, double dy) {
+//         centre.deplacer(dx, dy);
+//     }
+//     void afficher()const {
+//         centre.afficher();
+//         cout<<", "<<rayon<<endl;
+//     }
+//
+// };
+//
+// int main() {
+//     Point p(1.0, 2.0);
+//     Cercle c(p, 3.0);
+//     c.afficher();
+//     c.deplacer(1, -1);
+//     c.afficher();
+//
+//     return 0;
+// }
 
-class Point {
+// class Point {
+// private:
+//     double x, y;
+//     const double xMax;
+//     const double yMax;
+//
+// public:
+//     Point(double x_val, double y_val, double xMax = 100.0, double yMax = 100.0)
+//         : x(x_val), y(y_val), xMax(xMax), yMax(yMax) {
+//     }
+//
+//     void setX(double x_val) {
+//         if (x_val >= 0 && x_val <= xMax) {
+//             x = x_val;
+//         }
+//     }
+//
+//     void setY(double y_val) {
+//         if (y_val >= 0 && y_val <= yMax) {
+//             y = y_val;
+//         }
+//     }
+//
+//     void deplacer(double x_val, double y_val) {
+//         if((x_val >= 0 && x_val <= xMax) && (y_val >= 0 && y_val <= yMax)) {
+//             x += x_val;
+//             y += y_val;
+//         }
+//     }
+//
+//     void afficher()const {
+//     cout<<"("<<x<<","<<y<<"), contraintes: [0,"<<xMax<<"]x[0,"<<yMax<<"]"<<endl;
+//     }
+//
+//
+// };
+//
+// int main() {
+//     Point p1(1.2, 2.4);
+//     cout << "p1"; p1.afficher();
+//     p1.deplacer(1., 3.);
+//     cout << "p1"; p1.afficher();
+//     p1.setX(4.);
+//     cout << "p1"; p1.afficher();
+//     p1.setY(7.);
+//     cout << "p1"; p1.afficher();
+//
+//     Point p2(3., 4.2, 10., 10.);
+//     cout << "p2"; p2.afficher();
+//     p2.deplacer(15, 2);
+//     cout << "p2"; p2.afficher();
+//     p2.deplacer(3, 2);
+//     cout << "p2"; p2.afficher();
+//     p2.setX(-3);
+//     cout << "p2"; p2.afficher();
+//     p2.setY(12);
+//     cout << "p2"; p2.afficher();
+// }
+
+// #ifndef PAYS_H
+// #define PAYS_H
+// #include <string>
+#include <iostream>
+
+class Pays {
 private:
-    double x, y;
+    std::string nom;
+    double population;
+    double superficie;
 
 public:
-    Point(double val_x, double val_y): x(val_x), y(val_y){}
-   Point():Point(0.0, 0.0){}
+    //constructeur
+    Pays(std::string nom, double pop, double sup );
 
-    void setX(double val) {
-        x = val;
-    }
+    //getters
+    std::string getNom()const;
+    double getPopulation()const;
+    double getSuperficie()const;
 
-    void setY(double val) {
-        y = val;
-    }
+    double getDensite()const;
 
-    double getX()const {
-        return x;
-    }
-
-    double getY()const {
-        return y;
-    }
-
-    void deplacer(double dx, double dy) {
-        x += dx;
-        y += dy;
-    }
-
-    void afficher()const {
-        cout<<"("<<x<<", "<<y<<")"<<endl;
-    }
 };
+#include <vector>
+#include <algorithm> // Pour std::max_element
+#include <iomanip>
+// #endif
+
+// #include "Pays.h"
+using namespace std;
+Pays::Pays(string nom, double pop, double sup) : nom(nom), population(pop),superficie(sup){}
+string Pays::getNom()const {
+    return nom;
+}
+double Pays::getPopulation()const {
+    return population;
+}
+
+double Pays::getSuperficie()const {
+    return superficie;
+}
+
+double Pays::getDensite()const {
+    if(superficie == 0) return 0.0;
+    return (population * 1000000.0)/ superficie;
+}
 
 int main() {
-    Point centre;
-    centre.afficher();
 
-    Point p(1.2, 2.4);
-    p.afficher();
+    vector<Pays> monde = {
+        Pays("Suisse",     8.121830,  41290),
+              Pays("France",    66.663766, 547030),
+              Pays("Italie",    61.855120, 301230),
+              Pays("Allemagne", 80.854408, 357021)
+    };
 
-    p.setX(5.5);
-    p.setY(10.3);
-    cout << p.getX() << " -- " << p.getY() << endl;
+    if(monde.empty()) return 0;
+
+    auto it_surf = min_element(monde.begin(), monde.end(),[]
+        (const Pays& a, const Pays& b) {
+        return a.getSuperficie() < b.getSuperficie();
+    });
+
+    auto it_pop = max_element(monde.begin(), monde.end(),[]
+        (const Pays& a, const Pays& b) {
+        return a.getPopulation() < b.getPopulation();
+    });
+
+    auto it_densite = max_element(monde.begin(), monde.end(),[]
+        (const Pays& a, const Pays& b) {
+        return a.getDensite()< b.getDensite();
+    });
+
+    cout << left << setw(55) << "Pays ayant la plus grande superficie"
+         << ": " << it_surf->getNom() << endl;
+
+    cout << left << setw(55) << "Pays ayant le plus d'habitants"
+         << ": " << it_pop->getNom() << endl;
+    cout << left << setw(55) << "Pays ayant la densite de population la plus elevee"
+         << ": " << it_densite->getNom() << endl;
+
 
     return 0;
 }
