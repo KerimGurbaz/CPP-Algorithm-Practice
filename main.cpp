@@ -388,84 +388,135 @@ using namespace std;
 // #ifndef PAYS_H
 // #define PAYS_H
 // #include <string>
-#include <iostream>
+// #include <iostream>
+//
+// class Pays {
+// private:
+//     std::string nom;
+//     double population;
+//     double superficie;
+//
+// public:
+//     //constructeur
+//     Pays(std::string nom, double pop, double sup );
+//
+//     //getters
+//     std::string getNom()const;
+//     double getPopulation()const;
+//     double getSuperficie()const;
+//
+//     double getDensite()const;
+//
+// };
+// #include <vector>
+// #include <algorithm> // Pour std::max_element
+// #include <iomanip>
+// // #endif
+//
+// // #include "Pays.h"
+// using namespace std;
+// Pays::Pays(string nom, double pop, double sup) : nom(nom), population(pop),superficie(sup){}
+// string Pays::getNom()const {
+//     return nom;
+// }
+// double Pays::getPopulation()const {
+//     return population;
+// }
+//
+// double Pays::getSuperficie()const {
+//     return superficie;
+// }
+//
+// double Pays::getDensite()const {
+//     if(superficie == 0) return 0.0;
+//     return (population * 1000000.0)/ superficie;
+// }
+//
+// int main() {
+//
+//     vector<Pays> monde = {
+//         Pays("Suisse",     8.121830,  41290),
+//               Pays("France",    66.663766, 547030),
+//               Pays("Italie",    61.855120, 301230),
+//               Pays("Allemagne", 80.854408, 357021)
+//     };
+//
+//     if(monde.empty()) return 0;
+//
+//     auto it_surf = min_element(monde.begin(), monde.end(),[]
+//         (const Pays& a, const Pays& b) {
+//         return a.getSuperficie() < b.getSuperficie();
+//     });
+//
+//     auto it_pop = max_element(monde.begin(), monde.end(),[]
+//         (const Pays& a, const Pays& b) {
+//         return a.getPopulation() < b.getPopulation();
+//     });
+//
+//     auto it_densite = max_element(monde.begin(), monde.end(),[]
+//         (const Pays& a, const Pays& b) {
+//         return a.getDensite()< b.getDensite();
+//     });
+//
+//     cout << left << setw(55) << "Pays ayant la plus grande superficie"
+//          << ": " << it_surf->getNom() << endl;
+//
+//     cout << left << setw(55) << "Pays ayant le plus d'habitants"
+//          << ": " << it_pop->getNom() << endl;
+//     cout << left << setw(55) << "Pays ayant la densite de population la plus elevee"
+//          << ": " << it_densite->getNom() << endl;
+//
+//
+//     return 0;
+// }
+//
+// #ifndef ROBOT_H
+// #define ROBOT_H
 
-class Pays {
+class Robot {
 private:
-    std::string nom;
-    double population;
-    double superficie;
+    int position;
+    int direction;
 
 public:
-    //constructeur
-    Pays(std::string nom, double pop, double sup );
+    Robot(int posInitiale = 0, int direction =1) : position(posInitiale), direction(1) {
+    }
 
-    //getters
-    std::string getNom()const;
-    double getPopulation()const;
-    double getSuperficie()const;
+    void deplacer(int n = 1) {
+        if (n <= 0) {
+            return;
+        }
 
-    double getDensite()const;
+        position += n * direction;
+    }
 
+    void faireDemiTour() {
+        direction *= -1;
+    }
+
+    int getPosition() const {
+        return position;
+    }
 };
-#include <vector>
-#include <algorithm> // Pour std::max_element
-#include <iomanip>
-// #endif
-
-// #include "Pays.h"
-using namespace std;
-Pays::Pays(string nom, double pop, double sup) : nom(nom), population(pop),superficie(sup){}
-string Pays::getNom()const {
-    return nom;
-}
-double Pays::getPopulation()const {
-    return population;
-}
-
-double Pays::getSuperficie()const {
-    return superficie;
-}
-
-double Pays::getDensite()const {
-    if(superficie == 0) return 0.0;
-    return (population * 1000000.0)/ superficie;
-}
-
 int main() {
+    Robot r1;       // Varsayılan konstrüktör (pos=0)
+    Robot r2(10);   // Parametreli (pos=10)
 
-    vector<Pays> monde = {
-        Pays("Suisse",     8.121830,  41290),
-              Pays("France",    66.663766, 547030),
-              Pays("Italie",    61.855120, 301230),
-              Pays("Allemagne", 80.854408, 357021)
-    };
+    cout << "position courante de r2: " << r2.getPosition() << endl; // 10
 
-    if(monde.empty()) return 0;
+    r1.deplacer(); // Varsayılan (n=1). Pos: 0 -> 1
+    cout << "position courante de r1: " << r1.getPosition() << endl; // 1
 
-    auto it_surf = min_element(monde.begin(), monde.end(),[]
-        (const Pays& a, const Pays& b) {
-        return a.getSuperficie() < b.getSuperficie();
-    });
+    r1.deplacer(-1); // Geçersiz (n<=0). Hareket yok.
+    cout << "position courante de r1: " << r1.getPosition() << endl; // 1
 
-    auto it_pop = max_element(monde.begin(), monde.end(),[]
-        (const Pays& a, const Pays& b) {
-        return a.getPopulation() < b.getPopulation();
-    });
+    r1.deplacer(2); // n=2. Pos: 1 -> 3
+    cout << "position courante de r1: " << r1.getPosition() << endl; // 3
 
-    auto it_densite = max_element(monde.begin(), monde.end(),[]
-        (const Pays& a, const Pays& b) {
-        return a.getDensite()< b.getDensite();
-    });
+    r1.faireDemiTour(); // Yön artık Sol (-1)
 
-    cout << left << setw(55) << "Pays ayant la plus grande superficie"
-         << ": " << it_surf->getNom() << endl;
+    r1.deplacer(4); // n=4. Yön Sol. Pos: 3 - 4 = -1
+    cout << "position courante de r1: " << r1.getPosition() << endl; // -1
 
-    cout << left << setw(55) << "Pays ayant le plus d'habitants"
-         << ": " << it_pop->getNom() << endl;
-    cout << left << setw(55) << "Pays ayant la densite de population la plus elevee"
-         << ": " << it_densite->getNom() << endl;
-
-
-    return 0;
+    return EXIT_SUCCESS;
 }
