@@ -94,3 +94,67 @@ using namespace std;
 //
 //     return 0;
 // }
+
+class MonEntier {
+private:
+    int valeur;
+
+public:
+    MonEntier(int val =0): valeur(val){}
+
+    MonEntier& operator +=(const MonEntier& autre) {
+         valeur +=autre.valeur;
+        return *this;
+    }
+
+    MonEntier& operator++() {
+        ++valeur;
+        return *this;
+    }
+
+    MonEntier& operator++(int) {
+        MonEntier temp =*this;
+        ++(*this);
+        return temp;
+    }
+
+    friend ostream& operator<<(ostream& os, const MonEntier& m) {
+        return os<<"n = "<<m.valeur;
+    }
+
+    friend bool operator ==(const MonEntier& lhs, const MonEntier& rhs) {
+        return lhs.valeur == rhs.valeur;
+    }
+
+    friend bool operator!=(const MonEntier& lhs, const MonEntier& rhs) {
+        return !(lhs == rhs);
+    }
+
+    friend MonEntier operator +(MonEntier lhs, const MonEntier& rhs) {
+        lhs+= rhs;
+        return lhs;
+    }
+};
+
+
+int main() {
+    MonEntier m0, m1(1), m2 = 5;
+    const MonEntier m3{7};
+
+    cout << m0 << endl   // n = 0
+         << m1 << endl;  // n = 1
+
+    cout << boolalpha;
+    cout << (m0 == m1) << endl; // false
+    cout << (m0 != m1) << endl; // true
+    cout << noboolalpha;
+
+    cout << m1++ << endl; // n = 1 (Affiche l'ancien, interne devient 2)
+    cout << m1 << endl;   // n = 2
+    cout << ++m1 << endl; // n = 3 (Interne devient 3, affiche 3)
+
+    cout << m1 + m2 << endl; // n = 8 (3 + 5)
+    m1 += m2;                // m1 devient 8
+    cout << m1 << endl;      // n = 8
+    cout << m3 + m2 << endl; // n = 12 (7 + 5)
+}
