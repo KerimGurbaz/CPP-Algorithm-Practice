@@ -1,67 +1,96 @@
 #include <iostream>
 #include <array>
 #include <iomanip>
-#include <cstdint>
-#include <string>
-#include <algorithm>
-#include <vector>
+
 using namespace std;
 
-#include <cstdlib>
-#include <iostream>
-
-// using namespace std;
-// template<typename T>
-// void permutationCirculaireDroite(T& x, T& y, T& z) {
-//     T temp = z;
-//     z =y;
-//     y=x;
-//     x= temp;
+// class Point {
+// private:
+//     double x, y;
 //
-// }
-//
-// template<typename T>
-// void afficher(const T& x,const T& y,const T& z ) {
-//     cout<<"x = "<<x<<endl;
-//     cout<<"y= "<<y<<endl;
-//     cout<<"z = "<<z<<endl;
-// }
-//
-// int main() {
-//     double x = 1, y = 2, z = 3;
-//     for (int i = 1; i <= 3; ++i) {
-//         permutationCirculaireDroite(x, y, z);
-//         afficher(x, y, z);
+// public:
+//     Point(double xVal = 0.0, double yVal = 0.0) : x(xVal), y(yVal) {
 //     }
-//     return EXIT_SUCCESS;
+//
+//     bool operator==(const Point &other) const {
+//         return (x == other.x) && (y == other.y);
+//     }
+//
+//     bool operator !=(const Point &other) const {
+//         return !(*this == other);
+//     }
+//
+//     Point operator+(const Point &other) const {
+//         return Point(x + other.x, y + other.y);
+//     }
+//
+//     Point operator*(double scalar) const {
+//         return Point(x * scalar, y * scalar);
+//     }
+//
+//     friend Point operator*(double scaler, const Point &p);
+//
+//     friend ostream &operator<<(ostream &os, const Point &p);
+// };
+//
+// Point operator*(double scalar, const Point &p) {
+//     return Point(p.x * scalar, p.y * scalar);
 // }
-#include <iostream>
-#include <algorithm>
-using namespace std;
-
-
-
-template<typename T>
-T& min(T& a, T& b, T& c) {
-    return a < c ? (a < b ? a : b) : (b < c ? b : c);
-}
-
-
-int main() {
-    int    a = 5;
-    int    b = 2;
-    int    c = 9;
-
-    double d = 5.0;
-    double e = 2.0;
-    double f = 9.0;
-
-    cout << min(a, b, c);
-    min(a, b, c) = 1;
-    int& min_abc = min(a, b, c);
-
-    cout << min(d, e, f);
-    min(d, e, f) = 1;
-    double& min_def = min(d, e, f);
-    return 0;
-}
+//
+// ostream &operator<<(ostream &os, const Point &p) {
+//     os << "(" << p.x << "," << p.y << ")";
+//     return os;
+// }
+//
+// class Point {
+// private:
+//     double x, y;
+// public:
+//     Point(double xVal=0.0, double yVal =0.0): x(xVal), y(yVal){}
+//
+//     friend ostream& operator<<(ostream& os,const Point& p) {
+//         os<<"("<<p.x<<","<<p.y<<")"<<endl;
+//         return os;
+//     }
+//
+//     Point operator+(const Point& other) const{
+//         return Point(x+other.x , y+other.y);
+//     }
+//
+//     Point operator *(double scalaer) const{
+//         return Point(x*scalaer, y*scalaer);
+//     }
+//     bool operator==(const Point &other) const {
+//         return (x == other.x)&& y==other.y;
+//     }
+//
+//     bool operator!=(const Point &other) const {
+//         return !((x == other.x)&& y==other.y);
+//     }
+//
+//     friend Point operator *(double scaler , const Point& p);
+//
+// };
+// Point operator *(double scaler , const Point& p) {
+//     return Point(p.x* scaler, p.y* scaler);
+// }
+// int main() {
+//     Point p1(1.2, 2.4);
+//     Point p2(3., 4.2);
+//
+//     cout << "p1" << p1 << ", p2" << p2 << endl;
+//
+//     cout << "p1 + p2 = " << p1 + p2 << endl;
+//     cout << "p2 + p1 = " << p2 + p1 << endl;
+//
+//     cout << "p1 * 2. = " << p1 * 2. << endl;
+//
+//     cout << "3. * p1 = " << 3. * p1 << endl;
+//
+//     cout << (p1 == p2 ? "p1 == p2" : "p1 != p2") << endl;
+//
+//     Point p3(p1);
+//     cout << (p1 == p3 ? "p1 == p3" : "p1 != p3") << endl;
+//
+//     return 0;
+// }
