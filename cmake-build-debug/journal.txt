@@ -1,0 +1,3 @@
+Bonjour a tous
+Bienvenue a HEIG
+C++ est puissant et genial

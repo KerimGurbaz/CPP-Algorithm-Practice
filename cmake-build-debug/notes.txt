@@ -1,0 +1,5 @@
+Ali Veli 5.5
+Ayse Demir 4.2
+Mehmet Kaya 6.0
+Ali Veli 5.8
+Ayse Demir 5.0
