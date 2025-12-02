@@ -1,8 +1,4 @@
-#include <iostream>
-#include <array>
-#include <iomanip>
 
-using namespace std;
 
 // class Point {
 // private:
@@ -94,67 +90,208 @@ using namespace std;
 //
 //     return 0;
 // }
+//
+// class MonEntier {
+// private:
+//     int valeur;
+//
+// public:
+//     MonEntier(int val =0): valeur(val){}
+//
+//     MonEntier& operator +=(const MonEntier& autre) {
+//          valeur +=autre.valeur;
+//         return *this;
+//     }
+//
+//     MonEntier& operator++() {
+//         ++valeur;
+//         return *this;
+//     }
+//
+//     MonEntier& operator++(int) {
+//         MonEntier temp =*this;
+//         ++(*this);
+//         return temp;
+//     }
+//
+//     friend ostream& operator<<(ostream& os, const MonEntier& m) {
+//         return os<<"n = "<<m.valeur;
+//     }
+//
+//     friend bool operator ==(const MonEntier& lhs, const MonEntier& rhs) {
+//         return lhs.valeur == rhs.valeur;
+//     }
+//
+//     friend bool operator!=(const MonEntier& lhs, const MonEntier& rhs) {
+//         return !(lhs == rhs);
+//     }
+//
+//     friend MonEntier operator +(MonEntier lhs, const MonEntier& rhs) {
+//         lhs+= rhs;
+//         return lhs;
+//     }
+// };
+//
+//
+// int main() {
+//     MonEntier m0, m1(1), m2 = 5;
+//     const MonEntier m3{7};
+//
+//     cout << m0 << endl   // n = 0
+//          << m1 << endl;  // n = 1
+//
+//     cout << boolalpha;
+//     cout << (m0 == m1) << endl; // false
+//     cout << (m0 != m1) << endl; // true
+//     cout << noboolalpha;
+//
+//     cout << m1++ << endl; // n = 1 (Affiche l'ancien, interne devient 2)
+//     cout << m1 << endl;   // n = 2
+//     cout << ++m1 << endl; // n = 3 (Interne devient 3, affiche 3)
+//
+//     cout << m1 + m2 << endl; // n = 8 (3 + 5)
+//     m1 += m2;                // m1 devient 8
+//     cout << m1 << endl;      // n = 8
+//     cout << m3 + m2 << endl; // n = 12 (7 + 5)
+// }
+//
+// class Voiture {
+// private:
+//     double capaciteReservoir;
+//     double consommationMoyenne;
+//     double litresRestants;
+//
+//     static double prixEssence;
+//
+// public:
+//     Voiture(double capacite, double consommation)
+//         :capaciteReservoir(capacite), consommationMoyenne(consommation) {
+//         this-> litresRestants = capacite;
+//     }
+//
+//     static double getPrixEssence() {
+//         return prixEssence;
+//     }
+//
+//     static void setPrixessence(double prix) {
+//         prixEssence = prix;
+//     }
+//
+//     double effectuerTrajet(double distanceKm) {
+//         double litresConsommes =(distanceKm * consommationMoyenne) /100.0;
+//         double cout = litresConsommes * prixEssence;
+//
+//         litresRestants -= litresConsommes;
+//
+//         while(litresRestants <0) {
+//             litresRestants += capaciteReservoir;
+//         }
+//
+//
+//         return cout;
+//     }
+//
+//     double getCapacite()const {
+//         return capaciteReservoir;
+//     }
+//
+//     double getConsommation()const{return consommationMoyenne;}
+//
+//     double getLitresRestant()const {
+//         return litresRestants;
+//     }
+// };
+//
+// double Voiture::prixEssence =1.70;
+//
+// void afficherPrixEssence(double prix) {
+//     cout<<fixed<<setprecision(2)<<"prix l'essance"<<prix<<" Frs"<<endl;
+// }
+//
 
-class MonEntier {
+#include <iostream>
+#include <array>
+#include <iomanip>
+using namespace std;
+
+class Voiture {
 private:
-    int valeur;
+    double capacite_;
+    double consommation_;
+    double nbLitres_;
+
+    static double prixEssence_;
 
 public:
-    MonEntier(int val =0): valeur(val){}
-
-    MonEntier& operator +=(const MonEntier& autre) {
-         valeur +=autre.valeur;
-        return *this;
+    Voiture(double capacite, double consomation)
+        : capacite_(capacite), consommation_(consomation), nbLitres_(capacite) {
     }
 
-    MonEntier& operator++() {
-        ++valeur;
-        return *this;
+    static double getPrixEssence() {
+        return prixEssence_;
     }
 
-    MonEntier& operator++(int) {
-        MonEntier temp =*this;
-        ++(*this);
-        return temp;
+    static void setPrixEssence(double prix) {
+        prixEssence_ = prix;
     }
 
-    friend ostream& operator<<(ostream& os, const MonEntier& m) {
-        return os<<"n = "<<m.valeur;
+    double effectuerTrajet(double distanceKm) {
+        double litresUtilise = distanceKm * consommation_ / 100.0;
+        nbLitres_ -= litresUtilise;
+        while(nbLitres_ < 0) {
+            nbLitres_ += capacite_;
+        }
+
+        return (litresUtilise * prixEssence_);
     }
 
-    friend bool operator ==(const MonEntier& lhs, const MonEntier& rhs) {
-        return lhs.valeur == rhs.valeur;
+    double getCapacite() const {
+        return capacite_;
     }
 
-    friend bool operator!=(const MonEntier& lhs, const MonEntier& rhs) {
-        return !(lhs == rhs);
+    double getConsommation() const {
+        return consommation_;
     }
 
-    friend MonEntier operator +(MonEntier lhs, const MonEntier& rhs) {
-        lhs+= rhs;
-        return lhs;
+    double getNbLitres() const {
+        return nbLitres_;
     }
 };
 
+double Voiture::prixEssence_ = 1.70;
+
+void afficherPrixEssence(double prix) {
+    cout<<"Prix de l'essence : "<<fixed<<setprecision(2)<<prix<<" Frs"<<endl;
+}
+
+void afficherVoiture(const Voiture& v) {
+    cout << "Capacite du reservoir [l]      : " << v.getCapacite() << endl;
+    cout << "Consommation moyenne [l/100km] : " << v.getConsommation() << endl;
+    cout << "Nb litres restants             : " << fixed << setprecision(1)
+         << v.getNbLitres() << endl << endl;
+
+
+}
+
+void afficherCoutTrajet(double cout_x) {
+    cout << "Cout du trajet : " << fixed << setprecision(2)
+         << cout_x << " Frs" << endl << endl;
+}
 
 int main() {
-    MonEntier m0, m1(1), m2 = 5;
-    const MonEntier m3{7};
 
-    cout << m0 << endl   // n = 0
-         << m1 << endl;  // n = 1
+    afficherPrixEssence(Voiture::getPrixEssence());
 
-    cout << boolalpha;
-    cout << (m0 == m1) << endl; // false
-    cout << (m0 != m1) << endl; // true
-    cout << noboolalpha;
+    Voiture::setPrixEssence(1.95);
+    afficherPrixEssence(Voiture::getPrixEssence());
 
-    cout << m1++ << endl; // n = 1 (Affiche l'ancien, interne devient 2)
-    cout << m1 << endl;   // n = 2
-    cout << ++m1 << endl; // n = 3 (Interne devient 3, affiche 3)
+    Voiture v(52, 6.7);
 
-    cout << m1 + m2 << endl; // n = 8 (3 + 5)
-    m1 += m2;                // m1 devient 8
-    cout << m1 << endl;      // n = 8
-    cout << m3 + m2 << endl; // n = 12 (7 + 5)
+    afficherVoiture(v);
+    afficherCoutTrajet(v.effectuerTrajet(1000));
+    afficherVoiture(v);
+    afficherCoutTrajet(v.effectuerTrajet(200));
+    afficherVoiture(v);
+
+    return EXIT_SUCCESS;
 }
