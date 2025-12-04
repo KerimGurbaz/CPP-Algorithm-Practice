@@ -180,10 +180,7 @@ using namespace std;
 // }
 
 
-// #include <iostream>
-// #include <vector>
-// #include <algorithm>
-// using namespace std;
+
 //
 // template<typename T>
 // class Coord {
@@ -243,3 +240,155 @@ using namespace std;
 //     cout << "Nb points dans quadrant I  : " << nbI << endl;
 //     cout << "Nb points dans quadrant II : " << nbII << endl;
 // }
+
+
+// template<typename T>
+// class Point {
+// private:
+//     string nom;
+//     T x,y;
+//
+// public:
+//     Point(string nom_, T xVal = T(), T yVal = T() ): nom(nom_), x(xVal), y(yVal){}
+//
+//     void deplacer(T dx, T dy) {
+//         x+=dx;
+//         y+=dy;
+//     }
+//
+//     void afficher()const {
+//         cout<<nom<<"("<<x<<","<<y<<")";
+//     }
+//
+//     T getX()const{return x;}
+//     T getY()const{return x;}
+// };
+//
+// #include <vector>
+// #include <algorithm>
+//     int main() {
+//         // 1. Veri Seti (Dataset)
+//         vector<Point<int>> dessin {
+//             {"p1",  1,  2},
+//             {"p2",  4,  2},
+//             {"p3",  9,  8}
+//         };
+//
+//         cout << "Avant : ";
+//         for(const auto& p : dessin) p.afficher();
+//         cout << endl;
+//
+//         int dx = 1;
+//         int dy = 2;
+//
+//         // for_each: Vektörün başından sonuna kadar gezer.
+//         // Lambda: [dx, dy] -> Dışarıdaki değişkenleri içeri alır (Capture).
+//         // (Point<int>& p) -> Referans alır ki orijinal veriyi değiştirebilsin.
+//         for_each(dessin.begin(), dessin.end(),
+//             [dx, dy](Point<int>& p) {
+//                 p.deplacer(dx, dy);
+//             }
+//         );
+//
+//         cout << "Apres : ";
+//         for(const auto& p : dessin) p.afficher();
+//         cout << endl;
+//
+//         return 0;
+//     }
+
+#include <iostream>
+#include <vector>
+#include <array>
+
+using namespace std;
+template<typename T, size_t N =100>
+class Stack {
+private:
+    array<T, N> data;
+    size_t current_size;
+
+public:
+    Stack(): current_size(0){}
+    bool full()const {
+        return current_size ==N;
+    }
+    bool empty()const {
+        return current_size ==0;
+    }
+    size_t size()const {
+        return current_size;
+    }
+    void push(const T& element) {
+        if(!full()) {
+            data[current_size] =element;
+            current_size++;
+        }
+    }
+    void pop() {
+        if(!empty()) {
+            --current_size;
+        }
+    }
+
+    const T& top()const {
+        return data[current_size-1];
+    }
+
+    void display()const{
+        cout<<"size: "<<current_size<<endl;
+        cout<<"data : [";
+        for(size_t i = 0; i<current_size; ++i) {
+            if(i>0)cout<<",";
+            cout<<data[i];
+        }
+        cout<<"]"<<endl;
+    }
+
+};
+template<typename T, size_t N>
+void viderDans(Stack<T, N>& source, Stack<T, N>& dest) {
+    Stack<T, N> tmp;
+
+    while(!source.empty()) {
+        tmp.push(source.top());
+        source.pop();
+    }
+
+    while(!tmp.empty()) {
+        dest.push(tmp.top());
+        tmp.pop();
+    }
+}
+
+int main() {
+    // Stack d'entiers avec capacité 10
+    Stack<int, 10> s;
+    int i = 1;
+
+    s.display();
+    cout << endl;
+
+    while (not s.full()) {
+        s.push(i*=2);
+    }
+
+    cout << "top  : " << s.top() << endl;
+    cout << "size : " << s.size() << endl;
+    cout << endl;
+
+    s.display();
+    cout << endl;
+
+    while (not s.empty()) {
+        s.pop();
+    }
+
+    s.display();
+    cout << endl;
+
+    return 0;
+}
+
+
+
