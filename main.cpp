@@ -130,3 +130,116 @@ using namespace std;
 //     HeureMinute hm3 = saisie("heure [hh:mm]: ");
 //     cout << "votre saisie : " << hm3 << endl;
 // }
+// #include <vector>
+// template<typename T>
+// using Ligne = vector<T>;
+// template<typename T>
+// using Matrice = vector<Ligne<T> >;
+// template<typename T>
+// ostream& operator<<(ostream& os, Matrice<T>&m) {
+// // for(auto& el : m) {
+// //     os<<"[";
+// //     for(auto& e : el) {
+// //         os<<e<<",";
+// //     }
+// //     os<<"]"<<endl;
+// // }
+//     os<<"[";
+//     for(size_t i = 0; i<m.size(); ++i) {
+//         os<<"[";
+//         for(size_t j = 0 ; j<m[i].size(); ++j) {
+//             os<<m[i][j];
+//             if(j<m[i].size()-1) {
+//                 os<<",";
+//             }
+//         }
+//
+//         if(i == m.size()-1) {
+//             os<<"]";
+//         }
+//         os<<"]"<<endl;
+//
+//     }
+//
+//     return os;
+// }
+//
+//
+// int main() {
+//     Matrice<int> m{
+//         {0},
+//         {1, 2},
+//         {3, 4, 5},
+//         {6, 7, 8, 9}
+//     };
+//
+//     cout << m;
+//
+//
+//     return 0;
+// }
+
+
+// #include <iostream>
+// #include <vector>
+// #include <algorithm>
+// using namespace std;
+//
+// template<typename T>
+// class Coord {
+// private:
+//     T x, y;
+//
+// public:
+//     Coord(T x = T{}, T y = T{}): x(x), y(y) {
+//     }
+//
+//     T getX() const { return x; }
+//     T getY() const { return y; }
+// };
+//
+// template<typename T>
+// class Point {
+// private:
+//     string nom;
+//     Coord<T> coord;
+//
+// public:
+//     Point(string nom, T x, T y): nom(nom), coord(x, y) {
+//     }
+//
+//     const Coord<T> &getCoord() const { return coord; }
+//     const string &getNom() const { return nom; }
+// };
+//
+// enum class Quadrant { I = 1, II, III, IV };
+//
+// template<typename T>
+// struct DansQuadrant {
+//     Quadrant q;
+//
+//     bool operator()(const Point<T> &p) {
+//         switch (q) {
+//             case Quadrant::I: return p.getCoord().getX() > T() && p.getCoord().getY() > T();
+//             case Quadrant::II: return p.getCoord().getX() < T() && p.getCoord().getY() > T();
+//             case Quadrant::III: return p.getCoord().getX() < T() && p.getCoord().getY() < T();
+//             case Quadrant::IV: return p.getCoord().getX() > T() && p.getCoord().getY() < T();
+//             default: return false;
+//         }
+//     }
+// };
+//
+// int main() {
+//     vector<Point<int>> dessin {{"p1",  1,  2},
+//                                {"p2",  4,  2},
+//                                {"p3",  9,  8},
+//                                {"p4", -1,  5},
+//                                {"p5",  3, -1},
+//                                {"p6",  7,  0}};
+//
+//     int nbI  = count_if(dessin.begin(), dessin.end(), DansQuadrant<int>{Quadrant::I});
+//     int nbII = count_if(dessin.begin(), dessin.end(), DansQuadrant<int>{Quadrant::II});
+//
+//     cout << "Nb points dans quadrant I  : " << nbI << endl;
+//     cout << "Nb points dans quadrant II : " << nbII << endl;
+// }
