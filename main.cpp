@@ -1,394 +1,245 @@
-#include <cstdint>
 #include <iostream>
-#include <limits>
+#include <vector>
 using namespace std;
 
-// struct HeureMinute {
-//     int8_t heure;
-//     int8_t minute;
-// };
-//
-// ostream &operator<<(ostream &os, const HeureMinute &hm) {
-//     os << +hm.heure << ":" << +hm.minute;
-//     return os;
-// }
-//
-// bool operator<(const HeureMinute &lhs, const HeureMinute &rhs) {
-//     if (lhs.heure < rhs.heure) {
-//         return true;
-//     } else if (lhs.minute < rhs.minute) {
-//         return true;
-//     } else {
-//         false;
-//     }
-// }
-//
-// bool operator >(const HeureMinute &lhs, const HeureMinute &rhs) {
-//     return !(lhs < rhs);
-// }
-//
-// bool operator <=(const HeureMinute &lhs, const HeureMinute &rhs) {
-//     return (rhs > lhs);
-// }
-//
-// bool operator >=(const HeureMinute &lhs, const HeureMinute &rhs) {
-//     return !(lhs < rhs);
-// }
-// bool operator ==(const HeureMinute &lhs, const HeureMinute &rhs) {
-//     return (lhs.heure == rhs.heure && lhs.minute == rhs.minute );
-// }
-//
-// bool operator !=(const HeureMinute& lhs, const HeureMinute& rhs) {
-//     return !(lhs==lhs);
-// }
-//
-// HeureMinute operator+(const HeureMinute& lhs, const HeureMinute& rhs) {
-//     return {int8_t(lhs.heure +rhs.heure +(lhs.minute + rhs.minute)/60), int8_t((lhs.minute + rhs.minute)% 60)};
-// }
-// HeureMinute& operator+=(HeureMinute& hm , int8_t minute) {
-//     hm = {int8_t(hm.heure + (hm.minute + minute)/60),
-//     int8_t((hm.minute + minute)%60)};
-//     return hm;
-// }
-//
-//
-// HeureMinute operator+(HeureMinute hm , int8_t minute) {
-//     return hm += minute;
-// }
-//
-// HeureMinute operator+(int8_t minute , HeureMinute hm) {
-//     return hm += minute;
-// }
-//
-// HeureMinute& operator++(HeureMinute& hm) {
-//     return hm +=1;
-// }
-// HeureMinute operator++ (HeureMinute& hm, int) {
-//     HeureMinute tmp = hm;
-//     ++hm;
-//     return tmp;
-// }
-//
-// istream& operator>>(istream& is, HeureMinute& h) {
-//     char c;
-//     int valeur;
-//     is>>valeur;
-//     h.heure = valeur;
-//     is>>c;
-//     if(c != ':') {
-//         is.setstate(ios::failbit);
-//     }
-//     is>>valeur;
-//     h.minute = valeur;
-//
-//     if(h.minute >= 60) {
-//         cout<<h.minute<<endl;
-//         cout<<"fail 60"<<endl;
-//         is.setstate(ios::failbit);
-//     }
-//     return is;
-// }
-//
-//
-//
-//
-// int main() {
-//     HeureMinute saisie(const string &msg) {
-//         HeureMinute hm;
-//         bool erreur;
-//         do {
-//             cout << msg;
-//             cin >> hm;
-//             erreur = cin.fail();
-//             cin.clear();
-//             cin.ignore(numeric_limits<streamsize>::max(), '\n');
-//         } while (erreur);
-//         return hm;
-//     }
-//
-//     HeureMinute hm1 = {12, 34};
-//     HeureMinute hm2 = {21, 43};
-//
-//     cout << boolalpha;
-//     cout << hm1 << " <  " << hm2 << "  : " << (hm1 < hm2) << endl;
-//     cout << hm1 << " >  " << hm2 << "  : " << (hm1 > hm2) << endl;
-//     cout << hm1 << " <= " << hm2 << "  : " << (hm1 <= hm2) << endl;
-//     cout << hm1 << " >= " << hm2 << "  : " << (hm1 >= hm2) << endl;
-//     cout << hm1 << " == " << hm2 << "  : " << (hm1 == hm2) << endl;
-//     cout << hm1 << " != " << hm2 << "  : " << (hm1 != hm2) << endl;
-//
-//     cout << hm1 << " +  " << hm2 << "  : " << (hm1 + hm2) << endl;
-//     cout << hm1 << " +  " << 44 << "     : " << (hm1 + 44) << endl;
-//     cout << 44 << "    +  " << hm1 << "  : " << (44 + hm1) << endl;
-//     cout << hm1 << " += " << 2 << "      : " << (hm1 += 2) << endl;
-//
-//     cout << "++" << hm1 << "\t\t: " << ++hm1 << endl;
-//     cout << hm1 << "++" << "\t\t: " << hm1++ << endl;
-//     cout << hm1 << endl;
-//
-//     cout << endl;
-//     HeureMinute hm3 = saisie("heure [hh:mm]: ");
-//     cout << "votre saisie : " << hm3 << endl;
-// }
-// #include <vector>
-// template<typename T>
-// using Ligne = vector<T>;
-// template<typename T>
-// using Matrice = vector<Ligne<T> >;
-// template<typename T>
-// ostream& operator<<(ostream& os, Matrice<T>&m) {
-// // for(auto& el : m) {
-// //     os<<"[";
-// //     for(auto& e : el) {
-// //         os<<e<<",";
-// //     }
-// //     os<<"]"<<endl;
-// // }
-//     os<<"[";
-//     for(size_t i = 0; i<m.size(); ++i) {
-//         os<<"[";
-//         for(size_t j = 0 ; j<m[i].size(); ++j) {
-//             os<<m[i][j];
-//             if(j<m[i].size()-1) {
-//                 os<<",";
+// template<typename InputIt, typename OutputIt, typename Pred, typename Transform >
+// void transfert_conditionnel(InputIt first, InputIt last,OutputIt dest,  Pred pred, Transform transform) {
+//         while(first != last) {
+//             if(pred(*first)) {
+//                 *dest = transform(*first);
 //             }
+//             ++first;
 //         }
-//
-//         if(i == m.size()-1) {
-//             os<<"]";
-//         }
-//         os<<"]"<<endl;
-//
 //     }
 //
-//     return os;
+// int main() {
+//     std::vector<int> source = {1, 2, 3, 4, 5, 6, 7, 8};
+//     std::vector<int> destination;
+//
+//
+//     transfert_conditionnel(
+//         source.begin(), source.end(),
+//         std::back_inserter(destination), // İpucu: output iterator
+//         [](int n) { return n % 2 == 0; }, // Predicate
+//         [](int n) { return n * n; } // Transform
+//     );
+//
+//     // Çıktı: 4 16 36 64 olmalı
+//     for (int x: destination) std::cout << x << " ";
+//     std::cout << std::endl;
+//
+//     return 0;
+// }
+
+#include <list>
+// template<typename T, typename U>
+// size_t max_consecutive_count(T first, T last, U n) {
+//     size_t count = 0;
+//     size_t mVal = 0 ;
+//     for(T it = first; it != last; ++it) {
+//         if(*it == n) {
+//             count++;
+//             if(count>mVal) {
+//                 mVal=count;
+//             }
+//
+//         }else {
+//             count =0;
+//         }
+//     }
+//     return mVal;
 // }
 //
-//
 // int main() {
-//     Matrice<int> m{
-//         {0},
-//         {1, 2},
-//         {3, 4, 5},
-//         {6, 7, 8, 9}
-//     };
+//     std::vector<int> v = {1, 2, 2, 3, 2, 2, 2, 4, 4};
+//     std::list<char> l = {'a', 'b', 'b', 'a', 'a', 'a', 'b'};
 //
-//     cout << m;
 //
+//     std::cout << max_consecutive_count(v.begin(), v.end(), 2) << std::endl; // Çıktı: 3
+//
+//
+//     std::cout << max_consecutive_count(l.begin(), l.end(), 'a') << std::endl; // Çıktı: 3
 //
 //     return 0;
 // }
 
 
-
+// template<typename T, typename It>
+// It partitionner_manuel( It first,It last, const T& n ) {
 //
-// template<typename T>
-// class Coord {
-// private:
-//     T x, y;
-//
-// public:
-//     Coord(T x = T{}, T y = T{}): x(x), y(y) {
-//     }
-//
-//     T getX() const { return x; }
-//     T getY() const { return y; }
-// };
-//
-// template<typename T>
-// class Point {
-// private:
-//     string nom;
-//     Coord<T> coord;
-//
-// public:
-//     Point(string nom, T x, T y): nom(nom), coord(x, y) {
-//     }
-//
-//     const Coord<T> &getCoord() const { return coord; }
-//     const string &getNom() const { return nom; }
-// };
-//
-// enum class Quadrant { I = 1, II, III, IV };
-//
-// template<typename T>
-// struct DansQuadrant {
-//     Quadrant q;
-//
-//     bool operator()(const Point<T> &p) {
-//         switch (q) {
-//             case Quadrant::I: return p.getCoord().getX() > T() && p.getCoord().getY() > T();
-//             case Quadrant::II: return p.getCoord().getX() < T() && p.getCoord().getY() > T();
-//             case Quadrant::III: return p.getCoord().getX() < T() && p.getCoord().getY() < T();
-//             case Quadrant::IV: return p.getCoord().getX() > T() && p.getCoord().getY() < T();
-//             default: return false;
-//         }
-//     }
-// };
+//  while(first != last) {
+//   if(*first < n) {
+//    ++first;
+//   }else {
+//    --last;
+//    T temp  = *last;
+//    *last = *first;
+//    *first = temp;
+//   }
+//  }
+//  return first;
+// }
 //
 // int main() {
-//     vector<Point<int>> dessin {{"p1",  1,  2},
-//                                {"p2",  4,  2},
-//                                {"p3",  9,  8},
-//                                {"p4", -1,  5},
-//                                {"p5",  3, -1},
-//                                {"p6",  7,  0}};
+//  std::vector<int> v = {10, 5, 20, 3, 8, 25};
+//  int pivot = 10;
 //
-//     int nbI  = count_if(dessin.begin(), dessin.end(), DansQuadrant<int>{Quadrant::I});
-//     int nbII = count_if(dessin.begin(), dessin.end(), DansQuadrant<int>{Quadrant::II});
+//  // Pivot (10)'tan küçükler sola, büyük/eşitler sağa geçsin.
+//  // Sıra önemli değil, sadece gruplama önemli.
+//  auto it_pivot = partitionner_manuel(v.begin(), v.end(), pivot);
 //
-//     cout << "Nb points dans quadrant I  : " << nbI << endl;
-//     cout << "Nb points dans quadrant II : " << nbII << endl;
+//  std::cout << "Kucukler: ";
+//  for(auto it = v.begin(); it != it_pivot; ++it) std::cout << *it << " ";
+//
+//  std::cout << "\nBuyukler: ";
+//  for(auto it = it_pivot; it != v.end(); ++it) std::cout << *it << " ";
+//
+//  return 0;
+// }
+// #include <iostream>
+// using namespace std;
+//
+// template<typename T>
+// class Intervalle {
+// private:
+//  T x, y;
+// public:
+//  Intervalle(T x_val = T() ,T y_val = T()) : x(x_val), y(y_val) {
+//   if(x > y) {
+//    T temp = x;
+//    x = y;
+//    y = temp;
+//   }
+//  }
+//
+//  friend ostream& operator<<(ostream& os, const Intervalle& v) {
+//   os<<"("<<v.x<<","<<v.y<<")";
+//   return os;
+//  }
+// Intervalle operator+(const Intervalle& other) const{
+//   return Intervalle(min(this->x , other.x), max(this->y, other.y));
+//  }
+//
+//  Intervalle operator&(const Intervalle& other) const{
+//   return Intervalle(max(this->x , other.x), min(this->y, other.y));
+//  }
+//
+// };
+//
+//
+// int main() {
+//  Intervalle a(1, 5);
+//  Intervalle b(8, 6); // Dikkat: Constructor bunu [6, 8] yapmalı!
+//
+//  std::cout << "A: " << a << " / B: " << b << std::endl;
+//
+//  Intervalle c = a + b; // [1, 8] olmalı (en geniş kapsayan)
+//  std::cout << "Union (Kapsayan): " << c << std::endl;
+//
+//  Intervalle d(4, 10);
+//  Intervalle e = a & d; // [1,5] ve [4,10] kesisimi -> [4,5] olmalı
+//  std::cout << "Intersection: " << e << std::endl;
+//
+//  return 0;
 // }
 
 
-// template<typename T>
-// class Point {
-// private:
-//     string nom;
-//     T x,y;
-//
-// public:
-//     Point(string nom_, T xVal = T(), T yVal = T() ): nom(nom_), x(xVal), y(yVal){}
-//
-//     void deplacer(T dx, T dy) {
-//         x+=dx;
-//         y+=dy;
-//     }
-//
-//     void afficher()const {
-//         cout<<nom<<"("<<x<<","<<y<<")";
-//     }
-//
-//     T getX()const{return x;}
-//     T getY()const{return x;}
-// };
-//
+// #include <iostream>
 // #include <vector>
-// #include <algorithm>
-//     int main() {
-//         // 1. Veri Seti (Dataset)
-//         vector<Point<int>> dessin {
-//             {"p1",  1,  2},
-//             {"p2",  4,  2},
-//             {"p3",  9,  8}
-//         };
+// #include <list>
+// #include <functional> // less, greater
 //
-//         cout << "Avant : ";
-//         for(const auto& p : dessin) p.afficher();
-//         cout << endl;
+// using namespace std;
 //
-//         int dx = 1;
-//         int dy = 2;
-//
-//         // for_each: Vektörün başından sonuna kadar gezer.
-//         // Lambda: [dx, dy] -> Dışarıdaki değişkenleri içeri alır (Capture).
-//         // (Point<int>& p) -> Referans alır ki orijinal veriyi değiştirebilsin.
-//         for_each(dessin.begin(), dessin.end(),
-//             [dx, dy](Point<int>& p) {
-//                 p.deplacer(dx, dy);
-//             }
-//         );
-//
-//         cout << "Apres : ";
-//         for(const auto& p : dessin) p.afficher();
-//         cout << endl;
-//
-//         return 0;
+// template<typename Iterator, typename Compare = std::less<typename Iterator::value_type> >
+// std::pair<Iterator, Iterator>
+// plus_long_sequence_croissante(Iterator first, Iterator last, Compare comp = Compare{}) {
+//     if (first == last) {
+//         return {last, last};
 //     }
-
-#include <iostream>
-#include <vector>
-#include <array>
-
-using namespace std;
-template<typename T, size_t N =100>
-class Stack {
-private:
-    array<T, N> data;
-    size_t current_size;
-
-public:
-    Stack(): current_size(0){}
-    bool full()const {
-        return current_size ==N;
-    }
-    bool empty()const {
-        return current_size ==0;
-    }
-    size_t size()const {
-        return current_size;
-    }
-    void push(const T& element) {
-        if(!full()) {
-            data[current_size] =element;
-            current_size++;
-        }
-    }
-    void pop() {
-        if(!empty()) {
-            --current_size;
-        }
-    }
-
-    const T& top()const {
-        return data[current_size-1];
-    }
-
-    void display()const{
-        cout<<"size: "<<current_size<<endl;
-        cout<<"data : [";
-        for(size_t i = 0; i<current_size; ++i) {
-            if(i>0)cout<<",";
-            cout<<data[i];
-        }
-        cout<<"]"<<endl;
-    }
-
-};
-template<typename T, size_t N>
-void viderDans(Stack<T, N>& source, Stack<T, N>& dest) {
-    Stack<T, N> tmp;
-
-    while(!source.empty()) {
-        tmp.push(source.top());
-        source.pop();
-    }
-
-    while(!tmp.empty()) {
-        dest.push(tmp.top());
-        tmp.pop();
-    }
-}
-
-int main() {
-    // Stack d'entiers avec capacité 10
-    Stack<int, 10> s;
-    int i = 1;
-
-    s.display();
-    cout << endl;
-
-    while (not s.full()) {
-        s.push(i*=2);
-    }
-
-    cout << "top  : " << s.top() << endl;
-    cout << "size : " << s.size() << endl;
-    cout << endl;
-
-    s.display();
-    cout << endl;
-
-    while (not s.empty()) {
-        s.pop();
-    }
-
-    s.display();
-    cout << endl;
-
-    return 0;
-}
-
-
-
+//
+//     Iterator best_start = first;
+//     size_t max_len = 1;
+//
+//     Iterator curr_start = first;
+//     size_t curr_len = 1;
+//
+//     Iterator it = first;
+//     Iterator next_it = next(first);
+//
+//     while (next_it != last) {
+//         if (comp(*it, *next)) {
+//             curr_len++;
+//         } else {
+//             if (curr_len > max_len) {
+//                 max_len = curr_len;
+//                 best_start = curr_start;
+//             }
+//             curr_start = next_it;
+//             curr_len = 1;
+//         }
+//           ++next_it;
+////     }
+////     if(curr_len > max_len) {
+////         max_len = curr_len;
+////         best_start = curr_start;
+////     }
+////
+////     return {best_start, next(best_start, max_len)}
+//// }
+////
+//// int main() {
+////     vector<int> v{6, 3, 4, 5, 4, 3, 1, 2, 2, 3, 4, 3, 7};
+////
+////     cout << "Test 1 (vector, croissante strict): ";
+////     auto r1 = plus_long_sequence_croissante(v.begin(), v.end()); // default : less<>
+////     for (auto it = r1.first; it != r1.second; ++it)
+////         cout << *it << ' ';
+////     cout << '\n';
+////
+////     cout << "Test 2 (vector, decroissante strict): ";
+////     auto r2 = plus_long_sequence_croissante(v.begin(), v.end(), greater<int>{});
+////     for (auto it = r2.first; it != r2.second; ++it)
+////         cout << *it << ' ';
+////     cout << '\n';
+////
+////     list<double> l{1.0, 1.1, 0.9, 1.2, 1.3, 0.5, 0.6};
+////
+////     cout << "Test 3 (list<double>, croissante strict): ";
+////     auto r3 = plus_long_sequence_croissante(l.begin(), l.end());
+////     for (auto it = r3.first; it != r3.second; ++it)
+////         cout << *it << ' ';
+////     cout << '\n';
+//// }
+//
+//// #include <iostream>
+//// #include <vector>
+//// #include <array>
+//// using namespace std;
+//// template<typename T, typename U>
+//// U somme_intervalle(T first, T last, const U& n) {
+////      U somme = U{n};
+////
+////      for(auto it =first; it != last; ++it ) {
+////           somme += *it;
+////      }
+////      return somme;
+//// }
+////
+//// int main() {
+////     vector<int> v{10, 20, 30, 40, 50};
+////     array<double, 4> a{1.5, 2.5, 3.5, 4.5};
+////
+////     cout << "Somme v[1..4) + init=100 = "
+////          << somme_intervalle(v.begin() + 1, v.end() - 1, 100) << '\n';
+////     // attendu: 100 + 20 + 30 + 40 = 190
+////
+////     cout << "Somme a[0..4) + init=0.0 = "
+////          << somme_intervalle(a.begin(), a.end(), 0.0) << '\n';
+////     // attendu: 1.5+2.5+3.5+4.5 = 12.0
+////
+////     cout << "Somme a[1..3) + init=1.0 = "
+////          << somme_intervalle(a.begin()+1, a.end()-1, 1.0) << '\n';
+////     // attendu: 1.0 + 2.5 + 3.5 = 7.0
+//// }   it = next_it;
+//
