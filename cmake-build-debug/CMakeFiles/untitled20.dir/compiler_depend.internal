@@ -6,7 +6,6 @@ CMakeFiles/untitled20.dir/examples.cpp.obj
 
 CMakeFiles/untitled20.dir/main.cpp.obj
  C:/Users/Krm/Documents/CPP_HEIG-VD/01_Labs/CPP-Algorithm-Practice/main.cpp
- C:/Program Files/JetBrains/CLion 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/array
  C:/Program Files/JetBrains/CLion 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/backward/binders.h
  C:/Program Files/JetBrains/CLion 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bit
  C:/Program Files/JetBrains/CLion 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/alloc_traits.h
@@ -62,7 +61,6 @@ CMakeFiles/untitled20.dir/main.cpp.obj
  C:/Program Files/JetBrains/CLion 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_iterator_base_funcs.h
  C:/Program Files/JetBrains/CLion 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_iterator_base_types.h
  C:/Program Files/JetBrains/CLion 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_pair.h
- C:/Program Files/JetBrains/CLion 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_relops.h
  C:/Program Files/JetBrains/CLion 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_uninitialized.h
  C:/Program Files/JetBrains/CLion 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_vector.h
  C:/Program Files/JetBrains/CLion 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/streambuf.tcc
@@ -100,7 +98,6 @@ CMakeFiles/untitled20.dir/main.cpp.obj
  C:/Program Files/JetBrains/CLion 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/numbers
  C:/Program Files/JetBrains/CLion 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ostream
  C:/Program Files/JetBrains/CLion 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/pstl/pstl_config.h
- C:/Program Files/JetBrains/CLion 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/span
  C:/Program Files/JetBrains/CLion 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/stdexcept
  C:/Program Files/JetBrains/CLion 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/stdlib.h
  C:/Program Files/JetBrains/CLion 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/streambuf
@@ -110,7 +107,6 @@ CMakeFiles/untitled20.dir/main.cpp.obj
  C:/Program Files/JetBrains/CLion 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/tuple
  C:/Program Files/JetBrains/CLion 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/type_traits
  C:/Program Files/JetBrains/CLion 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/typeinfo
- C:/Program Files/JetBrains/CLion 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/utility
  C:/Program Files/JetBrains/CLion 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/vector
  C:/Program Files/JetBrains/CLion 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/atomic_word.h
  C:/Program Files/JetBrains/CLion 2024.1.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/c++allocator.h
