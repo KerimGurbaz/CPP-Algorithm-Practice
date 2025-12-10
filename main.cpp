@@ -1,76 +1,83 @@
+#include <cmath>
+#include <cstdlib>
+#include <iomanip>
 #include <iostream>
-#include <vector>
-#include <algorithm>
 using namespace std;
 
-
-class Pays {
+class Voiture {
 private:
-    const string nom;
-    double population;
-    double superficie;
+    double capasite;
+    double consomation;
+    double nbLitres;
+
+    static double prixEssence;
 
 public:
-    Pays(const string& n, double pop, double sup);
+    Voiture(double cap, double cons);
 
-    double getSuperficie() const;
+    static double getPrixEssence();
 
-    double getPopulation() const;
+    static void setPrixEssence(double n);
 
-    const string& getNom() const;
+    friend void afficherVoiture(const Voiture& v);
 
-    double densite()const;
+    double effectuerTrajet(double n);
+
 };
 
-Pays::Pays(const string& n, double pop, double sup) : nom(n), population(pop),
-                                               superficie(sup) {
+double Voiture::prixEssence =0.0;
+
+Voiture::Voiture(double cap, double cons):
+capasite(cap), consomation(cons), nbLitres(capasite) {
 }
 
-double Pays::getSuperficie() const {
-    return this->superficie;
+double Voiture::getPrixEssence()  {
+    return prixEssence;
 }
 
-double Pays::getPopulation() const {
-    return this->population;
+void afficherPrixEssence(double prix) {
+    cout << "Prix de l'essence :" << prix<< "Frs." << endl;
 }
 
-
-double Pays::densite() const {
-    return population * 1000000 / superficie;
+void Voiture::setPrixEssence(double prix) {
+    prixEssence = prix;
 }
 
-const string& Pays::getNom() const {
-    return this->nom;
+void afficherVoiture(const Voiture& v) {
+    cout << "Capacite du reservoir [l]      : " <<v.capasite << endl;
+    cout << "Consommation moyenne [l/100km] : " << v.consomation << endl;
+    cout << "Nb litres restants             : " << v.nbLitres << endl;;
+}
+
+double Voiture::effectuerTrajet(double distanceKm) {
+    double utiliseLitre = (distanceKm * consomation ) / 100.0;
+    nbLitres -= utiliseLitre;
+    while (nbLitres < 0) {
+        nbLitres += capasite;
+    }
+    return utiliseLitre;
+}
+
+double afficherCoutTrajet(double distance) {
+    double total = distance * Voiture::getPrixEssence();
+    cout << "Cout du trajet : " << total << " Frs." << endl;
+    cout<<endl;
+    return total;
 }
 
 int main() {
-    vector<Pays> pays{
-            {"Suisse", 8.121830, 41290},
-            {"France", 66.663766, 547030},
-            {"Italie", 61.855120, 301230},
-            {"Allemagne", 80.854408, 357021}
-    };
+    afficherPrixEssence(Voiture::getPrixEssence());
 
-    // 1) En büyük yüzölçümü
-    auto maxSuperficie = max_element(pays.begin(), pays.end(),[](const Pays& p1, const Pays&p2) {
-        return p1.getSuperficie() < p2.getSuperficie();
-    });
-    // 2) En fazla nüfus
-    auto maxPopulation =max_element(pays.begin(), pays.end(),[](const Pays& p1, const Pays& p2) {
-        return p1.getPopulation() < p2.getPopulation();
-    });
+    Voiture::setPrixEssence(1.95);
+    afficherPrixEssence(Voiture::getPrixEssence());
 
-    // 3) En büyük yoğunluk
-    auto maxDensite =max_element(pays.begin(), pays.end(),[](const Pays& p1, const Pays&p2) {
-        return p1.densite() < p2.densite();
-    });
+    Voiture v(52, 6.7);
 
-    cout << "Pays ayant la plus grande superficie               : "
-         << maxSuperficie->getNom() << endl;
-    cout << "Pays ayant le plus d'habitants                     : "
-         << maxPopulation->getNom() << endl;
-    cout << "Pays ayant la densite de population la plus grande : "
-         << maxDensite->getNom() << endl;
+    afficherVoiture(v);
+    afficherCoutTrajet(v.effectuerTrajet(1000));
+    afficherVoiture(v);
+    afficherCoutTrajet(v.effectuerTrajet(200));
+    afficherVoiture(v);
 
-    return 0;
+    return EXIT_SUCCESS;
 }
