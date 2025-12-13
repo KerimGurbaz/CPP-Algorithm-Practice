@@ -36,52 +36,230 @@
 // }
 //
 #include <iostream>
+#include <numeric>
 
-// HeureMinute.h İpucu:
-#ifndef HEUREMINUTE_H
-#define HEUREMINUTE_H
+// // HeureMinute.h İpucu:
+// #ifndef HEUREMINUTE_H
+// #define HEUREMINUTE_H
+//
+// #include <cstdint> // int8_t için
+//
+// #include <iostream>
+//
+// struct HeureMinute {
+//     int8_t heure;
+//     int8_t minute;
+//
+// public:
+//    friend std::ostream& operator<<(std::ostream& os, const HeureMinute& hm);
+//    friend HeureMinute operator+(const HeureMinute& lhs, const HeureMinute& rhs);
+//     friend std::istream& operator>>(std::istream& is, HeureMinute& hm);
+// };
+// #endif
+//
+//
+// #include "HeureMinute.h"
+// #include <iostream>
+// #include <iomanip>
+// using namespace std;
+//
+// ostream& operator<<(ostream& os, const HeureMinute& hm) {
+//     os<<setfill('0')<<setw(2)<<+hm.heure<<":"
+//     <<setfill('0')<<setw(2)<<+hm.minute;
+//     return os;
+// }
+//
+//   HeureMinute operator+(const HeureMinute& lhs, const HeureMinute& rhs) {
+//     return {lhs.heure + rhs.heure , lhs.minute, rhs.minute};
+// }
+//
+// istream& operator>>(std::istream& is, HeureMinute& hm) {
+//     int h, m;
+//     char c ='';
+//     if(is>>h>>c>>m) {
+//        if(c==':') {
+//            hm.heure = static_cast<int8_t>(h);
+//            hm.minute = static_cast<int8_t>(m);
+//        }else {
+//            is.setstate(ios::failbit);
+//        }
+//     }
+//     return is;
+// }
 
-#include <cstdint> // int8_t için
+
+// #ifndef PUAN_H
+// #define PUAN_H
+//
+// class Puan {
+// private:
+//     int num;
+//     const int minVal;
+//     const int maxVal;
+//
+// public:
+//     Puan(int numVal = {0});
+//
+//     void set(int n);
+//
+//     friend std::ostream &operator<<(std::ostream &os, const Puan &p);
+// };
+// #endif
+//
+// // main.cpp
+// #include <iostream>
+//
+// #include <stdexcept>
+//
+// Puan::Puan(int numVal)
+//     : num(numVal), minVal(0), maxVal(100) {
+//     if (num < minVal || num > maxVal) {
+//         num = minVal;
+//     }
+// }
+//
+// void Puan::set(int n) {
+//     if (n >= minVal && n <= maxVal) {
+//         num = n;
+//     } else {
+//         throw std::out_of_range("Not 0-100 arasinda olmali!");
+//     }
+// }
+//
+// std::ostream &operator<<(std::ostream &os, const Puan &p) {
+//     os << "[Not : " << p.num << "]";
+//     return os;
+// }
+//
+//
+// using namespace std;
+//
+//
+// int main() {
+//     try {
+//         Puan p1; // Varsayılan kurucu (0 atamalı)
+//         Puan p2(50); // Parametreli kurucu
+//
+//         cout << "P1 Baslangic: " << p1 << endl; // Çıktı: [Not: 0]
+//
+//         p1.set(85);
+//         cout << "P1 Yeni: " << p1 << endl; // Çıktı: [Not: 85]
+//
+//         cout << "Hata Testi yapiliyor..." << endl;
+//         p2.set(150); // BURADA "std::out_of_range" FIRLATMALI!
+//
+//         cout << "Bu satir asla calismamali!" << endl;
+//     } catch (const exception &e) {
+//         cerr << "Hata yakalandi: " << e.what() << endl;
+//         // Çıktı: Hata yakalandi: Not 0-100 arasinda olmali! (veya benzeri)
+//     }
+//     return 0;
+// }
+
+// #ifndef BULLETIN_H
+// #define BULLETIN_H
+// #include <vector>
+// class Bulletin {
+// private:
+//     std::vector<int>v;
+//     const int minNote;
+//     const int maxNote;
+//
+// public:
+//     Bulletin(int min =0, int max =6) ;
+//     void ajouterNote(int n);
+//     double calculerMoyenne()const;
+// };
+//
+// #endif
+//
+// #include <iostream>
+// #include <algorithm>
+// #include <stdexcept>
+// using namespace std;
+// #include "Bulletin.h"
+//
+// Bulletin::Bulletin(int min, int max): minNote(min), maxNote(max){}
+//
+// void Bulletin::ajouterNote(int n) {
+//     if(n >= minNote && n<= maxNote) {
+//         v.push_back(n);
+//     }else {
+//         throw invalid_argument("Note invalid");
+//     }
+// }
+//
+// double Bulletin::calculerMoyenne() const {
+//     if(v.empty()) {
+//         throw runtime_error("Bulletrin vide ! pas de moyenne");
+//     }
+//
+//     double somme = accumulate(v.begin(), v.end(), 0.0);
+//     return somme/v.size();
+// }
 
 #include <iostream>
-
-struct HeureMinute {
-    int8_t heure;
-    int8_t minute;
-
-public:
-   friend std::ostream& operator<<(std::ostream& os, const HeureMinute& hm);
-   friend HeureMinute operator+(const HeureMinute& lhs, const HeureMinute& rhs);
-    friend std::istream& operator>>(std::istream& is, HeureMinute& hm);
-};
-#endif
-
-
-#include "HeureMinute.h"
-#include <iostream>
-#include <iomanip>
+#include <utility>
+#include <vector>
+#include <iterator>
+#include <list>
 using namespace std;
 
-ostream& operator<<(ostream& os, const HeureMinute& hm) {
-    os<<setfill('0')<<setw(2)<<+hm.heure<<":"
-    <<setfill('0')<<setw(2)<<+hm.minute;
-    return os;
-}
+template<typename It, typename Compare>
+pair<It, It> plus_long_sequence_croissante(It first, It last, Compare comp) {
+    if (first == last)return {first, first};
 
-  HeureMinute operator+(const HeureMinute& lhs, const HeureMinute& rhs) {
-    return {lhs.heure + rhs.heure , lhs.minute, rhs.minute};
-}
+    It bestStart = first;
+    It bestEnd = next(first);
 
-istream& operator>>(std::istream& is, HeureMinute& hm) {
-    int h, m;
-    char c ='';
-    if(is>>h>>c>>m) {
-       if(c==':') {
-           hm.heure = static_cast<int8_t>(h);
-           hm.minute = static_cast<int8_t>(m);
-       }else {
-           is.setstate(ios::failbit);
-       }
+    size_t maxSeq = 1;
+
+    It curSeq = first;
+    size_t curMAx = 1;
+
+    for (It it = next(first); it != last; ++it) {
+        if (comp(*prev(it), *it)) {
+            curMAx++;
+        } else {
+            if (curMAx > maxSeq) {
+                maxSeq = curMAx;
+                bestStart = curSeq;
+                bestEnd = it;
+            }
+            curSeq = it;
+            curMAx = 1;
+        }
     }
-    return is;
+
+    if (curMAx > maxSeq) {
+        bestEnd = last;
+        bestStart = curSeq;
+    }
+
+    return {bestStart, bestEnd};
+}
+
+int main() {
+    // Test 1: Vektör ile (Varsayılan Artan Sıralama)
+    vector<int> v = {10, 2, 3, 4, 1, 5};
+
+    // std::less<int>() -> "a < b" kontrolü yapar (Artan dizi arar)
+    auto res1 = plus_long_sequence_croissante(v.begin(), v.end(), std::less<int>());
+
+    cout << "Vektor (Artan): ";
+    for (auto it = res1.first; it != res1.second; ++it) cout << *it << " ";
+    cout << endl; // Çıktı: 2 3 4
+
+    // Test 2: Liste ile (AZALAN Sıralama - Compare değişiyor!)
+    list<int> l = {1, 2, 5, 4, 3, 2, 8};
+
+    // std::greater<int>() -> "a > b" kontrolü yapar (Azalan dizi arar)
+    // Lambda kullanımı: [](int a, int b){ return a > b; } de olurdu.
+    auto res2 = plus_long_sequence_croissante(l.begin(), l.end(), std::greater<int>());
+
+    cout << "Liste (Azalan): ";
+    for (auto it = res2.first; it != res2.second; ++it) cout << *it << " ";
+    cout << endl; // Çıktı: 5 4 3 2
+
+    return 0;
 }
