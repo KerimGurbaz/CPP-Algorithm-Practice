@@ -198,68 +198,240 @@
 //     return somme/v.size();
 // }
 
+// #include <iostream>
+// #include <utility>
+// #include <vector>
+// #include <iterator>
+// #include <list>
+// using namespace std;
+//
+// template<typename It, typename Compare>
+// pair<It, It> plus_long_sequence_croissante(It first, It last, Compare comp) {
+//     if (first == last)return {first, first};
+//
+//     It bestStart = first;
+//     It bestEnd = next(first);
+//
+//     size_t maxSeq = 1;
+//
+//     It curSeq = first;
+//     size_t curMAx = 1;
+//
+//     for (It it = next(first); it != last; ++it) {
+//         if (comp(*prev(it), *it)) {
+//             curMAx++;
+//         } else {
+//             if (curMAx > maxSeq) {
+//                 maxSeq = curMAx;
+//                 bestStart = curSeq;
+//                 bestEnd = it;
+//             }
+//             curSeq = it;
+//             curMAx = 1;
+//         }
+//     }
+//
+//     if (curMAx > maxSeq) {
+//         bestEnd = last;
+//         bestStart = curSeq;
+//     }
+//
+//     return {bestStart, bestEnd};
+// }
+//
+// int main() {
+//     // Test 1: Vektör ile (Varsayılan Artan Sıralama)
+//     vector<int> v = {10, 2, 3, 4, 1, 5};
+//
+//     // std::less<int>() -> "a < b" kontrolü yapar (Artan dizi arar)
+//     auto res1 = plus_long_sequence_croissante(v.begin(), v.end(), std::less<int>());
+//
+//     cout << "Vektor (Artan): ";
+//     for (auto it = res1.first; it != res1.second; ++it) cout << *it << " ";
+//     cout << endl; // Çıktı: 2 3 4
+//
+//     // Test 2: Liste ile (AZALAN Sıralama - Compare değişiyor!)
+//     list<int> l = {1, 2, 5, 4, 3, 2, 8};
+//
+//     // std::greater<int>() -> "a > b" kontrolü yapar (Azalan dizi arar)
+//     // Lambda kullanımı: [](int a, int b){ return a > b; } de olurdu.
+//     auto res2 = plus_long_sequence_croissante(l.begin(), l.end(), std::greater<int>());
+//
+//     cout << "Liste (Azalan): ";
+//     for (auto it = res2.first; it != res2.second; ++it) cout << *it << " ";
+//     cout << endl; // Çıktı: 5 4 3 2
+//
+//
+//
+//
+//     return 0;
+// }
+//
+// #include <iterator>
+//
+// template <typename It>
+// size_t total_size(It first, It last) {
+//    size_t total =0;
+//     for(; first != last; ++first) {
+//         total += distance(first->first, first-> second);
+//     }
+//     return total;
+// }
+//
+// template<typename It, typename Out>
+// Out concat(It first, It last, Out out) {
+//     for(; first!= last; ++first) {
+//
+//         for(auto p = first->first; p != first->second; ++p) {
+//             *out++ = *p;
+//         }
+//     }
+//     return out;
+// }
+
+
+// #include <cstdlib>
+// #include <iostream>
+// #include <utility>
+// #include <vector>
+// #include <iterator>
+// using namespace std;
+//
+// //------------------------------------------------------------
+// // Types donnés (NE PAS MODIFIER)
+// template <typename T>
+// using Iterateur = typename vector<T>::const_iterator;
+//
+// template <typename T>
+// using Plage = pair<Iterateur<T>, Iterateur<T>>;
+//
+// template <typename T>
+// using vPlages = vector<Plage<T>>;
+//
+// template<typename It>
+// size_t total_size( It first, It last) {
+//     size_t total =0;
+//     for(;first != last; ++first) {
+//         total += distance(first->first, first->second);
+//     }
+//     return total;
+// }
+// template<typename It, typename Out>
+// Out concat(It first, It last, Out out) {
+//     for(; first != last; ++first) {
+//         for(auto p = first->first; p!=first->second; ++p) {
+//             *out++ = *p;
+//         }
+//     }
+//     return out;
+// }
+//
+// //------------------------------------------------------------
+// template <typename T>
+// ostream& operator<<(ostream& os, const vector<T>& v) {
+//     os << "[";
+//     for (size_t i = 0; i < v.size(); ++i) {
+//         if (i) os << ", ";
+//         os << v[i];
+//     }
+//     return os << "]";
+// }
+// //------------------------------------------------------------
+// int main() {
+//     const vector<int> v1 {11, 12, 13, 14, 15, 16};
+//     const vector<int> v2 {21, 22, 23, 24};
+//     vector<int> v3 {31, 32};
+//
+//     const vPlages<int> plages {
+//             {v1.cbegin()+3, v1.cend()},     // 14,15,16
+//             {v1.cbegin(),   v1.cend()-3},   // 11,12,13
+//             {v2.cbegin(),   v2.cend()},     // 21,22,23,24
+//             {v3.cbegin(),   v3.cend()}      // 31,32
+//     };
+//
+//     size_t n = total_size(plages.cbegin(), plages.cend());
+//     cout << "total_size : " << n << endl;
+//
+//     vector<int> v4(n);
+//     auto itEnd = concat(plages.cbegin(), plages.cend(), v4.begin());
+//     cout << v4 << endl;
+//
+//     // Bonus: vérifier l’itérateur retourné (doit pointer après la dernière écriture)
+//     cout << boolalpha << (itEnd == v4.end()) << endl;
+//
+//     return EXIT_SUCCESS;
+// }
+
+#include <cmath>
+#include <cstdlib>
+#include <iomanip>
 #include <iostream>
-#include <utility>
-#include <vector>
-#include <iterator>
-#include <list>
 using namespace std;
 
-template<typename It, typename Compare>
-pair<It, It> plus_long_sequence_croissante(It first, It last, Compare comp) {
-    if (first == last)return {first, first};
+class Voiture {
+public:
+    double capacite;
+    double conso;
+    double nbLitres;
 
-    It bestStart = first;
-    It bestEnd = next(first);
+    static double prixEssence;
 
-    size_t maxSeq = 1;
+public:
+    Voiture(double cap, double cons):capacite(cap), conso(cons),nbLitres(capacite){}
 
-    It curSeq = first;
-    size_t curMAx = 1;
+   static double getPrixEssence() {
+        return prixEssence;
+    }
 
-    for (It it = next(first); it != last; ++it) {
-        if (comp(*prev(it), *it)) {
-            curMAx++;
-        } else {
-            if (curMAx > maxSeq) {
-                maxSeq = curMAx;
-                bestStart = curSeq;
-                bestEnd = it;
-            }
-            curSeq = it;
-            curMAx = 1;
+   static void setPrixEssence(double n) {
+        prixEssence = n;
+    }
+
+    double effectuerTrajet(double km) {
+        double utiliserEssence = conso * km /100.0;
+        nbLitres -= utiliserEssence;
+
+        while(nbLitres <=0) {
+            nbLitres+= capacite;
         }
+
+        return utiliserEssence * prixEssence;
     }
 
-    if (curMAx > maxSeq) {
-        bestEnd = last;
-        bestStart = curSeq;
-    }
+    friend void afficherVoiture(const Voiture& v) ;
 
-    return {bestStart, bestEnd};
+};
+double Voiture::prixEssence =1.70;
+
+void afficherVoiture(const Voiture& v)  {
+    cout<<"Capacite du reservoir [l]      :"<<v.capacite<<endl;
+    cout<<"Consommation moyenne [l/100km] :"<<v.conso<<endl;
+    cout<<"Nb litres restants             :"<<fixed << setprecision(1)<<v.nbLitres<<endl;
+    cout<<endl;
 }
 
+void afficherPrixEssence(double prix) {
+    cout<<"Prix de l'essence :"<<fixed << setprecision(2)<<prix<<" Frs";
+}
+
+void afficherCoutTrajet(double coutTrajet) {
+    cout<<"Cout du trajet :"<<fixed << setprecision(2)<<coutTrajet<<" Frs"<<endl;
+}
+
+
 int main() {
-    // Test 1: Vektör ile (Varsayılan Artan Sıralama)
-    vector<int> v = {10, 2, 3, 4, 1, 5};
+    afficherPrixEssence(Voiture::getPrixEssence());
 
-    // std::less<int>() -> "a < b" kontrolü yapar (Artan dizi arar)
-    auto res1 = plus_long_sequence_croissante(v.begin(), v.end(), std::less<int>());
+    Voiture::setPrixEssence(1.95);
+    afficherPrixEssence(Voiture::getPrixEssence());
 
-    cout << "Vektor (Artan): ";
-    for (auto it = res1.first; it != res1.second; ++it) cout << *it << " ";
-    cout << endl; // Çıktı: 2 3 4
+    Voiture v(52, 6.7);
 
-    // Test 2: Liste ile (AZALAN Sıralama - Compare değişiyor!)
-    list<int> l = {1, 2, 5, 4, 3, 2, 8};
+    afficherVoiture(v);
+    afficherCoutTrajet(v.effectuerTrajet(1000));
+    afficherVoiture(v);
+    afficherCoutTrajet(v.effectuerTrajet(200));
+    afficherVoiture(v);
 
-    // std::greater<int>() -> "a > b" kontrolü yapar (Azalan dizi arar)
-    // Lambda kullanımı: [](int a, int b){ return a > b; } de olurdu.
-    auto res2 = plus_long_sequence_croissante(l.begin(), l.end(), std::greater<int>());
-
-    cout << "Liste (Azalan): ";
-    for (auto it = res2.first; it != res2.second; ++it) cout << *it << " ";
-    cout << endl; // Çıktı: 5 4 3 2
-
-    return 0;
+    return EXIT_SUCCESS;
 }
