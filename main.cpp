@@ -129,3 +129,145 @@ using namespace std;
 //
 //     return 0;
 // }
+
+
+#include <cstdint>
+#include <cstdlib>
+#include <iostream>
+#include <limits>
+#include <string>
+using namespace std;
+
+struct HeureMinute {
+    int8_t heure;
+    int8_t minute;
+};
+
+istream &operator>>(istream &is, HeureMinute &hm);
+
+HeureMinute saisie(const string &msg) {
+    HeureMinute hm;
+    bool erreur;
+    do {
+        cout << msg;
+        cin >> hm; // utilise operator>>
+        erreur = cin.fail();
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    } while (erreur);
+    return hm;
+}
+
+istream &operator>>(istream &is, HeureMinute &hm) {
+    int h, m;
+    char c;
+    if (is >> h >> c >> m) {
+        if (c == ':') {
+            hm.heure = static_cast<int8_t>(h);
+            hm.minute = static_cast<int8_t>(m);
+        } else {
+            is.setstate(ios::failbit);
+        }
+    }
+    return is;
+}
+
+ostream &operator<<(ostream &os, const HeureMinute &hm) {
+    os << +hm.heure << ":" << +hm.minute;
+    return os;
+}
+
+int toMinute(HeureMinute hm) {
+    int total = hm.heure * 60 + hm.minute;
+    return total;
+}
+
+//
+HeureMinute conveertMinutes(int n) {
+    int h =( n / 60 )% 24;
+    int m = n % 60;
+    auto j = static_cast<int8_t>(h);
+    auto k = static_cast<int8_t>(m);
+    return {j, k};
+}
+
+bool operator<(const HeureMinute &lhs, const HeureMinute &rhs) {
+  return toMinute(lhs) < toMinute(rhs);
+}
+
+bool operator>(const HeureMinute &lhs, const HeureMinute &rhs) {
+    return rhs <lhs;
+}
+
+bool operator<=(const HeureMinute &lhs, const HeureMinute &rhs) {
+    return !(lhs > rhs);
+}
+
+bool operator>=(const HeureMinute &lhs, const HeureMinute &rhs) {
+    return !(lhs < rhs);
+}
+
+bool operator==(const HeureMinute &lhs, const HeureMinute &rhs) {
+    return toMinute(rhs) == toMinute(lhs);
+}
+
+bool operator !=(const HeureMinute &lhs, const HeureMinute &rhs) {
+    return !(lhs == rhs);
+}
+
+HeureMinute operator+(const HeureMinute &lhs, const HeureMinute &rhs) {
+
+       return conveertMinutes(toMinute(lhs) + toMinute(rhs));
+}
+
+HeureMinute operator+(const HeureMinute &lhs, int min) {
+   return conveertMinutes(toMinute(lhs) + min);
+}
+HeureMinute operator+( int min, const HeureMinute &lhs) {
+    return lhs + min;
+}
+
+HeureMinute& operator +=( HeureMinute &lhs, int n) {
+   int total = toMinute(lhs) +n;
+    lhs = conveertMinutes(total);
+    return lhs;
+}
+
+HeureMinute& operator++(HeureMinute& hm) {
+    hm+=1;
+    return hm;
+}
+
+HeureMinute operator++(HeureMinute& hm, int) {
+    HeureMinute temp = hm;
+    ++hm;
+    return temp;
+}
+
+
+int main() {
+    HeureMinute hm1 = {12, 34};
+    HeureMinute hm2 = {21, 43};
+
+    cout << boolalpha;
+    cout << hm1 << " <  " << hm2 << "  : " << (hm1 < hm2) << "\n";
+    cout << hm1 << " >  " << hm2 << "  : " << (hm1 > hm2) << "\n";
+    cout << hm1 << " <= " << hm2 << "  : " << (hm1 <= hm2) << "\n";
+    cout << hm1 << " >= " << hm2 << "  : " << (hm1 >= hm2) << "\n";
+    cout << hm1 << " == " << hm2 << "  : " << (hm1 == hm2) << "\n";
+    cout << hm1 << " != " << hm2 << "  : " << (hm1 != hm2) << "\n";
+    //
+    cout << hm1 << " +  " << hm2 << "  : " << (hm1 + hm2) << "\n";
+    cout << hm1 << " +  " << 44  << "     : " << (hm1 + 44) << "\n";
+    cout << 44  << "    +  " << hm1 << "  : " << (44 + hm1) << "\n";
+    cout << hm1 << " += "  << 2 << "      : " << (hm1 += 2) << "\n";
+
+    cout << "++" << hm1  << "\t\t: " << ++hm1 << "\n";
+    cout << hm1  << "++" << "\t\t: " << hm1++ << "\n";
+    cout << hm1 << "\n\n";
+
+    HeureMinute hm3 = saisie("heure [hh:mm]: ");
+    cout << "votre saisie : " << hm3 << "\n";
+
+    return EXIT_SUCCESS;
+}
