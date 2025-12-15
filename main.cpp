@@ -75,37 +75,92 @@
 //     return 0;
 // }
 
-class Buffer {
-    int* data;
-    int size;
-public:
-    Buffer(int s) : size(s) {
-        data = new int[size];
+// class Buffer {
+//     int* data;
+//     int size;
+// public:
+//     Buffer(int s) : size(s) {
+//         data = new int[size];
+//     }
+//     ~Buffer() {
+//         delete[] data;
+//     }
+//  Buffer(const Buffer&other ): size(other.size) {
+//         data = new int[other.size];
+//         for(int i = 0; i<size; ++i) {
+//             data[i] = other.data[i];
+//         }
+//     }
+//
+//     Buffer& operator=(const Buffer& other) {
+//         if(this ==&other) {
+//             return *this;
+//         }
+//
+//         delete[] data;
+//
+//         this->size = other.size;
+//         this->data = new int[this->size];
+//
+//         for(int i = 0; i<size; ++i) {
+//             this->data[i] = other.data[i];
+//         }
+//
+//         return *this;
+//     }
+// };
+
+#include <iostream>
+using namespace std;
+#include <vector>
+#include <array>
+#include <iterator>
+#include <span>
+#include <algorithm>
+
+template<typename T, typename U, typename U2>
+
+vector<T> alterne(U first1, U last1, U2 first2, U2 last2 ) {
+    vector<T> v;
+    v.reserve(distance(first1, last1) + distance(first2, last2));
+
+    while(first1 != last1 and first2 != last2) {
+        v.push_back(*first1++);
+        v.push_back(*first2++);
     }
-    ~Buffer() {
-        delete[] data;
-    }
- Buffer(const Buffer&other ): size(other.size) {
-        data = new int[other.size];
-        for(int i = 0; i<size; ++i) {
-            data[i] = other.data[i];
-        }
+    while(first1 != last1) {
+        v.push_back(*first1++);
     }
 
-    Buffer& operator=(const Buffer& other) {
-        if(this ==&other) {
-            return *this;
-        }
-
-        delete[] data;
-
-        this->size = other.size;
-        this->data = new int[this->size];
-
-        for(int i = 0; i<size; ++i) {
-            this->data[i] = other.data[i];
-        }
-
-        return *this;
+    while(first2 != last2) {
+        v.push_back(*first2++);
     }
-};
+
+    return v;
+
+}
+
+template<typename T>
+ostream& operator<<(ostream& os, span<T>s) {
+    for(size_t i  =0; i<s.size(); ++i) {
+        os<<s[i]<< " ";
+    }
+    return os;
+}
+
+
+
+int main() {
+
+    vector v {11, 12, 13};
+    array  a {21, 22, 23, 24, 25};
+
+    cout << "vector   : " << span<int>(v) << endl;
+    cout << "array    : " << span<int>(a) << endl;
+
+    vector r = alterne<int>(v.begin(), v.end(),
+                               a.begin(), a.end());
+
+    cout << "resultat : " << span<int>(r) << endl;
+}
+
