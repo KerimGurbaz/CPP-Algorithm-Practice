@@ -110,57 +110,118 @@
 //     }
 // };
 
+// #include <iostream>
+// #include <span>
+// #include <vector>
+// #include <algorithm>
+// using namespace std;
+//
+//
+// template<typename T>
+// ostream& operator<<(ostream& os, span<T>s) {
+//     for(size_t i  =0; i<s.size(); ++i) {
+//         os<<s[i]<< " ";
+//     }
+//     return os;
+// }
+//
+// template<typename T>
+// struct entre {
+//
+//     T min;
+//     T max;
+//
+//     entre(T a, T b): min(a), max(b){}
+//
+//     bool operator()(const T& v)const {
+//         return v>= min && v<=max;
+//     }
+// };
+//
+//
+//
+//
+// int main() {
+//         vector v {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+//         cout << span(v) << endl;
+//
+//         cout << count_if(v.begin(), v.end(), entre<int>{3, 6});
+//     }
+//
+//
 #include <iostream>
-using namespace std;
 #include <vector>
 #include <array>
-#include <iterator>
+#include <set>       // std::set için GEREKLİ
 #include <span>
+using namespace std;
+
+// template <typename C1, typename C2>
+// bool meme_elements(const C1& cont1, const C2& cont2) {
+//     using T1  = typename C1::value_type;
+//
+//     // using T2 = typename C2::value_type;
+//
+//     set<T1> s1(cont1.begin(), cont1.end());
+//     set<T1> s2 (cont2.begin(), cont2.end());
+//
+//     return s1 == s2;
+// }
+//
+//
+//
+// int main() {
+//     // Örnek Veriler
+//     array<int, 10> a {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
+//     vector<int>    v {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2}; // Fazladan 1 ve 2 var
+//
+//     cout << "Array a ile Vector v ayni elemanlara sahip mi?" << endl;
+//
+//     // Test
+//     if (meme_elements(a, v)) {
+//         cout << " -> TRUE (Evet, ayni kumesel icerige sahipler)" << endl;
+//     } else {
+//         cout << " -> FALSE (Hayir, farklilar)" << endl;
+//     }
+//
+//     // Farklı bir test
+//     vector<int> v2 {1, 2, 3};
+//     vector<int> v3 {1, 2, 4}; // 3 yerine 4 var
+//
+//     cout << "\nv2 {1,2,3} ile v3 {1,2,4} ayni mi?" << endl;
+//     cout << " -> " << boolalpha << meme_elements(v2, v3) << endl;
+//
+//     return 0;
+// }
+
+#include <vector>
 #include <algorithm>
 
-template<typename T, typename U, typename U2>
+template<typename T1, typename T2>
+bool meme_elements(const T1& c1, const T2& c2) {
+    using V = typename T1::value_type;
 
-vector<T> alterne(U first1, U last1, U2 first2, U2 last2 ) {
-    vector<T> v;
-    v.reserve(distance(first1, last1) + distance(first2, last2));
+    std::vector<V> v1(c1.begin(), c1.end());
+    std::vector<V> v2(c2.begin(), c2.end());
 
-    while(first1 != last1 and first2 != last2) {
-        v.push_back(*first1++);
-        v.push_back(*first2++);
-    }
-    while(first1 != last1) {
-        v.push_back(*first1++);
-    }
+    // Sırala
+    std::sort(v1.begin(), v1.end());
+    std::sort(v2.begin(), v2.end());
 
-    while(first2 != last2) {
-        v.push_back(*first2++);
-    }
+    // Tekilleştir
+    v1.erase(std::unique(v1.begin(), v1.end()), v1.end());
+    v2.erase(std::unique(v2.begin(), v2.end()), v2.end());
 
-    return v;
-
+    return v1 == v2;
 }
-
-template<typename T>
-ostream& operator<<(ostream& os, span<T>s) {
-    for(size_t i  =0; i<s.size(); ++i) {
-        os<<s[i]<< " ";
-    }
-    return os;
-}
-
-
+#include <iostream>
+#include <array>
+#include <vector>
+using namespace std;
 
 int main() {
+    array<int,10> a {10,9,8,7,6,5,4,3,2,1};
+    vector<double> v {1.1,2,3,4,5,6,7,8,9,10,1,2};
 
-    vector v {11, 12, 13};
-    array  a {21, 22, 23, 24, 25};
-
-    cout << "vector   : " << span<int>(v) << endl;
-    cout << "array    : " << span<int>(a) << endl;
-
-    vector r = alterne<int>(v.begin(), v.end(),
-                               a.begin(), a.end());
-
-    cout << "resultat : " << span<int>(r) << endl;
+    cout << boolalpha << meme_elements(a, v) << endl; // true
 }
-
