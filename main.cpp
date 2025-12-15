@@ -1,273 +1,111 @@
-#include <iostream>
-#include <vector>
-#include <array>
-#include <numeric>
-
-#include "../../../../../../Program Files/JetBrains/CLion 2024.1.4/bin/mingw/x86_64-w64-mingw32/include/fenv.h"
-using namespace std;
-
-
-// template < typename T, typename T2>
-// T2 somme_elements (T first, T last) {
-//     // auto res = accumulate(first, last, 0.);
-//     // return res;
-//     T2 somme = T2{};
-//     for(T it = first; it != last; ++it) {
-//         somme+= *it;
-//     }
-// }
-
-// template < typename T>
-// auto somme_elements (T first, T last) {
-//     using ValueType = typename iterator_traits<T>::value_type;
-//     // auto res = accumulate(first, last,ValueType{});
-//     // return res;
-//
-//     ValueType somme =ValueType{};
-//     for(T it = first; it != last; ++it) {
-//         somme+= *it;
-//     }
-//
-//      return somme;
-// }
-
-
-// int main() {
-//     vector<int> v {10, 20, 30, 40, 50};
-//     cout << somme_elements(v.begin()+1, v.end()-1) << endl;
-//
-//     array<double, 5> a {1.5, 2.5, 3.0, 4.0, 5.0};
-//     cout << somme_elements(a.begin()+2, a.end()) << endl;
-//
-//     return 0;
-// }
-
-
 // #include <iostream>
-// #include <vector>
-// #include <cctype>
-// #include <span>
-// using namespace std;
-//
-//
-// template<typename T, typename Fonk>
-// void supprimer_si(vector<T>& v, Fonk fonk) {
-//     int write =0;
-//
-//    for(size_t read = 0; read<v.size(); ++read) {
-//        if(!fonk(v[read])) {
-//            v[write++] = v[read];
-//        }
-//    }
-//     v.resize(write);
-// }
-//
-// bool est_pair(int x) {
-//     return x % 2 == 0;
-// }
-//     int main() {
-//         vector<int> v{1, 2, 3, 4, 5, 6, 7};
-//         supprimer_si(v, est_pair);
-//
-//         for (int x: v) cout << x << " ";
-//         cout << endl;
-//
-//         vector<char> c{'A', '1', 'B', '2', 'C', '3'};
-//         supprimer_si(c, ::isdigit);
-//
-//         for (char ch: c) cout << ch;
-//         cout << endl;
-//
-//         return 0;
-//     }
-
-// #include <iostream>
-// #include <vector>
-// #include <utility>
-// #include <iterator>
+// #include <cstring>
+// #include <string_view>
 // using namespace std;
 //
 // template<typename T>
-// pair<T, T> plus_long_sequence_croissante(T first, T last) {
-//     T bestStart = first;
-//     T bestEnd = next(first);
-//     size_t bestSeq = 1;
+// T trouver_max(const T& a, const T& b) {
+//     return a > b ? a : b;
+// }
 //
-//     T curStart = first;
-//     size_t curSeq = 1;
+// // const char* trouver_max(const char* a, const char* b) {
+// //     if(strcmp(a,b)>0) {
+// //         return  a;
+// //     }else {
+// //         return b;
+// //     }
+// // }
 //
-//     for (T it = next(first); it != last; ++it) {
-//         if (*it >= *(prev(it))) {
-//             ++curSeq;
-//         } else {
-//             if (curSeq > bestSeq) {
-//                 bestStart = curStart;
-//                 bestEnd = it;
-//                 bestSeq = curSeq;
-//             }
-//             curStart = it;
-//             curSeq = 1;
-//         }
-//     }
-//     if (curSeq > bestSeq) {
-//         bestStart = curStart;
-//         bestEnd = last;
-//         bestSeq = curSeq;
-//     }
-//
-//     return {bestStart, bestEnd};
+// string_view trouver_max(string_view a, string_view b) {
+//     return a>b ? a:b;
 // }
 //
 // int main() {
-//     vector<int> v{5, 1, 2, 3, 2, 3, 4, 5, 1};
+//     cout << trouver_max(10, 20) << endl; // Affiche 20
+//      cout << trouver_max("Avion", "Zebre") << endl; // Affiche "Zebre" (Ordre alphabétique)
+// }
+
+// #include <iostream>
+// using namespace std;
 //
-//     auto res = plus_long_sequence_croissante(v.begin(), v.end());
+// // Ecrivez la fonction 'convertir' ici.
+// // Elle prend un paramètre de type U et retourne un type T.
+// // ...
 //
-//     for (auto it = res.first; it != res.second; ++it)
-//         cout << *it << " ";
-//     cout << endl;
+// template<typename T, typename T2>
+// T convertir(const T2 & val) {
+//     return T(val);
+// }
 //
-//     return 0;
+// int main() {
+//     double pi = 3.14159;
+//
+//     // Doit retourner 3
+//     int ent = convertir<int>(pi);
+//
+//     // Doit retourner 'A' (ASCII 65)
+//     char c = convertir<char>(65);
+//
+//     cout << ent << " / " << c << endl;
 // }
 
 
-#include <cstdint>
-#include <cstdlib>
-#include <iostream>
-#include <limits>
-#include <string>
-using namespace std;
+// #include <iostream>
+// using namespace std;
+//
+// class A {
+// public:
+//     A() { cout << "A+ "; }
+//     ~A() { cout << "A- "; }
+// };
+//
+// class B {
+//     A a; // Membre de type A
+// public:
+//     B() { cout << "B+ "; }
+//     ~B() { cout << "B- "; }
+// };
+//
+// int main() {
+//     cout << "Start ";
+//     {
+//         B b;
+//     }
+//     cout << "End";
+//     return 0;
+// }
 
-struct HeureMinute {
-    int8_t heure;
-    int8_t minute;
-};
-
-istream &operator>>(istream &is, HeureMinute &hm);
-
-HeureMinute saisie(const string &msg) {
-    HeureMinute hm;
-    bool erreur;
-    do {
-        cout << msg;
-        cin >> hm; // utilise operator>>
-        erreur = cin.fail();
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    } while (erreur);
-    return hm;
-}
-
-istream &operator>>(istream &is, HeureMinute &hm) {
-    int h, m;
-    char c;
-    if (is >> h >> c >> m) {
-        if (c == ':') {
-            hm.heure = static_cast<int8_t>(h);
-            hm.minute = static_cast<int8_t>(m);
-        } else {
-            is.setstate(ios::failbit);
+class Buffer {
+    int* data;
+    int size;
+public:
+    Buffer(int s) : size(s) {
+        data = new int[size];
+    }
+    ~Buffer() {
+        delete[] data;
+    }
+ Buffer(const Buffer&other ): size(other.size) {
+        data = new int[other.size];
+        for(int i = 0; i<size; ++i) {
+            data[i] = other.data[i];
         }
     }
-    return is;
-}
 
-ostream &operator<<(ostream &os, const HeureMinute &hm) {
-    os << +hm.heure << ":" << +hm.minute;
-    return os;
-}
+    Buffer& operator=(const Buffer& other) {
+        if(this ==&other) {
+            return *this;
+        }
 
-int toMinute(HeureMinute hm) {
-    int total = hm.heure * 60 + hm.minute;
-    return total;
-}
+        delete[] data;
 
-//
-HeureMinute conveertMinutes(int n) {
-    int h =( n / 60 )% 24;
-    int m = n % 60;
-    auto j = static_cast<int8_t>(h);
-    auto k = static_cast<int8_t>(m);
-    return {j, k};
-}
+        this->size = other.size;
+        this->data = new int[this->size];
 
-bool operator<(const HeureMinute &lhs, const HeureMinute &rhs) {
-  return toMinute(lhs) < toMinute(rhs);
-}
+        for(int i = 0; i<size; ++i) {
+            this->data[i] = other.data[i];
+        }
 
-bool operator>(const HeureMinute &lhs, const HeureMinute &rhs) {
-    return rhs <lhs;
-}
-
-bool operator<=(const HeureMinute &lhs, const HeureMinute &rhs) {
-    return !(lhs > rhs);
-}
-
-bool operator>=(const HeureMinute &lhs, const HeureMinute &rhs) {
-    return !(lhs < rhs);
-}
-
-bool operator==(const HeureMinute &lhs, const HeureMinute &rhs) {
-    return toMinute(rhs) == toMinute(lhs);
-}
-
-bool operator !=(const HeureMinute &lhs, const HeureMinute &rhs) {
-    return !(lhs == rhs);
-}
-
-HeureMinute operator+(const HeureMinute &lhs, const HeureMinute &rhs) {
-
-       return conveertMinutes(toMinute(lhs) + toMinute(rhs));
-}
-
-HeureMinute operator+(const HeureMinute &lhs, int min) {
-   return conveertMinutes(toMinute(lhs) + min);
-}
-HeureMinute operator+( int min, const HeureMinute &lhs) {
-    return lhs + min;
-}
-
-HeureMinute& operator +=( HeureMinute &lhs, int n) {
-   int total = toMinute(lhs) +n;
-    lhs = conveertMinutes(total);
-    return lhs;
-}
-
-HeureMinute& operator++(HeureMinute& hm) {
-    hm+=1;
-    return hm;
-}
-
-HeureMinute operator++(HeureMinute& hm, int) {
-    HeureMinute temp = hm;
-    ++hm;
-    return temp;
-}
-
-
-int main() {
-    HeureMinute hm1 = {12, 34};
-    HeureMinute hm2 = {21, 43};
-
-    cout << boolalpha;
-    cout << hm1 << " <  " << hm2 << "  : " << (hm1 < hm2) << "\n";
-    cout << hm1 << " >  " << hm2 << "  : " << (hm1 > hm2) << "\n";
-    cout << hm1 << " <= " << hm2 << "  : " << (hm1 <= hm2) << "\n";
-    cout << hm1 << " >= " << hm2 << "  : " << (hm1 >= hm2) << "\n";
-    cout << hm1 << " == " << hm2 << "  : " << (hm1 == hm2) << "\n";
-    cout << hm1 << " != " << hm2 << "  : " << (hm1 != hm2) << "\n";
-    //
-    cout << hm1 << " +  " << hm2 << "  : " << (hm1 + hm2) << "\n";
-    cout << hm1 << " +  " << 44  << "     : " << (hm1 + 44) << "\n";
-    cout << 44  << "    +  " << hm1 << "  : " << (44 + hm1) << "\n";
-    cout << hm1 << " += "  << 2 << "      : " << (hm1 += 2) << "\n";
-
-    cout << "++" << hm1  << "\t\t: " << ++hm1 << "\n";
-    cout << hm1  << "++" << "\t\t: " << hm1++ << "\n";
-    cout << hm1 << "\n\n";
-
-    HeureMinute hm3 = saisie("heure [hh:mm]: ");
-    cout << "votre saisie : " << hm3 << "\n";
-
-    return EXIT_SUCCESS;
-}
+        return *this;
+    }
+};
