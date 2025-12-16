@@ -194,34 +194,59 @@ using namespace std;
 //     return 0;
 // }
 
-#include <vector>
-#include <algorithm>
-
-template<typename T1, typename T2>
-bool meme_elements(const T1& c1, const T2& c2) {
-    using V = typename T1::value_type;
-
-    std::vector<V> v1(c1.begin(), c1.end());
-    std::vector<V> v2(c2.begin(), c2.end());
-
-    // Sırala
-    std::sort(v1.begin(), v1.end());
-    std::sort(v2.begin(), v2.end());
-
-    // Tekilleştir
-    v1.erase(std::unique(v1.begin(), v1.end()), v1.end());
-    v2.erase(std::unique(v2.begin(), v2.end()), v2.end());
-
-    return v1 == v2;
-}
+// #include <vector>
+// #include <algorithm>
+//
+// template<typename T1, typename T2>
+// bool meme_elements(const T1& c1, const T2& c2) {
+//     using V = typename T1::value_type;
+//
+//     std::vector<V> v1(c1.begin(), c1.end());
+//     std::vector<V> v2(c2.begin(), c2.end());
+//
+//     // Sırala
+//     std::sort(v1.begin(), v1.end());
+//     std::sort(v2.begin(), v2.end());
+//
+//     // Tekilleştir
+//     v1.erase(std::unique(v1.begin(), v1.end()), v1.end());
+//     v2.erase(std::unique(v2.begin(), v2.end()), v2.end());
+//
+//     return v1 == v2;
+// }
+// #include <iostream>
+// #include <array>
+// #include <vector>
+// using namespace std;
+//
+// int main() {
+//     array<int,10> a {10,9,8,7,6,5,4,3,2,1};
+//     vector<double> v {1.1,2,3,4,5,6,7,8,9,10,1,2};
+//
+//     cout << boolalpha << meme_elements(a, v) << endl; // true
+// }
 #include <iostream>
 #include <array>
 #include <vector>
-using namespace std;
+
+template<typename T>
+void permutationCirculaireDroite(T &a, T &b, T &c) {
+    T temp = c;
+    c = b;
+    b = a;
+    a = temp;
+}
+
+template<typename T>
+void afficher(const T &a, const T &b, const T &c) {
+    cout << a << ", " << b << ", " << c << endl;
+}
 
 int main() {
-    array<int,10> a {10,9,8,7,6,5,4,3,2,1};
-    vector<double> v {1.1,2,3,4,5,6,7,8,9,10,1,2};
-
-    cout << boolalpha << meme_elements(a, v) << endl; // true
+    double x = 1, y = 2, z = 3;
+    for (int i = 1; i <= 3; ++i) {
+        permutationCirculaireDroite(x, y, z);
+        afficher(x, y, z);
+    }
+    return EXIT_SUCCESS;
 }
