@@ -346,3 +346,223 @@
 //     Point p3(p1);
 //     cout << (p1 == p3 ? "p1 == p3" : "p1 != p3") << endl;
 // }
+
+// #include <iostream>
+// using namespace std;
+//
+// class MonEntier {
+// private:
+//     int m;
+//
+// public:
+//     MonEntier();
+//
+//     MonEntier(int m) : m(m) {}
+//
+//
+//
+//     friend bool operator==(const MonEntier &m1, const MonEntier &m2);
+//
+//      friend bool operator!=(const MonEntier &m1, const MonEntier &m2);
+//
+//      MonEntier operator++(int);
+//
+//      MonEntier& operator++();
+//
+//     friend MonEntier operator+(const MonEntier &m1, const MonEntier &m2);
+//
+//      MonEntier& operator+=(const MonEntier &other);
+//
+//     friend ostream &operator<<(ostream &os, const MonEntier &m);
+// };
+// MonEntier::MonEntier(): m(0){}
+// //MonEntier::MonEntier(int m) : m(m) {}
+// ostream &operator<<(ostream &os, const MonEntier &me) {
+//     os<<"n = "<<me.m;
+//     return os;
+// }
+//
+// MonEntier operator+(const MonEntier &m1, const MonEntier &m2) {
+//     return m1.m + m2.m  ;
+// }
+// MonEntier& MonEntier::operator+=(const MonEntier &other) {
+//     this->m += other.m;
+//     return *this;
+// }
+//
+// bool operator==(const MonEntier &m1, const MonEntier &m2) {
+//     return m1.m == m2.m;
+// }
+// bool operator!=(const MonEntier &m1, const MonEntier &m2) {
+//     return !(m1.m==m2.m);
+// }
+// MonEntier MonEntier::operator++(int) {
+//     MonEntier temp =m;
+//     m +=1;
+//     return temp;
+// }
+// MonEntier& MonEntier::operator++() {
+//      ++m;
+//     return *this;
+//
+// }
+//
+//
+//
+// int main() {
+//     MonEntier m0, m1(1), m2 = 5;
+//     const MonEntier m3{7};
+//
+//     cout << m0 << endl
+//             << m1 << endl;
+//
+//     cout << boolalpha;
+//     cout << (m0 == m1) << endl;
+//     cout << (m0 != m1) << endl;
+//     cout << noboolalpha;
+//
+//     cout << m1++ << endl;
+//     cout << m1 << endl;
+//     cout << ++m1 << endl;
+//
+//     cout << m1 + m2 << endl;
+//     m1 += m2;
+//     cout << m1 << endl;
+//     cout << m3 + m2 << endl;
+// }
+
+
+// #include <iostream>
+//
+// using namespace std;
+//
+// class Point {
+// private:
+//     double x, y;
+//     double xMax, yMax;
+//     static int count;
+//
+// public:
+//     Point(double x, double y, double xMax = 100, double yMax = 100):
+//     x(x), y(y), xMax(xMax), yMax(yMax){ ++count;}
+//
+//     void afficher()const {
+//         cout<<"Point ID = "<<count<<", ("<<x<<","<<y<<"),contraintes: [0"
+//           <<xMax<<"]X[0,"<<yMax<<"]";
+//     }
+//     static int getNbPoints() {
+//         return count;
+//     }
+// };
+//
+// int main() {
+//
+//     Point p1(1.2, 2.4);
+//     p1.afficher();
+//
+//     cout << "Nombre de points : " << Point::getNbPoints() << endl;
+//     cout << "-------------------------------------------" << endl;
+//
+//     {
+//         Point p2(3., 4.2, 10., 10.);
+//         p2.afficher();
+//
+//         cout << "Nombre de points : " << Point::getNbPoints() << endl;
+//         cout << "-------------------------------------------" << endl;
+//
+//         p2 = p1;
+//         p2.afficher();
+//
+//         cout << "Nombre de points : " << Point::getNbPoints() << endl;
+//         cout << "-------------------------------------------" << endl;
+//
+//         Point p3 = p2;
+//         p3.afficher();
+//
+//         cout << "Nombre de points : " << Point::getNbPoints() << endl;
+//         cout << "-------------------------------------------" << endl;
+//     }
+//
+//     Point p4(5, 10);
+//     p4.afficher();
+//
+//     cout << "Nombre de points : " << Point::getNbPoints() << endl;
+//     cout << "-------------------------------------------" << endl;
+// }
+
+#include <cmath>
+#include <cstdlib>
+#include <iomanip>
+#include <iostream>
+using namespace std;
+
+
+class Voiture {
+private:
+    double capacite;
+    double consomation;
+    double nbDeLitres;
+    static double prixEssence;
+
+public:
+   Voiture(double capacite, double consomation):
+    capacite(capacite), consomation(consomation), nbDeLitres(capacite){}
+    static double getPrixEssence() {
+       return prixEssence;
+   }
+    static void setPrixEssence(double p) {
+       prixEssence =p;
+   }
+
+    double effectuerTrajet(double km) {
+       if(km<=0) return 0.0;
+
+       double utiliseEssence =  consomation * km/100.0;
+       nbDeLitres -= utiliseEssence;
+       while(nbDeLitres<0) {
+           nbDeLitres+=capacite;
+       }
+       return utiliseEssence * prixEssence;
+
+   }
+
+    double getCapacite() const { return capacite; }
+    double getConso() const { return consomation; }
+    double getLitres() const { return nbDeLitres; }
+};
+
+double Voiture::prixEssence= 1.70;
+
+void afficherPrixEssence(double p) {
+    cout << fixed << setprecision(2);
+    cout << "Prix de l'essence : " << p << " Frs" << endl << endl;
+}
+void afficherVoiture(const Voiture& v) {
+    cout << fixed << setprecision(1);
+    cout << "Capacite du reservoir [l]      : " << v.getCapacite() << endl;
+    cout << "Consommation moyenne [l/100km] : " << v.getConso() << endl;
+    cout << "Nb litres restants             : " << v.getLitres() << endl << endl;
+}
+void afficherCoutTrajet(double coutTrajet) {
+    cout << fixed << setprecision(2);
+    cout << "Cout du trajet : " << coutTrajet << " Frs" << endl << endl;
+}
+
+
+int main() {
+
+    afficherPrixEssence(Voiture::getPrixEssence());
+
+    Voiture::setPrixEssence(1.95);
+    afficherPrixEssence(Voiture::getPrixEssence());
+
+    Voiture v(52, 6.7);
+
+    afficherVoiture(v);
+    afficherCoutTrajet(v.effectuerTrajet(1000));
+    afficherVoiture(v);
+    afficherCoutTrajet(v.effectuerTrajet(200));
+    afficherVoiture(v);
+
+    return EXIT_SUCCESS;
+}
