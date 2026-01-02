@@ -161,73 +161,188 @@
 //         return debut.x == fin.x && debut.y == fin.y;
 //     }
 // };
+//
+// #include <iostream>
+// #include <vector>
+// using namespace std;
+//
+// struct Action {
+//     double prix;
+//     int quantite;
+// };
+//
+// class Portfolio {
+// private:
+//     std::vector<Action> stocker;
+//
+// public:
+//     Portfolio() = default;
+//
+//     void ajouter(const double &prx, const int &q) {
+//         stocker.push_back({prx, q});
+//     }
+//
+//     double valeurTotal() const {
+//         double tot = 0.0;
+//         for (size_t i = 0; i < stocker.size(); ++i) {
+//             tot += stocker[i].prix * stocker[i].quantite;
+//         }
+//         return tot;
+//     }
+//
+//     Portfolio &operator+=(const Portfolio &other) {
+//         stocker.insert(stocker.end(), other.stocker.begin(), other.stocker.end());
+//         return *this;
+//     }
+//
+//     friend ostream &operator<<(ostream &os, const Portfolio &p) {
+//         os << "Portfolio : [" << p.stocker.size() << "]actions, Valeur :"
+//                 << p.valeurTotal() << " CHF";
+//         return os;
+//     }
+//
+// };
+// Portfolio operator+(Portfolio lhs, const Portfolio& rhs) {
+//     lhs+=rhs;
+//     return lhs;
+//
+// }
+//
+//
+// int main() {
+//     Portfolio p1;
+//     p1.ajouter(100.0, 2); // 200 CHF
+//     p1.ajouter(50.0, 4); // 200 CHF
+//     // p1 Valeur : 400 CHF
+//
+//     Portfolio p2;
+//     p2.ajouter(10.0, 10); // 100 CHF
+//
+//     // Test operator+=
+//     p1 += p2;
+//     // p1 contient maintenant tout (Valeur 500 CHF)
+//
+//     // Test operator+
+//     Portfolio p3 = p1 + p2;
+//
+//     // Test operator<<
+//     cout << p1 << endl;
+//     // Affiche : "Portfolio : [3] actions, Valeur : 500 CHF"
+//
+//     return 0;
+// }
+
 
 #include <iostream>
 #include <vector>
+#include <algorithm> // max_element
+#include <numeric>   // accumulate
+
 using namespace std;
 
-struct Action {
-    double prix;
-    int quantite;
-};
-
-class Portfolio {
+class Notes {
 private:
-    std::vector<Action> stocker;
+    vector<double> notes; // Veriyi gizle (Encapsulation)
+
+    // HEIG-VD/İsviçre sistemi için sabitler (Static Constexpr)
+    static constexpr double MIN_NOTE = 1.0;
+    static constexpr double MAX_NOTE = 6.0;
 
 public:
-    Portfolio() = default;
+    // Constructeur par défaut
+    Notes() = default;
 
-    void ajouter(const double &prx, const int &q) {
-        stocker.push_back({prx, q});
-    }
-
-    double valeurTotal() const {
-        double tot = 0.0;
-        for (size_t i = 0; i < stocker.size(); ++i) {
-            tot += stocker[i].prix * stocker[i].quantite;
+    // 1. AJOUTER (Validation)
+    void ajouter(double val) {
+        if (val >= MIN_NOTE && val <= MAX_NOTE) {
+            notes.push_back(val);
+        } else {
+            // Opsiyonel: Hata mesajı (cout << "Note invalide!" << endl;)
         }
-        return tot;
     }
 
-    Portfolio &operator+=(const Portfolio &other) {
-        stocker.insert(stocker.end(), other.stocker.begin(), other.stocker.end());
+    // 2. OPERATOR += (Surcharge - Overloading)
+    // Senaryo A: Tek bir not eklemek (etudiant1 += 6.0)
+    Notes& operator+=(double val) {
+        ajouter(val); // Mantığı tekrar yazma, fonksiyonu çağır (DRY Prensibi)
         return *this;
     }
 
-    friend ostream &operator<<(ostream &os, const Portfolio &p) {
-        os << "Portfolio : [" << p.stocker.size() << "]actions, Valeur :"
-                << p.valeurTotal() << " CHF";
-        return os;
+    // Senaryo B: Başka bir öğrencinin notlarını birleştirmek (etudiant1 += etudiant2)
+    Notes& operator+=(const Notes& autre) {
+        // vector::insert en performanslı yöntemdir
+        notes.insert(notes.end(), autre.notes.begin(), autre.notes.end());
+        return *this;
     }
 
+    // 3. ANALYSE METHODS (Const Correctness!)
+    double getMoyenne() const {
+        if (notes.empty()) return 0.0;
+        // std::accumulate (toplama için standart algoritma)
+        double sum = accumulate(notes.begin(), notes.end(), 0.0);
+        return sum / notes.size();
+    }
+
+    double getMeilleureNote() const {
+        if (notes.empty()) return 0.0;
+        // max_element bir iteratör döner, değerini almak için * koymalısın
+        return *max_element(notes.begin(), notes.end());
+    }
+
+    bool estEchec() const {
+        // İsviçre sisteminde ortalama < 4.0 başarısızdır
+        return getMoyenne() < 4.0;
+    }
+
+    // 4. FRIEND OPERATORS
+    // Operator== (Karşılaştırma)
+    // Sınıf dışından (friend) tanımlamak genellikle daha esnektir (Simetri)
+    friend bool operator==(const Notes& a, const Notes& b) {
+        return a.getMoyenne() == b.getMoyenne();
+    }
+
+    // Operator<< (Affichage)
+    friend ostream& operator<<(ostream& os, const Notes& n) {
+        os << "[ ";
+        for (const auto& val : n.notes) { // private üyeye friend sayesinde erişiyoruz
+            os << val << " ";
+        }
+        os << "] - Moyenne: " << n.getMoyenne();
+        return os;
+    }
 };
-Portfolio operator+(Portfolio lhs, const Portfolio& rhs) {
-    lhs+=rhs;
-    return lhs;
 
-}
-
-
+// Main fonksiyonunda hiçbir değişiklik yapmadım, aynen çalışıyor.
 int main() {
-    Portfolio p1;
-    p1.ajouter(100.0, 2); // 200 CHF
-    p1.ajouter(50.0, 4); // 200 CHF
-    // p1 Valeur : 400 CHF
+    cout << "--- TEST NOTES ---" << endl;
 
-    Portfolio p2;
-    p2.ajouter(10.0, 10); // 100 CHF
+    Notes etudiant1;
+    etudiant1.ajouter(4.0);
+    etudiant1.ajouter(5.5);
+    etudiant1.ajouter(20.0); // Geçersiz, eklenmeyecek
+    etudiant1.ajouter(-1.0); // Geçersiz, eklenmeyecek
 
-    // Test operator+=
-    p1 += p2;
-    // p1 contient maintenant tout (Valeur 500 CHF)
+    // Test: Operator+= (double)
+    etudiant1 += 6.0;
 
-    // Test operator+
-    Portfolio p3 = p1 + p2;
+    cout << "Etudiant 1 : " << etudiant1 << endl;
+    cout << "Max Note : " << etudiant1.getMeilleureNote() << endl;
+    cout << "Echec ? : " << (etudiant1.estEchec() ? "OUI" : "NON") << endl;
 
-    // Test operator<<
-    cout << p1 << endl;
-    // Affiche : "Portfolio : [3] actions, Valeur : 500 CHF"
+    Notes etudiant2;
+    etudiant2.ajouter(3.0);
+    etudiant2.ajouter(3.5);
+
+    // Test: Operator+= (Notes) Merge
+    etudiant1 += etudiant2;
+
+    cout << "Etudiant 1 (Apres merge) : " << etudiant1 << endl;
+
+    if (etudiant2 == etudiant1) {
+        cout << "Meme niveau" << endl;
+    } else {
+        cout << "Niveaux differents" << endl;
+    }
 
     return 0;
 }
